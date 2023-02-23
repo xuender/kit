@@ -18,13 +18,11 @@ watch-test:
 bench:
 	go test -benchmem -count 3 -bench ./...
 
-# tools
 tools:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install github.com/cespare/reflex@latest
 	go install github.com/rakyll/gotest@latest
 	go install github.com/psampaz/go-mod-outdated@latest
-	go install github.com/jondot/goweight@latest
 	go install github.com/sonatype-nexus-community/nancy@latest
 	go install golang.org/x/tools/cmd/cover@latest
 	go mod tidy
