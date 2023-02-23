@@ -1,7 +1,6 @@
 package base_test
 
 import (
-	"io"
 	"os"
 	"strconv"
 	"testing"
@@ -14,7 +13,7 @@ func TestMust(t *testing.T) {
 	t.Parallel()
 
 	assert.Panics(t, func() {
-		base.Must(io.ErrClosedPipe)
+		base.Must(os.ErrExist)
 	})
 }
 

@@ -2,11 +2,15 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/xuender/kit)](https://goreportcard.com/report/github.com/xuender/kit)
 
-## install
+## Install
 
 ```shell
 go get github.com/xuender/kit@latest
 ```
+
+## Documents
+
+* [base](base/README.md)
 
 ## License
 
