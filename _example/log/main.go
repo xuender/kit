@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/xuender/kit/base"
 	"github.com/xuender/kit/logs"
 )
@@ -23,6 +25,14 @@ func main() {
 	defer logs.Close()
 
 	printLog("log")
+	go run()
+	time.Sleep(10 * time.Minute)
+}
+
+func run() {
+	for range time.NewTicker(time.Millisecond).C {
+		logs.E.Println("xxxxxxxxxxxxxxx")
+	}
 }
 
 func printLog(msg string) {

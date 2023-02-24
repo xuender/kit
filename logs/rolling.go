@@ -13,22 +13,20 @@ type rolling struct {
 
 func newRolling(path, name string) (*rolling, error) {
 	cfg := &rollingwriter.Config{
-		TimeTagFormat:          "2006-01-02 15:04:05",
+		TimeTagFormat:          "060102150405",
 		LogPath:                path,
 		FileName:               name,
-		MaxRemain:              base.Ten,
-		RollingPolicy:          rollingwriter.TimeRolling,
-		RollingTimePattern:     "0 * * * * *",
+		MaxRemain:              base.TwoHundredFiftySix,
+		RollingPolicy:          rollingwriter.VolumeRolling,
+		RollingTimePattern:     "* * * * * *",
 		RollingVolumeSize:      "100M",
 		WriterMode:             "lock",
 		BufferWriterThershould: base.Eight * base.OneHundredTwentyEight * base.OneHundredTwentyEight,
-		Compress:               true,
+		// Compress:               true,
 	}
 	writer, err := rollingwriter.NewWriterFromConfig(cfg)
 
-	return &rolling{
-		writer: writer,
-	}, err
+	return &rolling{writer: writer}, err
 }
 
 func (p *rolling) Write(data []byte) (int, error) {
