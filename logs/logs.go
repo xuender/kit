@@ -2,24 +2,29 @@ package logs
 
 import (
 	"io"
-	"log"
 	"os"
-
-	"github.com/xuender/kit/ios"
 )
 
-// nolint: gochecknoglobals, varnamelen
+// nolint: gochecknoglobals
 var (
-	_ignore  = ios.IgnoreWriter{}
-	_writers = [...]io.Writer{_colorTrace, _colorDebug, os.Stderr, _colorWarn, _colorError}
-	_workers = [...]io.Writer{_ignore, _ignore, os.Stderr, _colorWarn, _colorError}
-	_flag    = log.Ltime | log.Lshortfile
-	_level   = Info
-	T        = log.New(_workers[Trace], "[T] ", _flag)
-	D        = log.New(_workers[Debug], "[D] ", _flag)
-	I        = log.New(_workers[Info], "[I] ", _flag)
-	W        = log.New(_workers[Warn], "[W] ", _flag)
-	E        = log.New(_workers[Error], "[E] ", _flag)
+	_loggers = [...]*logger{
+		{output: _colorTrace},
+		{output: _colorDebug},
+		{output: os.Stderr},
+		{output: _colorWarn},
+		{output: _colorError},
+	}
+	_level = Info
+	// T 跟踪.
+	T = _loggers[Trace].newLog("[T] ", true)
+	// D 调试.
+	D = _loggers[Debug].newLog("[D] ", true)
+	// I 消息.
+	I = _loggers[Info].newLog("[I] ", false)
+	// W 警告.
+	W = _loggers[Warn].newLog("[W] ", false)
+	// E 错误.
+	E = _loggers[Error].newLog("[E] ", false)
 )
 
 // Level 日志级别.
@@ -35,8 +40,8 @@ const (
 
 // SetLog 默认输出.
 func SetLog(writer io.Writer) {
-	for i := 0; i < len(_writers); i++ {
-		_writers[i] = writer
+	for _, logger := range _loggers {
+		logger.setOutput(writer)
 	}
 
 	SetLevel(_level)
@@ -56,7 +61,7 @@ func SetLogFile(path, file string) error {
 
 // SetTrace 设置跟踪.
 func SetTrace(writer io.Writer) {
-	_writers[Trace] = writer
+	_loggers[Trace].setOutput(writer)
 
 	SetLevel(_level)
 }
@@ -75,7 +80,7 @@ func SetTraceFile(path, file string) error {
 
 // SetDebug 设置调试.
 func SetDebug(writer io.Writer) {
-	_writers[Debug] = writer
+	_loggers[Debug].setOutput(writer)
 
 	SetLevel(_level)
 }
@@ -94,7 +99,7 @@ func SetDebugFile(path, file string) error {
 
 // SetInfo 设置信息.
 func SetInfo(writer io.Writer) {
-	_writers[Info] = writer
+	_loggers[Info].setOutput(writer)
 
 	SetLevel(_level)
 }
@@ -113,7 +118,7 @@ func SetInfoFile(path, file string) error {
 
 // SetWarn 设置警告.
 func SetWarn(writer io.Writer) {
-	_writers[Warn] = writer
+	_loggers[Warn].setOutput(writer)
 
 	SetLevel(_level)
 }
@@ -132,7 +137,7 @@ func SetWarnFile(path, file string) error {
 
 // SetError 设置错误.
 func SetError(writer io.Writer) {
-	_writers[Error] = writer
+	_loggers[Error].setOutput(writer)
 
 	SetLevel(_level)
 }
@@ -151,13 +156,13 @@ func SetErrorFile(path, file string) error {
 
 // SetLevel 设置日志级别.
 func SetLevel(level Level) {
-	copy(_workers[:], _writers[:])
-
-	for i := Trace; i < level; i++ {
-		_workers[i] = _ignore
+	for _, logger := range _loggers {
+		logger.reset()
 	}
 
-	setLevel()
+	for i := Trace; i < level; i++ {
+		_loggers[i].ignore()
+	}
 
 	_level = level
 }
@@ -165,17 +170,4 @@ func SetLevel(level Level) {
 // GetLevel 获取日志级别.
 func GetLevel() Level {
 	return _level
-}
-
-// nolint: gochecknoinits
-func init() {
-	setLevel()
-}
-
-func setLevel() {
-	T = log.New(_workers[Trace], "[T] ", _flag)
-	D = log.New(_workers[Debug], "[D] ", _flag)
-	I = log.New(_workers[Info], "[I] ", _flag)
-	W = log.New(_workers[Warn], "[W] ", _flag)
-	E = log.New(_workers[Error], "[E] ", _flag)
 }

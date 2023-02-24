@@ -7,11 +7,7 @@ import (
 	"github.com/xuender/kit/base"
 )
 
-type rolling struct {
-	writer io.WriteCloser
-}
-
-func newRolling(path, name string) (*rolling, error) {
+func NewRolling(path, name string) (io.WriteCloser, error) {
 	cfg := &rollingwriter.Config{
 		TimeTagFormat:          "060102150405",
 		LogPath:                path,
@@ -24,15 +20,6 @@ func newRolling(path, name string) (*rolling, error) {
 		BufferWriterThershould: base.Eight * base.OneHundredTwentyEight * base.OneHundredTwentyEight,
 		// Compress:               true,
 	}
-	writer, err := rollingwriter.NewWriterFromConfig(cfg)
 
-	return &rolling{writer: writer}, err
-}
-
-func (p *rolling) Write(data []byte) (int, error) {
-	return p.writer.Write(data)
-}
-
-func (p *rolling) Close() error {
-	return p.writer.Close()
+	return rollingwriter.NewWriterFromConfig(cfg)
 }
