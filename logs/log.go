@@ -4,13 +4,15 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"github.com/xuender/kit/ios"
 )
 
 // nolint: gochecknoglobals, varnamelen
 var (
-	_passer  = &passer{}
+	_ignore  = ios.IgnoreWriter{}
 	_writers = [...]io.Writer{_colorTrace, _colorDebug, os.Stderr, _colorWarn, _colorError}
-	_workers = [...]io.Writer{_passer, _passer, os.Stderr, _colorWarn, _colorError}
+	_workers = [...]io.Writer{_ignore, _ignore, os.Stderr, _colorWarn, _colorError}
 	_flag    = log.Ltime | log.Lshortfile
 	_level   = Info
 	T        = log.New(_workers[Trace], "[T] ", _flag)
@@ -152,7 +154,7 @@ func SetLevel(level Level) {
 	copy(_workers[:], _writers[:])
 
 	for i := Trace; i < level; i++ {
-		_workers[i] = _passer
+		_workers[i] = _ignore
 	}
 
 	setLevel()
