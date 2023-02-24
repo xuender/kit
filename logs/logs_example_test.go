@@ -9,11 +9,10 @@ import (
 func Example() {
 	// logs.SetLogFile("/var/tmp", "test")
 	logs.SetLog(os.Stdout)
-	logs.SetLevel(logs.Warn)
+	logs.SetLevel(logs.Info)
 
-	logs.T.Print("trace")
+	logs.T.Println("trace")
 	logs.D.Printf("debug: %d", 1)
-	logs.I.Println("info")
 
 	// Output:
 }

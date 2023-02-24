@@ -4,8 +4,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/agiledragon/gomonkey/v2"
-	"github.com/arthurkiller/rollingwriter"
 	"github.com/stretchr/testify/assert"
 	"github.com/xuender/kit/logs"
 )
@@ -33,9 +31,6 @@ func TestSetLogFile(t *testing.T) {
 	_ = logs.SetLogFile(os.TempDir(), "test")
 	defer logs.Close()
 
-	patches := gomonkey.ApplyFuncReturn(rollingwriter.NewWriterFromConfig, nil, os.ErrClosed)
-	defer patches.Reset()
-
 	_ = logs.SetLogFile(os.TempDir(), "test1")
 }
 
@@ -43,9 +38,6 @@ func TestSetLogFile(t *testing.T) {
 func TestSetTrace(t *testing.T) {
 	_ = logs.SetTraceFile(os.TempDir(), "test")
 	defer logs.Close()
-
-	patches := gomonkey.ApplyFuncReturn(rollingwriter.NewWriterFromConfig, nil, os.ErrClosed)
-	defer patches.Reset()
 
 	_ = logs.SetTraceFile(os.TempDir(), "test1")
 }
@@ -55,9 +47,6 @@ func TestSetDebug(t *testing.T) {
 	_ = logs.SetDebugFile(os.TempDir(), "test")
 	defer logs.Close()
 
-	patches := gomonkey.ApplyFuncReturn(rollingwriter.NewWriterFromConfig, nil, os.ErrClosed)
-	defer patches.Reset()
-
 	_ = logs.SetDebugFile(os.TempDir(), "test1")
 }
 
@@ -65,9 +54,6 @@ func TestSetDebug(t *testing.T) {
 func TestSetInfo(t *testing.T) {
 	_ = logs.SetInfoFile(os.TempDir(), "test")
 	defer logs.Close()
-
-	patches := gomonkey.ApplyFuncReturn(rollingwriter.NewWriterFromConfig, nil, os.ErrClosed)
-	defer patches.Reset()
 
 	_ = logs.SetInfoFile(os.TempDir(), "test1")
 }
@@ -77,9 +63,6 @@ func TestSetWarn(t *testing.T) {
 	_ = logs.SetWarnFile(os.TempDir(), "test")
 	defer logs.Close()
 
-	patches := gomonkey.ApplyFuncReturn(rollingwriter.NewWriterFromConfig, nil, os.ErrClosed)
-	defer patches.Reset()
-
 	_ = logs.SetWarnFile(os.TempDir(), "test1")
 }
 
@@ -87,9 +70,6 @@ func TestSetWarn(t *testing.T) {
 func TestSetError(t *testing.T) {
 	_ = logs.SetErrorFile(os.TempDir(), "test")
 	defer logs.Close()
-
-	patches := gomonkey.ApplyFuncReturn(rollingwriter.NewWriterFromConfig, nil, os.ErrClosed)
-	defer patches.Reset()
 
 	_ = logs.SetErrorFile(os.TempDir(), "test1")
 	logs.E.Println("error")

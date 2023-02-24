@@ -7,6 +7,9 @@ const (
 	Seven          = 7
 	Nine           = 9
 	Ten            = 10
+	Fifteen        = 15
+	Thirty         = 30
+	Sixty          = 60
 	Hundred        = 100
 	Million        = 1e6
 	HundredMillion = 1e8

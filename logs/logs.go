@@ -3,9 +3,11 @@ package logs
 import (
 	"io"
 	"os"
+
+	"github.com/xuender/kit/times"
 )
 
-// nolint: gochecknoglobals
+// nolint: gochecknoglobals, varnamelen
 var (
 	_loggers = [...]*logger{
 		{output: _colorTrace},
@@ -18,7 +20,7 @@ var (
 	// T 跟踪.
 	T = _loggers[Trace].newLog("[T] ", true)
 	// D 调试.
-	D = _loggers[Debug].newLog("[D] ", true)
+	D = _loggers[Debug].newLog("[D] ", false)
 	// I 消息.
 	I = _loggers[Info].newLog("[I] ", false)
 	// W 警告.
@@ -49,12 +51,16 @@ func SetLog(writer io.Writer) {
 
 // SetLogFile 默认文件输出.
 func SetLogFile(path, file string) error {
-	writer, err := LogFile(path, file)
+	writer, err := File(path, file)
 	if err != nil {
 		return err
 	}
 
 	SetLog(writer)
+
+	times.Hour(func() {
+		Log(SetLogFile(path, file))
+	})
 
 	return nil
 }
@@ -68,12 +74,16 @@ func SetTrace(writer io.Writer) {
 
 // SetTraceFile 设置跟踪文件.
 func SetTraceFile(path, file string) error {
-	writer, err := LogFile(path, file)
+	writer, err := File(path, file)
 	if err != nil {
 		return err
 	}
 
 	SetTrace(writer)
+
+	times.Hour(func() {
+		Log(SetTraceFile(path, file))
+	})
 
 	return nil
 }
@@ -87,12 +97,16 @@ func SetDebug(writer io.Writer) {
 
 // SetDebugFile 设置调试输出.
 func SetDebugFile(path, file string) error {
-	writer, err := LogFile(path, file)
+	writer, err := File(path, file)
 	if err != nil {
 		return err
 	}
 
 	SetDebug(writer)
+
+	times.Hour(func() {
+		Log(SetDebugFile(path, file))
+	})
 
 	return nil
 }
@@ -106,12 +120,16 @@ func SetInfo(writer io.Writer) {
 
 // SetInfoFile 设置文件输出.
 func SetInfoFile(path, file string) error {
-	writer, err := LogFile(path, file)
+	writer, err := File(path, file)
 	if err != nil {
 		return err
 	}
 
 	SetInfo(writer)
+
+	times.Hour(func() {
+		Log(SetInfoFile(path, file))
+	})
 
 	return nil
 }
@@ -125,12 +143,16 @@ func SetWarn(writer io.Writer) {
 
 // SetWarnFile 设置警告文件输出.
 func SetWarnFile(path, file string) error {
-	writer, err := LogFile(path, file)
+	writer, err := File(path, file)
 	if err != nil {
 		return err
 	}
 
 	SetWarn(writer)
+
+	times.Hour(func() {
+		Log(SetWarnFile(path, file))
+	})
 
 	return nil
 }
@@ -144,12 +166,16 @@ func SetError(writer io.Writer) {
 
 // SetErrorFile 设置错误文件输出.
 func SetErrorFile(path, file string) error {
-	writer, err := LogFile(path, file)
+	writer, err := File(path, file)
 	if err != nil {
 		return err
 	}
 
 	SetError(writer)
+
+	times.Hour(func() {
+		Log(SetErrorFile(path, file))
+	})
 
 	return nil
 }
@@ -170,4 +196,29 @@ func SetLevel(level Level) {
 // GetLevel 获取日志级别.
 func GetLevel() Level {
 	return _level
+}
+
+// Log 输出日志.
+func Log(values ...any) {
+	if len(values) == 0 {
+		return
+	}
+
+	count := 0
+
+	for _, value := range values {
+		if _, ok := value.(error); ok {
+			count++
+		}
+	}
+
+	if len(values) == count {
+		return
+	}
+
+	if count == 0 {
+		I.Println(values...)
+	} else {
+		E.Println(values...)
+	}
 }
