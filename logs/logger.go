@@ -5,11 +5,7 @@ import (
 	"log"
 
 	"github.com/xuender/kit/base"
-	"github.com/xuender/kit/ios"
 )
-
-// nolint: gochecknoglobals
-var _ignore = ios.IgnoreWriter{}
 
 type logger struct {
 	logger *log.Logger
@@ -17,7 +13,7 @@ type logger struct {
 }
 
 func (p *logger) newLog(prefix string, ignore bool) *log.Logger {
-	p.logger = log.New(base.If[io.Writer](ignore, _ignore, p.output), prefix, log.Ltime|log.Lshortfile)
+	p.logger = log.New(base.If(ignore, io.Discard, p.output), prefix, log.Ltime|log.Lshortfile)
 
 	return p.logger
 }
@@ -32,5 +28,5 @@ func (p *logger) reset() {
 }
 
 func (p *logger) ignore() {
-	p.logger.SetOutput(_ignore)
+	p.logger.SetOutput(io.Discard)
 }

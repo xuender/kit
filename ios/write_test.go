@@ -1,6 +1,7 @@
 package ios_test
 
 import (
+	"io"
 	"os"
 	"testing"
 
@@ -13,14 +14,13 @@ func TestWrite(t *testing.T) {
 	t.Parallel()
 
 	ass := assert.New(t)
-	ignore := ios.IgnoreWriter{}
-	num, err := ios.Write(ignore, []byte("xxx"), []byte("1111"))
+	num, err := ios.Write(io.Discard, []byte("xxx"), []byte("1111"))
 	ass.Equal(7, num)
 	ass.Nil(err)
 
-	patches := gomonkey.ApplyMethodReturn(ignore, "Write", nil, os.ErrClosed)
+	patches := gomonkey.ApplyMethodReturn(io.Discard, "Write", nil, os.ErrClosed)
 	defer patches.Reset()
 
-	_, err = ios.Write(ignore, []byte("xxx"))
+	_, err = ios.Write(io.Discard, []byte("xxx"))
 	ass.NotNil(err)
 }
