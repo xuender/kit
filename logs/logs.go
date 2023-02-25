@@ -203,11 +203,11 @@ func Log(values ...any) {
 	if len(values) == 0 {
 		return
 	}
-
+	// 全是 nil 则不输出日志
 	count := 0
 
 	for _, value := range values {
-		if _, ok := value.(error); ok {
+		if value == nil {
 			count++
 		}
 	}
@@ -215,10 +215,14 @@ func Log(values ...any) {
 	if len(values) == count {
 		return
 	}
+	// 包含error 则使用Error输出
+	for _, value := range values {
+		if _, ok := value.(error); ok {
+			E.Println(values...)
 
-	if count == 0 {
-		I.Println(values...)
-	} else {
-		E.Println(values...)
+			return
+		}
 	}
+
+	I.Println(values...)
 }
