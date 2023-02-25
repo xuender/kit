@@ -25,20 +25,20 @@ func main() {
 	logs.SetLevel(logs.Trace)
 	printLog("trace")
 
-	base.Must(logs.SetLogFile("/tmp/log", "test"))
-	base.Must(logs.SetErrorFile("/tmp/log", "test_error"))
+	base.Must(logs.SetLogFile("/tmp/log", "test.log"))
+	base.Must(logs.SetErrorFile("/tmp/log", "test_error.log"))
 
 	defer logs.Close()
 
 	printLog("log")
 
 	go run()
-	time.Sleep(10 * time.Minute)
+	time.Sleep(3 * time.Hour)
 }
 
 func run() {
-	for range time.NewTicker(time.Millisecond).C {
-		logs.E.Println("xxxxxxxxxxxxxxx")
+	for range time.NewTicker(time.Second).C {
+		logs.E.Printf("time: %v", time.Now())
 	}
 }
 

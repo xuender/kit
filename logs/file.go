@@ -23,21 +23,29 @@ func Close() {
 
 // File 生成软连接文件.
 func File(path, name string) (io.Writer, error) {
-	link, err := oss.Abs(filepath.Join(path, name))
+	path, err := oss.Abs(path)
 	if err != nil {
 		return nil, err
 	}
 
+	_ = os.MkdirAll(path, oss.DefaultDirFileMod)
+
+	link := filepath.Join(path, name)
+
 	ext := filepath.Ext(name)
 	suffix := time.Now().Format("06010215")
-	log := fmt.Sprintf("%s-%s%s", name[:len(ext)], suffix, ext)
+	log := fmt.Sprintf("%s-%s%s", name[:len(name)-len(ext)], suffix, ext)
+
+	if ext == "" {
+		log = fmt.Sprintf("%s-%s", name, suffix)
+	}
 
 	file, err := oss.Abs(filepath.Join(path, log))
 	if err != nil {
 		return nil, err
 	}
 
-	writer, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o644)
+	writer, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, oss.DefaultFileMode)
 	if err != nil {
 		return nil, err
 	}
