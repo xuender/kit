@@ -8,6 +8,7 @@ const (
 	Nine           = 9
 	Ten            = 10
 	Fifteen        = 15
+	TwentyFour     = 24
 	Thirty         = 30
 	Sixty          = 60
 	Hundred        = 100

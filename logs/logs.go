@@ -4,6 +4,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/xuender/kit/base"
 	"github.com/xuender/kit/times"
 )
 
@@ -16,29 +17,25 @@ var (
 		{output: _colorWarn},
 		{output: _colorError},
 	}
-	_level = Info
+	_level Level
 	// T 跟踪.
-	T = _loggers[Trace].newLog("[T] ", true)
+	T = _loggers[Trace].newLog("[T] ")
 	// D 调试.
-	D = _loggers[Debug].newLog("[D] ", false)
+	D = _loggers[Debug].newLog("[D] ")
 	// I 消息.
-	I = _loggers[Info].newLog("[I] ", false)
+	I = _loggers[Info].newLog("[I] ")
 	// W 警告.
-	W = _loggers[Warn].newLog("[W] ", false)
+	W = _loggers[Warn].newLog("[W] ")
 	// E 错误.
-	E = _loggers[Error].newLog("[E] ", false)
+	E = _loggers[Error].newLog("[E] ")
+	// RetentionDays 日志保留天数，0为永久.
+	RetentionDays = base.Seven
 )
 
-// Level 日志级别.
-type Level int
-
-const (
-	Trace Level = iota
-	Debug
-	Info
-	Warn
-	Error
-)
+// nolint: gochecknoinits
+func init() {
+	SetLevel(DefaultLevel())
+}
 
 // SetLog 默认输出.
 func SetLog(writer io.Writer) {
@@ -57,12 +54,25 @@ func SetLogFile(path, file string) error {
 	}
 
 	SetLog(writer)
-
-	times.Hour(func() {
-		Log(SetLogFile(path, file))
-	})
+	rotate(path, file, SetLogFile)
 
 	return nil
+}
+
+func rotate(path, file string, yield func(string, string) error) {
+	times.Hour(func() {
+		if err := yield(path, file); err != nil {
+			E.Println(err)
+
+			return
+		}
+
+		if RetentionDays <= 0 {
+			return
+		}
+
+		Log(Expired(path, file, RetentionDays*base.TwentyFour))
+	})
 }
 
 // SetTrace 设置跟踪.
@@ -80,10 +90,7 @@ func SetTraceFile(path, file string) error {
 	}
 
 	SetTrace(writer)
-
-	times.Hour(func() {
-		Log(SetTraceFile(path, file))
-	})
+	rotate(path, file, SetTraceFile)
 
 	return nil
 }
@@ -103,10 +110,7 @@ func SetDebugFile(path, file string) error {
 	}
 
 	SetDebug(writer)
-
-	times.Hour(func() {
-		Log(SetDebugFile(path, file))
-	})
+	rotate(path, file, SetDebugFile)
 
 	return nil
 }
@@ -126,10 +130,7 @@ func SetInfoFile(path, file string) error {
 	}
 
 	SetInfo(writer)
-
-	times.Hour(func() {
-		Log(SetInfoFile(path, file))
-	})
+	rotate(path, file, SetInfoFile)
 
 	return nil
 }
@@ -149,10 +150,7 @@ func SetWarnFile(path, file string) error {
 	}
 
 	SetWarn(writer)
-
-	times.Hour(func() {
-		Log(SetWarnFile(path, file))
-	})
+	rotate(path, file, SetWarnFile)
 
 	return nil
 }
@@ -172,10 +170,7 @@ func SetErrorFile(path, file string) error {
 	}
 
 	SetError(writer)
-
-	times.Hour(func() {
-		Log(SetErrorFile(path, file))
-	})
+	rotate(path, file, SetErrorFile)
 
 	return nil
 }

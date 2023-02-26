@@ -11,10 +11,9 @@ import (
 )
 
 // nolint: gochecknoglobals
-var (
-	_closers = []io.Closer{}
-)
+var _closers = map[string]io.Closer{}
 
+// Close 关闭日志文件.
 func Close() {
 	for _, closer := range _closers {
 		closer.Close()
@@ -30,27 +29,24 @@ func File(path, name string) (io.Writer, error) {
 
 	_ = os.MkdirAll(path, oss.DefaultDirFileMod)
 
-	link := filepath.Join(path, name)
-
 	ext := filepath.Ext(name)
 	suffix := time.Now().Format("06010215")
 	log := fmt.Sprintf("%s-%s%s", name[:len(name)-len(ext)], suffix, ext)
 
-	if ext == "" {
-		log = fmt.Sprintf("%s-%s", name, suffix)
-	}
-
-	file, err := oss.Abs(filepath.Join(path, log))
-	if err != nil {
-		return nil, err
-	}
+	file, _ := oss.Abs(filepath.Join(path, log))
 
 	writer, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, oss.DefaultFileMode)
 	if err != nil {
 		return nil, err
 	}
 
-	_closers = append(_closers, writer)
+	link := filepath.Join(path, name)
+	// 关闭旧日志
+	if old, has := _closers[link]; has {
+		old.Close()
+	}
+
+	_closers[link] = writer
 	_ = os.Remove(link)
 	_ = os.Symlink(log, link)
 

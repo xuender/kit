@@ -3,8 +3,7 @@ package logs
 import (
 	"io"
 	"log"
-
-	"github.com/xuender/kit/base"
+	"os"
 )
 
 type logger struct {
@@ -12,8 +11,8 @@ type logger struct {
 	output io.Writer
 }
 
-func (p *logger) newLog(prefix string, ignore bool) *log.Logger {
-	p.logger = log.New(base.If(ignore, io.Discard, p.output), prefix, log.Ltime|log.Lshortfile)
+func (p *logger) newLog(prefix string) *log.Logger {
+	p.logger = log.New(os.Stderr, prefix, log.Ltime|log.Lshortfile)
 
 	return p.logger
 }

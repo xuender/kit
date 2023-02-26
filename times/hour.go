@@ -7,7 +7,7 @@ import (
 )
 
 // Hour 整点运行，返回取消方法.
-func Hour(yield func()) func() {
+func Hour(yield func()) func() bool {
 	now := time.Now()
 	unix := now.Add(time.Hour).Unix()
 	unix -= int64(now.Second())
@@ -19,7 +19,5 @@ func Hour(yield func()) func() {
 		Hour(yield)
 	})
 
-	return func() {
-		timer.Stop()
-	}
+	return timer.Stop
 }
