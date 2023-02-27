@@ -60,7 +60,12 @@ func SetLogFile(path, file string) error {
 }
 
 func rotate(path, file string, yield func(string, string) error) {
-	times.Hour(func() {
+	times.Hour(Rotating(path, file, yield))
+}
+
+// Rotating 返回旧日志删除方法.
+func Rotating(path, file string, yield func(string, string) error) func() {
+	return func() {
 		if err := yield(path, file); err != nil {
 			E.Println(err)
 
@@ -72,7 +77,7 @@ func rotate(path, file string, yield func(string, string) error) {
 		}
 
 		Log(Expired(path, file, RetentionDays*base.TwentyFour))
-	})
+	}
 }
 
 // SetTrace 设置跟踪.
@@ -195,19 +200,7 @@ func GetLevel() Level {
 
 // Log 输出日志.
 func Log(values ...any) {
-	if len(values) == 0 {
-		return
-	}
-	// 全是 nil 则不输出日志
-	count := 0
-
-	for _, value := range values {
-		if value == nil {
-			count++
-		}
-	}
-
-	if len(values) == count {
+	if base.AllNil(values...) {
 		return
 	}
 	// 包含error 则使用Error输出

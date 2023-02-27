@@ -7,7 +7,7 @@ import (
 )
 
 func Example() {
-	// logs.SetLogFile("/var/tmp", "test")
+	// logs.SetLogFile("/var/tmp", "test.log")
 	logs.SetLog(os.Stdout)
 	logs.SetLevel(logs.Info)
 	logs.I.SetFlags(0)

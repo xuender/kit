@@ -1,7 +1,7 @@
 package base
 
 // AllNil 是否全是 nil.
-func AllNil(elems []any) bool {
+func AllNil(elems ...any) bool {
 	if len(elems) == 0 {
 		return true
 	}
