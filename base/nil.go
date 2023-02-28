@@ -1,7 +1,7 @@
 package base
 
-// AllNil 是否全是 nil.
-func AllNil(elems ...any) bool {
+// EveryNil 是否全是 nil.
+func EveryNil(elems ...any) bool {
 	if len(elems) == 0 {
 		return true
 	}
@@ -15,8 +15,8 @@ func AllNil(elems ...any) bool {
 	return true
 }
 
-// AnyNil 是否包含 nil.
-func AnyNil(elems ...any) bool {
+// SomeNil 是否包含 nil.
+func SomeNil(elems ...any) bool {
 	if len(elems) == 0 {
 		return true
 	}

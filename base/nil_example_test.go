@@ -7,12 +7,12 @@ import (
 	"github.com/xuender/kit/base"
 )
 
-func ExampleAllNil() {
-	fmt.Println(base.AllNil())
-	fmt.Println(base.AllNil(nil))
-	fmt.Println(base.AllNil(nil, nil))
-	fmt.Println(base.AllNil(1))
-	fmt.Println(base.AllNil(1, nil))
+func ExampleEveryNil() {
+	fmt.Println(base.EveryNil())
+	fmt.Println(base.EveryNil(nil))
+	fmt.Println(base.EveryNil(nil, nil))
+	fmt.Println(base.EveryNil(1))
+	fmt.Println(base.EveryNil(1, nil))
 
 	// Output:
 	// true
@@ -22,12 +22,12 @@ func ExampleAllNil() {
 	// false
 }
 
-func ExampleAnyNil() {
-	fmt.Println(base.AnyNil())
-	fmt.Println(base.AnyNil(nil))
-	fmt.Println(base.AnyNil(nil, nil))
-	fmt.Println(base.AnyNil(1))
-	fmt.Println(base.AnyNil(1, nil))
+func ExampleSomeNil() {
+	fmt.Println(base.SomeNil())
+	fmt.Println(base.SomeNil(nil))
+	fmt.Println(base.SomeNil(nil, nil))
+	fmt.Println(base.SomeNil(1))
+	fmt.Println(base.SomeNil(1, nil))
 
 	// Output:
 	// true

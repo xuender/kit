@@ -200,7 +200,7 @@ func GetLevel() Level {
 
 // Log 输出日志.
 func Log(values ...any) {
-	if base.AllNil(values...) {
+	if base.EveryNil(values...) {
 		return
 	}
 	// 包含error 则使用Error输出
