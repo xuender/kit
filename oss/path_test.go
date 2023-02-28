@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/agiledragon/gomonkey/v2"
+	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
-	"github.com/xuender/kit/base"
 	"github.com/xuender/kit/oss"
 )
 
@@ -17,20 +17,20 @@ func TestAbs(t *testing.T) {
 
 	ass := assert.New(t)
 
-	ass.Equal("parent", filepath.Base(base.Must1(oss.Abs("parent/c/.."))))
-	ass.NotEqual("~", filepath.Base(base.Must1(oss.Abs("~"))))
+	ass.Equal("parent", filepath.Base(lo.Must1(oss.Abs("parent/c/.."))))
+	ass.NotEqual("~", filepath.Base(lo.Must1(oss.Abs("~"))))
 
-	home := base.Must1(os.UserHomeDir())
-	path := base.Must1(oss.Abs("~"))
+	home := lo.Must1(os.UserHomeDir())
+	path := lo.Must1(oss.Abs("~"))
 	ass.Equal(home, path)
 
-	path = base.Must1(oss.Abs("~/file"))
+	path = lo.Must1(oss.Abs("~/file"))
 	ass.True(strings.HasPrefix(path, home))
 
-	path = base.Must1(oss.Abs("~file"))
+	path = lo.Must1(oss.Abs("~file"))
 	ass.NotEqual(len(home)+4, len(path))
 
-	path = base.Must1(oss.Abs("~/../file"))
+	path = lo.Must1(oss.Abs("~/../file"))
 	ass.Equal(filepath.Join(filepath.Dir(home), "file"), path)
 }
 
@@ -39,11 +39,11 @@ func TestAbs2(t *testing.T) {
 
 	ass := assert.New(t)
 
-	path := base.Must1(oss.Abs("./ff"))
-	pwd := base.Must1(os.Getwd())
+	path := lo.Must1(oss.Abs("./ff"))
+	pwd := lo.Must1(os.Getwd())
 	ass.Equal(filepath.Join(pwd, "ff"), path)
 
-	path = base.Must1(oss.Abs("../ff"))
+	path = lo.Must1(oss.Abs("../ff"))
 	ass.Equal(filepath.Join(pwd, "..", "ff"), path)
 }
 
