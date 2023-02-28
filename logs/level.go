@@ -21,6 +21,7 @@ const (
 var _levels = [...]string{"Trace", "Debug", "Info", "Warn", "Error"}
 
 // DefaultLevel 默认日志级别.
+// 读取环境变量 LOGS_LEVEL 设置默认级别.
 func DefaultLevel() Level {
 	level := os.Getenv("LOGS_LEVEL")
 

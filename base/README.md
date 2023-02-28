@@ -2,20 +2,6 @@
 
 基础函数。
 
-## If
-
-三元表达式。
-
-```go
-fmt.Println(base.If(true, 1, 2))
-fmt.Println(base.If(false, 1, 2))
-
-// 1
-// 2
-```
-
-[[play](https://go.dev/play/p/MQd_9pR-c_l)]
-
 ## Must
 
 检查返回 error 是否为 nil，不是则 panic。

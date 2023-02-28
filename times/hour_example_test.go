@@ -15,13 +15,13 @@ func ExampleHour() {
 	})
 
 	go func() {
-		time.Sleep(3 * time.Second)
+		time.Sleep(time.Second)
 		cancel()
 		logs.I.Println("stop")
 	}()
 
 	logs.I.Println("sleep")
-	time.Sleep(5 * time.Second)
+	time.Sleep(2 * time.Second)
 	logs.I.Println("end")
 
 	// Output:
