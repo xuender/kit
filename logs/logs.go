@@ -193,11 +193,6 @@ func SetLevel(level Level) {
 	_level = level
 }
 
-// GetLevel 获取日志级别.
-func GetLevel() Level {
-	return _level
-}
-
 // Log 输出日志.
 func Log(values ...any) {
 	if base.EveryNil(values...) {

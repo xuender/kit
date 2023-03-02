@@ -33,3 +33,13 @@ func DefaultLevel() Level {
 
 	return Debug
 }
+
+// GetLevel 获取日志级别.
+func GetLevel() Level {
+	return _level
+}
+
+// GetLevelName 日志级别名称.
+func GetLevelName() string {
+	return _levels[_level]
+}

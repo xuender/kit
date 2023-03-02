@@ -23,3 +23,13 @@ func TestDefaultLevel(t *testing.T) {
 
 	ass.Equal(logs.Error, logs.DefaultLevel())
 }
+
+// nolint: paralleltest
+func TestGetLevelName(t *testing.T) {
+	ass := assert.New(t)
+
+	logs.SetLevel(logs.Debug)
+	ass.Equal("Debug", logs.GetLevelName())
+	logs.SetLevel(logs.Info)
+	ass.Equal("Info", logs.GetLevelName())
+}
