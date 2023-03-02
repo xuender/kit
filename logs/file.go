@@ -16,6 +16,7 @@ var _files = map[string]*os.File{}
 // CloseFile 关闭指定日志文件.
 func CloseFile(file *os.File) error {
 	isEmpty := false
+	_ = file.Sync()
 
 	info, err := file.Stat()
 	if err == nil {
