@@ -5,13 +5,14 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sync"
 	"time"
 
 	"github.com/xuender/kit/oss"
 )
 
 // nolint: gochecknoglobals
-var _files = map[string]*os.File{}
+var _files = sync.Map{}
 
 // CloseFile 关闭指定日志文件.
 func CloseFile(file *os.File) error {
@@ -38,11 +39,15 @@ func CloseFile(file *os.File) error {
 
 // Close 关闭日志文件.
 func Close() error {
-	for _, file := range _files {
-		if err := CloseFile(file); err != nil {
-			return err
+	_files.Range(func(key, value any) bool {
+		if file, ok := value.(*os.File); ok {
+			if err := CloseFile(file); err != nil {
+				return false
+			}
 		}
-	}
+
+		return true
+	})
 
 	return nil
 }
@@ -69,11 +74,14 @@ func File(path, name string) (io.Writer, error) {
 
 	link := filepath.Join(path, name)
 	// 关闭旧日志
-	if old, has := _files[link]; has {
-		_ = CloseFile(old)
+
+	if old, has := _files.Load(link); has {
+		if file, ok := old.(*os.File); ok {
+			_ = CloseFile(file)
+		}
 	}
 
-	_files[link] = fil
+	_files.Store(link, fil)
 	_ = os.Remove(link)
 	_ = os.Symlink(log, link)
 
