@@ -9,18 +9,23 @@ import (
 )
 
 // Between 时间范围内执行，超出时间终止.
-func Between(start, stop int, yield func(context.Context)) {
+func Between(ctx context.Context, start, stop int, yield func(context.Context)) {
 	for {
-		if InScope(start, stop) {
-			ctx, cancel := context.WithCancel(context.Background())
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			if InScope(start, stop) {
+				cancelCtx, cancel := context.WithCancel(ctx)
 
-			go yield(ctx)
+				go yield(cancelCtx)
 
-			time.Sleep(Sleep(stop))
-			cancel()
+				time.Sleep(Sleep(stop))
+				cancel()
+			}
+
+			time.Sleep(time.Minute)
 		}
-
-		time.Sleep(time.Minute)
 	}
 }
 
