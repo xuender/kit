@@ -1,0 +1,87 @@
+package times
+
+import (
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/xuender/kit/base"
+)
+
+// Between 时间范围内执行，超出时间终止.
+func Between(start, stop int, yield func(context.Context)) {
+	for {
+		if InScope(start, stop) {
+			ctx, cancel := context.WithCancel(context.Background())
+
+			go yield(ctx)
+
+			time.Sleep(Sleep(stop))
+			cancel()
+		}
+
+		time.Sleep(time.Minute)
+	}
+}
+
+// Sleep 计算睡眠时间.
+func Sleep(stop int) time.Duration {
+	now := time.Now()
+	stopTime, _ := time.ParseInLocation(
+		"2006-01-02 15:04:05",
+		fmt.Sprintf("%s %02d:%02d:00", now.Format("2006-01-02"), stop/base.Hundred, stop%base.Hundred),
+		time.Local,
+	)
+
+	if stopTime.Before(now) {
+		stopTime = stopTime.Add(time.Hour * base.TwentyFour)
+	}
+
+	return stopTime.Sub(now) + time.Minute
+}
+
+// InScope 返回是否在时间范围内.
+// nolint: cyclop
+func InScope(start, stop int) bool {
+	now := time.Now()
+	hour := now.Hour()
+	minute := now.Minute()
+	startH := start / base.Hundred
+	stopH := stop / base.Hundred
+	startM := start % base.Hundred
+	stopM := stop % base.Hundred
+
+	if startH > stopH {
+		if hour < startH && hour > stopH {
+			return false
+		}
+
+		if hour == startH && minute < startM {
+			return false
+		}
+
+		if hour == stopH && minute > stopM {
+			return false
+		}
+
+		return true
+	}
+
+	if hour < startH {
+		return false
+	}
+
+	if hour == startH && minute < startM {
+		return false
+	}
+
+	if hour > stopH {
+		return false
+	}
+
+	if hour == stopH && minute > stopM {
+		return false
+	}
+
+	return true
+}
