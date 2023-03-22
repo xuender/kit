@@ -2,6 +2,7 @@ package times_test
 
 import (
 	"context"
+	"sync"
 	"testing"
 	"time"
 
@@ -42,6 +43,30 @@ func TestInScope(t *testing.T) {
 	ass.False(times.InScope(2001, 901))
 }
 
+type value struct {
+	count int
+	lock  sync.RWMutex
+}
+
+func (p *value) Get() int {
+	p.lock.RLock()
+	defer p.lock.RUnlock()
+
+	return p.count
+}
+
+func (p *value) Inc() {
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	p.count++
+}
+
+func add(ctx context.Context) {
+	valu, _ := ctx.Value(struct{}{}).(*value)
+	valu.Inc()
+}
+
 // nolint: paralleltest
 func TestBetween(t *testing.T) {
 	ass := assert.New(t)
@@ -50,12 +75,10 @@ func TestBetween(t *testing.T) {
 
 	defer patches1.Reset()
 
+	val := &value{}
 	ctx1, canel1 := context.WithCancel(context.Background())
-	count := 0
 
-	go times.Between(ctx1, 1001, 1114, func(ctx context.Context) {
-		count++
-	})
+	go times.Between(context.WithValue(ctx1, struct{}{}, val), 1001, 1114, add)
 
 	time.Sleep(time.Second)
 
@@ -63,13 +86,11 @@ func TestBetween(t *testing.T) {
 
 	ctx2, canel2 := context.WithCancel(context.Background())
 
-	go times.Between(ctx2, 1001, 1214, func(ctx context.Context) {
-		count++
-	})
+	go times.Between(context.WithValue(ctx2, struct{}{}, val), 1001, 1214, add)
 
 	time.Sleep(time.Second)
 
 	canel2()
 
-	ass.Equal(1, count)
+	ass.Equal(1, val.Get())
 }
