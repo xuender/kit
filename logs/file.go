@@ -77,13 +77,13 @@ func File(path, name string) (io.Writer, error) {
 
 	if old, has := _files.Load(link); has {
 		if file, ok := old.(*os.File); ok {
-			_ = CloseFile(file)
+			Log(CloseFile(file))
 		}
 	}
 
 	_files.Store(link, fil)
-	_ = os.Remove(link)
-	_ = os.Symlink(log, link)
+	Log(os.Remove(link))
+	Log(os.Symlink(log, link))
 
 	return fil, err
 }

@@ -12,7 +12,7 @@ func Hour(yield func()) func() bool {
 	unix := now.Add(time.Hour).Unix()
 	unix -= int64(now.Second())
 	unix -= int64(base.Sixty * now.Minute())
-	next := time.Unix(unix, 0)
+	next := time.Unix(unix+base.Five, 0)
 
 	timer := time.AfterFunc(next.Sub(now), func() {
 		yield()
