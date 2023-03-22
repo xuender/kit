@@ -3,6 +3,7 @@ package logs
 import (
 	"io"
 	"os"
+	"time"
 
 	"github.com/xuender/kit/base"
 	"github.com/xuender/kit/times"
@@ -66,6 +67,8 @@ func rotate(path, file string, yield func(string, string) error) {
 // Rotating 返回旧日志删除方法.
 func Rotating(path, file string, yield func(string, string) error) func() {
 	return func() {
+		time.Sleep(time.Second)
+
 		if err := yield(path, file); err != nil {
 			E.Println(err)
 
