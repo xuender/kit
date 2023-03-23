@@ -38,6 +38,9 @@ func Close() error {
 
 // File 生成软连接文件.
 func File(path, name string) (io.Writer, error) {
+	// TODO 删除
+	Log("File", path, name)
+
 	path, err := oss.Abs(path)
 	if err != nil {
 		return nil, err
