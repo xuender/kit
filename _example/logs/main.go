@@ -8,6 +8,15 @@ import (
 )
 
 func main() {
+	lo.Must0(logs.SetLogFile("/tmp/log", "log.log"))
+	defer logs.Close()
+
+	logs.I.Println("start")
+	go run()
+	time.Sleep(time.Hour)
+}
+
+func main1() {
 	printLog("default")
 
 	logs.SetLevel(logs.Error)

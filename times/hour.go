@@ -20,7 +20,6 @@ func Hour(yield func()) func() bool {
 
 	timer := time.AfterFunc(next.Sub(now), func() {
 		yield()
-		Hour(yield)
 	})
 
 	return timer.Stop

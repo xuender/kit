@@ -7,7 +7,33 @@ import (
 	"github.com/xuender/kit/times"
 )
 
+func SetLogFile() {
+	rotate(SetLogFile)
+}
+
+func rotate(yield func()) {
+	times.Hour(Rotating(yield))
+}
+
+func Rotating(yield func()) func() {
+	logs.Log("Rotating")
+
+	return func() {
+		logs.Log("bbb Rotating")
+		yield()
+	}
+}
+
 func main() {
+	logs.I.Println("Start")
+
+	SetLogFile()
+
+	time.Sleep(time.Minute)
+	logs.I.Println("end")
+}
+
+func main1() {
 	logs.I.Println("start")
 
 	cancel := times.Hour(func() {
