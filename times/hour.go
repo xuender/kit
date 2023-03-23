@@ -9,10 +9,14 @@ import (
 // Hour 整点运行，返回取消方法.
 func Hour(yield func()) func() bool {
 	now := time.Now()
-	unix := now.Add(time.Hour).Unix()
+	unix := now.Unix()
 	unix -= int64(now.Second())
 	unix -= int64(base.Sixty * now.Minute())
 	next := time.Unix(unix+base.Five, 0)
+
+	for next.Before(time.Now()) || next.Equal(time.Now()) {
+		next = next.Add(time.Hour)
+	}
 
 	timer := time.AfterFunc(next.Sub(now), func() {
 		yield()
