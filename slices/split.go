@@ -18,21 +18,17 @@ func SplitStr(str string, separators ...rune) []string {
 
 // Split 切片分解.
 func Split[T comparable](collection []T, isSeparator func(T, int) bool) [][]T {
-	ret := [][]T{}
-	tmp := []T{}
+	ret := make([][]T, 0, len(collection)/2+1)
+	start := 0
 
-	for index, elem := range collection {
-		if isSeparator(elem, index) {
-			ret = append(ret, tmp)
-			tmp = []T{}
-
-			continue
+	for end, elem := range collection {
+		if isSeparator(elem, end) {
+			ret = append(ret, collection[start:end])
+			start = end + 1
 		}
-
-		tmp = append(tmp, elem)
 	}
 
-	ret = append(ret, tmp)
+	ret = append(ret, collection[start:])
 
 	return ret
 }

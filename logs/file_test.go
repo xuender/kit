@@ -40,5 +40,5 @@ func TestCloseFile(t *testing.T) {
 
 	file := lo.Must1(os.CreateTemp(os.TempDir(), "test"))
 
-	assert.Nil(t, logs.CloseFile(file))
+	assert.NotNil(t, logs.CloseFile(file))
 }

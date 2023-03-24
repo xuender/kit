@@ -2,7 +2,6 @@ package times
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/xuender/kit/base"
@@ -32,14 +31,14 @@ func Between(ctx context.Context, start, stop int, yield func(context.Context)) 
 // Sleep 计算睡眠时间.
 func Sleep(stop int) time.Duration {
 	now := time.Now()
-	stopTime, _ := time.ParseInLocation(
-		"2006-01-02 15:04:05",
-		fmt.Sprintf("%s %02d:%02d:00", now.Format("2006-01-02"), stop/base.Hundred, stop%base.Hundred),
+	stopTime := time.Date(
+		now.Year(), now.Month(), now.Day(),
+		stop/base.Hundred, stop%base.Hundred, 0, 0,
 		time.Local,
 	)
 
 	if stopTime.Before(now) {
-		stopTime = stopTime.Add(time.Hour * base.TwentyFour)
+		stopTime = stopTime.AddDate(0, 0, 1)
 	}
 
 	return stopTime.Sub(now) + time.Minute
