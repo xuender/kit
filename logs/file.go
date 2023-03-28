@@ -16,25 +16,15 @@ var _files = sync.Map{}
 
 // CloseFile 关闭指定日志文件.
 func CloseFile(file *os.File) error {
-	isEmpty := false
 	_ = file.Sync()
 
-	info, err := file.Stat()
-	if err == nil {
-		isEmpty = info.Size() == 0
-	}
-
-	if err := file.Close(); err != nil {
-		return err
-	}
-
-	if isEmpty {
+	if info, err := file.Stat(); err == nil && info.Size() == 0 {
 		if err := os.Remove(file.Name()); err != nil {
 			return err
 		}
 	}
 
-	return nil
+	return file.Close()
 }
 
 // Close 关闭日志文件.
