@@ -1,6 +1,6 @@
 package base
 
-// EveryNil 是否全是 nil.
+// EveryNil 检查所有元素是否都为 nil.
 func EveryNil(elems ...any) bool {
 	if len(elems) == 0 {
 		return true
@@ -15,7 +15,7 @@ func EveryNil(elems ...any) bool {
 	return true
 }
 
-// SomeNil 是否包含 nil.
+// SomeNil 检查是否有元素为 nil.
 func SomeNil(elems ...any) bool {
 	if len(elems) == 0 {
 		return true
