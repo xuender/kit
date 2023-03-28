@@ -1,4 +1,12 @@
 
+1.0.9 / 2023-03-28
+==================
+
+* Merge remote-tracking branch 'refs/remotes/origin/main'
+* doc: ai
+* refacto: AI优化
+* refacto: AI 修改
+
 1.0.8 / 2023-03-23
 ==================
 
