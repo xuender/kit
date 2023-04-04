@@ -7,7 +7,7 @@ import (
 	"github.com/xuender/kit/logs"
 )
 
-func main() {
+func main1() {
 	lo.Must0(logs.SetLogFile("/tmp/log", "log.log"))
 	defer logs.Close()
 
@@ -16,7 +16,7 @@ func main() {
 	time.Sleep(time.Hour)
 }
 
-func main1() {
+func main() {
 	printLog("default")
 
 	logs.SetLevel(logs.Error)
