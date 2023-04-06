@@ -10,7 +10,7 @@ import (
 
 // ExampleAppendFile is an example function.
 func ExampleAppendFile() {
-	file, err := oss.CreateFile(filepath.Join(os.TempDir(), "go-cli", "create.txt"))
+	file, err := oss.AppendFile(filepath.Join(os.TempDir(), "go-cli", "create.txt"))
 	fmt.Println(err)
 	fmt.Println(file.Write([]byte("123")))
 	file.Close()
@@ -30,16 +30,4 @@ func ExampleAppendFile() {
 	// 3 <nil>
 	// <nil>
 	// 123aaaa
-}
-
-// ExampleCreateFile is an example function.
-func ExampleCreateFile() {
-	file, err := oss.CreateFile(filepath.Join(os.TempDir(), "go-cli", "create.txt"))
-
-	fmt.Println(err)
-	file.Close()
-	os.Remove(file.Name())
-
-	// Output:
-	// <nil>
 }

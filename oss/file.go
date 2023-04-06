@@ -27,19 +27,3 @@ func AppendFile(filename string) (*os.File, error) {
 
 	return file, base.Result2(file.Seek(0, os.SEEK_END))
 }
-
-// CreateFile creates a file.
-func CreateFile(filename string) (*os.File, error) {
-	path, err := Abs(filename)
-	if err != nil {
-		return nil, err
-	}
-
-	if dir := filepath.Dir(path); dir != "" && !Exist(dir) {
-		if err := os.MkdirAll(dir, DefaultDirFileMod); err != nil {
-			return nil, err
-		}
-	}
-
-	return os.Create(path)
-}
