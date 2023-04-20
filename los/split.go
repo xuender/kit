@@ -1,4 +1,4 @@
-package slices
+package los
 
 import (
 	"github.com/samber/lo"
