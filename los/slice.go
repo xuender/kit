@@ -25,8 +25,7 @@ func PullAt[V any](collection []V, indices ...int) []V {
 	start, left := 0, 0
 
 	for _, right := range indices {
-		copy(ret[start:], collection[left:right])
-		start += right - left
+		start += copy(ret[start:], collection[left:right])
 		left = right + 1
 	}
 

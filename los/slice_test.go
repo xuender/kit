@@ -41,7 +41,7 @@ func TestPullAt(t *testing.T) {
 	ass.Equal([]int{4}, los.PullAt(elems, 0, 2, 1))
 	ass.Equal([]int{1, 2, 2, 4}, elems)
 
-	ass.Equal([]int{1}, los.PullAt(elems, 3, 2, 1))
+	ass.Equal([]int{1, 2}, los.PullAt(elems, 3, 1))
 	ass.Equal([]int{1, 2, 2, 4}, elems)
 
 	ass.Equal([]int{1, 2, 2, 4}, los.PullAt(elems, -1, 9))
