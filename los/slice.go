@@ -19,7 +19,9 @@ func Pull[V comparable](collection []V, elements ...V) []V {
 func PullAt[V any](collection []V, indices ...int) []V {
 	indices = lo.Union(lo.Filter(indices, func(item, _ int) bool { return item >= 0 && item < len(collection) }))
 
-	sort.Ints(indices)
+	if len(indices) > 1 && !lo.IsSorted(indices) {
+		sort.Ints(indices)
+	}
 
 	ret := make([]V, len(collection)-len(indices))
 	start, left := 0, 0
