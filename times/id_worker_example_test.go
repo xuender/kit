@@ -48,3 +48,19 @@ func ExampleNewIDWorkerByKey() {
 	// Output:
 	// true
 }
+
+// ExampleIDWorker_IDs is an example function.
+func ExampleIDWorker_IDs() {
+	worker := times.NewIDWorker()
+	size := 10000
+	ids := make(map[int64]int, size)
+
+	for i, uid := range worker.IDs(size) {
+		ids[uid] = i
+	}
+
+	fmt.Println(len(ids))
+
+	// Output:
+	// 10000
+}

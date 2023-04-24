@@ -88,13 +88,52 @@ func (p *IDWorker) IDAndError() (int64, error) {
 		p.last = now
 		p.seq = 0
 	} else {
-		p.seq = (p.seq + 1) & p.seqMask
-
-		if p.seq == 0 {
-			time.Sleep(time.Second - time.Since(p.last))
-			p.last = time.Now()
-		}
+		p.add()
 	}
 
 	return ((p.last.Unix() - _start) << p.seqLen) | p.machine | p.seq, nil
+}
+
+func (p *IDWorker) IDs(num int) []int64 {
+	ids, err := p.IDsAndError(num)
+	if err != nil {
+		panic(err)
+	}
+
+	return ids
+}
+
+func (p *IDWorker) IDsAndError(num int) ([]int64, error) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	now := time.Now()
+	if now.Unix() < p.last.Unix() {
+		return nil, ErrLast
+	}
+
+	if now.Unix() > p.last.Unix() {
+		p.last = now
+		p.seq = 0
+	} else {
+		p.add()
+	}
+
+	ret := make([]int64, num)
+
+	for i := 0; i < num; i++ {
+		ret[i] = ((p.last.Unix() - _start) << p.seqLen) | p.machine | p.seq
+		p.add()
+	}
+
+	return ret, nil
+}
+
+func (p *IDWorker) add() {
+	p.seq = (p.seq + 1) & p.seqMask
+
+	if p.seq == 0 {
+		time.Sleep(time.Second - time.Since(p.last))
+		p.last = time.Now()
+	}
 }
