@@ -7,14 +7,18 @@ import (
 )
 
 const (
+	// DefaultExpiration 默认过期时间.
 	DefaultExpiration time.Duration = 0
-	NoExpiration      time.Duration = -1
+	// NoExpiration 不过期.
+	NoExpiration time.Duration = -1
 )
 
+// Cache 缓存.
 type Cache[K comparable, V any] struct {
 	*data[K, V]
 }
 
+// New 新建缓存, 设置默认过期时间和过期检查周期.
 func New[K comparable, V any](defaultExpiration, interval time.Duration) *Cache[K, V] {
 	cacheData := &data[K, V]{
 		defaultExpiration: defaultExpiration,
@@ -37,14 +41,17 @@ func stop[K comparable, V any](cache *Cache[K, V]) {
 	cache.done <- struct{}{}
 }
 
+// NewStringKey 新建字符串键值的缓存.
 func NewStringKey[V any](defaultExpiration, interval time.Duration) *Cache[string, V] {
 	return New[string, V](defaultExpiration, interval)
 }
 
+// Set 设置元素.
 func (p *Cache[K, V]) Set(key K, value V) {
 	p.SetDuration(key, value, DefaultExpiration)
 }
 
+// SetDuration 设置元素及过期时间.
 func (p *Cache[K, V]) SetDuration(key K, value V, expiration time.Duration) {
 	var exp int64
 
@@ -64,6 +71,7 @@ func (p *Cache[K, V]) SetDuration(key K, value V, expiration time.Duration) {
 	p.mutex.Unlock()
 }
 
+// Get 获取元素.
 func (p *Cache[K, V]) Get(key K) (V, bool) {
 	var value V
 
@@ -88,7 +96,8 @@ func (p *Cache[K, V]) Delete(key K) {
 	p.mutex.Unlock()
 }
 
-func (p *Cache[K, V]) Iteration(yield func(K, V) error) error {
+// Iterate 迭代.
+func (p *Cache[K, V]) Iterate(yield func(K, V) error) error {
 	now := time.Now().UnixNano()
 
 	p.mutex.RLock()
@@ -107,7 +116,9 @@ func (p *Cache[K, V]) Iteration(yield func(K, V) error) error {
 	return nil
 }
 
+// Len 元素数量.
 func (p *Cache[K, V]) Len() int {
+	p.DeleteExpired()
 	p.mutex.RLock()
 	count := len(p.items)
 	p.mutex.RUnlock()

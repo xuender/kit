@@ -12,7 +12,7 @@ func (p item[V]) Expired() bool {
 }
 
 func (p item[V]) ExpiredByTime(nano int64) bool {
-	if p.expiration == 0 {
+	if p.expiration <= 0 {
 		return false
 	}
 

@@ -34,7 +34,7 @@ func TestCache_close(t *testing.T) {
 	runtime.GC()
 }
 
-func TestCache_Iteration(t *testing.T) {
+func TestCache_Iterate(t *testing.T) {
 	t.Parallel()
 
 	ass := assert.New(t)
@@ -47,13 +47,13 @@ func TestCache_Iteration(t *testing.T) {
 	cac.SetDuration(100, 100, time.Millisecond)
 	time.Sleep(time.Millisecond)
 
-	ass.Nil(cac.Iteration(func(key, value int) error {
+	ass.Nil(cac.Iterate(func(key, value int) error {
 		ass.Equal(key, value)
 
 		return nil
 	}))
 
-	ass.Error(cac.Iteration(func(key, value int) error {
+	ass.Error(cac.Iterate(func(key, value int) error {
 		ass.Equal(key, value)
 
 		if key > 3 {
