@@ -7,17 +7,17 @@ import (
 	"github.com/xuender/kit/sets"
 )
 
-// ExampleNewSyncSet is an example function.
-func ExampleNewSyncSet() {
-	set := sets.NewSyncSet(1, 2, 3)
+// ExampleNewSet is an example function.
+func ExampleNewSet() {
+	set := sets.NewSet(1, 2, 3)
 
-	fmt.Println(set.Len())
-	fmt.Println(set.Add(3, 4, 5).Len())
+	fmt.Println(len(set))
+	fmt.Println(len(set.Add(3, 4, 5)))
 
 	fmt.Println(set.Has(0))
 	fmt.Println(set.Has(3))
 
-	set.Delete(2)
+	delete(set, 2)
 	ints := set.Slice()
 	sort.Ints(ints)
 
