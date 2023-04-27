@@ -7,13 +7,13 @@ import (
 	"github.com/xuender/kit/sets"
 )
 
-func TestSync_Iteration(t *testing.T) {
+func TestSync_Iterate(t *testing.T) {
 	t.Parallel()
 
 	ass := assert.New(t)
 	set := sets.NewSync(1, 2, 3, 4, 5)
 
-	ass.Error(set.Iteration(func(i int) error {
+	ass.Error(set.Iterate(func(i int) error {
 		if i > 4 {
 			return assert.AnError
 		}
@@ -23,7 +23,7 @@ func TestSync_Iteration(t *testing.T) {
 		return nil
 	}))
 
-	ass.Nil(set.Iteration(func(i int) error {
+	ass.Nil(set.Iterate(func(i int) error {
 		ass.LessOrEqual(i, 5)
 
 		return nil

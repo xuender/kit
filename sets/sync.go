@@ -71,8 +71,8 @@ func (p *Sync[V]) Slice() []V {
 	return elems
 }
 
-// Iteration 迭代.
-func (p *Sync[V]) Iteration(yield func(V) error) error {
+// Iterate 迭代.
+func (p *Sync[V]) Iterate(yield func(V) error) error {
 	p.mutex.RLock()
 	defer p.mutex.RUnlock()
 

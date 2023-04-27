@@ -14,9 +14,7 @@ const (
 )
 
 // Cache 缓存.
-type Cache[K comparable, V any] struct {
-	*data[K, V]
-}
+type Cache[K comparable, V any] struct{ *data[K, V] }
 
 // New 新建缓存, 设置默认过期时间和过期检查周期.
 func New[K comparable, V any](defaultExpiration, interval time.Duration) *Cache[K, V] {
