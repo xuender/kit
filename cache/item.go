@@ -2,19 +2,19 @@ package cache
 
 import "time"
 
-type Item[V any] struct {
-	Data       V
-	Expiration int64
+type item[V any] struct {
+	value      V
+	expiration int64
 }
 
-func (item Item[V]) Expired() bool {
-	return item.ExpiredByTime(time.Now().UnixNano())
+func (p item[V]) Expired() bool {
+	return p.ExpiredByTime(time.Now().UnixNano())
 }
 
-func (item Item[V]) ExpiredByTime(nano int64) bool {
-	if item.Expiration == 0 {
+func (p item[V]) ExpiredByTime(nano int64) bool {
+	if p.expiration == 0 {
 		return false
 	}
 
-	return nano > item.Expiration
+	return nano > p.expiration
 }

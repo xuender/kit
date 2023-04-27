@@ -4,8 +4,6 @@ import (
 	"runtime"
 	"sync"
 	"time"
-
-	"github.com/xuender/kit/logs"
 )
 
 const (
@@ -14,38 +12,29 @@ const (
 )
 
 type Cache[K comparable, V any] struct {
-	defaultExpiration time.Duration
-	items             map[K]Item[V]
-	mutex             sync.RWMutex
-	janitor           *janitor
+	*data[K, V]
 }
 
 func New[K comparable, V any](defaultExpiration, interval time.Duration) *Cache[K, V] {
-	elem := &Cache[K, V]{
+	cacheData := &data[K, V]{
 		defaultExpiration: defaultExpiration,
-		items:             make(map[K]Item[V]),
+		items:             make(map[K]item[V]),
 		mutex:             sync.RWMutex{},
+		done:              make(chan struct{}),
 	}
+	newCache := &Cache[K, V]{cacheData}
 
 	if interval > 0 {
-		runJanitor(elem, interval)
-		logs.D.Println("setFinalizer", &elem)
-		runtime.SetFinalizer(elem, stop[K, V])
+		go cacheData.run(interval)
+
+		runtime.SetFinalizer(newCache, stop[K, V])
 	}
 
-	return elem
+	return newCache
 }
 
-func (p *Cache[K, V]) Close() error {
-	logs.W.Println("stop", &p)
-	// p.janitor.stop <- true
-
-	return nil
-}
-
-func stop[K comparable, V any](elem *Cache[K, V]) {
-	logs.E.Println("close", &elem)
-	elem.Close()
+func stop[K comparable, V any](cache *Cache[K, V]) {
+	cache.done <- struct{}{}
 }
 
 func NewStringKey[V any](defaultExpiration, interval time.Duration) *Cache[string, V] {
@@ -68,9 +57,9 @@ func (p *Cache[K, V]) SetDuration(key K, value V, expiration time.Duration) {
 	}
 
 	p.mutex.Lock()
-	p.items[key] = Item[V]{
-		Data:       value,
-		Expiration: exp,
+	p.items[key] = item[V]{
+		value:      value,
+		expiration: exp,
 	}
 	p.mutex.Unlock()
 }
@@ -90,7 +79,7 @@ func (p *Cache[K, V]) Get(key K) (V, bool) {
 		return value, false
 	}
 
-	return item.Data, true
+	return item.value, true
 }
 
 func (p *Cache[K, V]) Delete(key K) {
@@ -110,26 +99,12 @@ func (p *Cache[K, V]) Iteration(yield func(K, V) error) error {
 			continue
 		}
 
-		if err := yield(key, item.Data); err != nil {
+		if err := yield(key, item.value); err != nil {
 			return err
 		}
 	}
 
 	return nil
-}
-
-func (p *Cache[K, V]) DeleteExpired() {
-	now := time.Now().UnixNano()
-
-	p.mutex.Lock()
-
-	for key, item := range p.items {
-		if item.ExpiredByTime(now) {
-			delete(p.items, key)
-		}
-	}
-
-	p.mutex.Unlock()
 }
 
 func (p *Cache[K, V]) Len() int {
