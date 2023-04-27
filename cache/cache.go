@@ -17,48 +17,39 @@ type Cache[K comparable, V any] struct {
 	defaultExpiration time.Duration
 	items             map[K]Item[V]
 	mutex             sync.RWMutex
-	stop              chan bool
+	janitor           *janitor
 }
 
 func New[K comparable, V any](defaultExpiration, interval time.Duration) *Cache[K, V] {
-	ret := &Cache[K, V]{
+	elem := &Cache[K, V]{
 		defaultExpiration: defaultExpiration,
 		items:             make(map[K]Item[V]),
 		mutex:             sync.RWMutex{},
-		stop:              make(chan bool),
 	}
 
 	if interval > 0 {
-		go ret.runClean(interval)
-
-		runtime.SetFinalizer(ret, stop[K, V])
+		runJanitor(elem, interval)
+		logs.D.Println("setFinalizer", &elem)
+		runtime.SetFinalizer(elem, stop[K, V])
 	}
 
-	return ret
+	return elem
 }
 
-func stop[K comparable, V any](cache *Cache[K, V]) {
-	logs.W.Println("stop")
-	cache.stop <- true
+func (p *Cache[K, V]) Close() error {
+	logs.W.Println("stop", &p)
+	// p.janitor.stop <- true
+
+	return nil
+}
+
+func stop[K comparable, V any](elem *Cache[K, V]) {
+	logs.E.Println("close", &elem)
+	elem.Close()
 }
 
 func NewStringKey[V any](defaultExpiration, interval time.Duration) *Cache[string, V] {
 	return New[string, V](defaultExpiration, interval)
-}
-
-func (p *Cache[K, V]) runClean(interval time.Duration) {
-	ticker := time.NewTicker(interval)
-
-	for {
-		select {
-		case <-ticker.C:
-			p.DeleteExpired()
-		case <-p.stop:
-			ticker.Stop()
-
-			return
-		}
-	}
 }
 
 func (p *Cache[K, V]) Set(key K, value V) {
