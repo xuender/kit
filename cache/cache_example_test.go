@@ -33,10 +33,10 @@ func ExampleNew() {
 // ExampleNewStringKey is an example function.
 func ExampleNewStringKey() {
 	cac := cache.NewStringKey[int](time.Millisecond, time.Millisecond)
-	cac.SetDuration("1", 1, time.Millisecond*3)
-	cac.Set("2", 1)
+	cac.SetDuration("key1", 1, time.Millisecond*3)
+	cac.Set("key2", 1)
 
-	fmt.Println(cac.Get("1"))
+	fmt.Println(cac.Get("key1"))
 	fmt.Println(cac.Len())
 
 	time.Sleep(time.Millisecond * 2)

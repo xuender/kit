@@ -71,18 +71,18 @@ func (p *Cache[K, V]) SetDuration(key K, value V, expiration time.Duration) {
 
 // Get 获取元素.
 func (p *Cache[K, V]) Get(key K) (V, bool) {
-	var value V
+	var zero V
 
 	p.mutex.RLock()
 	item, found := p.items[key]
 	p.mutex.RUnlock()
 
 	if !found {
-		return value, false
+		return zero, false
 	}
 
 	if item.Expired() {
-		return value, false
+		return zero, false
 	}
 
 	return item.value, true

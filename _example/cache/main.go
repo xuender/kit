@@ -16,7 +16,7 @@ func test() {
 		cac.Set(i, i)
 	}
 
-	logs.I.Println("stop", cac.Len())
+	logs.I.Println("length", cac.Len())
 }
 
 func main() {
