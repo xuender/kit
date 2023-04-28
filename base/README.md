@@ -2,36 +2,36 @@
 
 基础函数。
 
-## Param1
+## Result1
 
-返回第1个参数。
+返回第1个结果。
 
 ```go
-fmt.Println(base.Param1(1, 2, 3, 4))
+fmt.Println(base.Result1(1, 2, 3, 4))
 
 // 1
 ```
 
 [[play](https://go.dev/play/p/s9voYfhHX9L)]
 
-## Param2
+## Result2
 
-返回第2个参数。
+返回第2个结果。
 
 ```go
-fmt.Println(base.Param2(1, 2, 3, 4))
+fmt.Println(base.Result2(1, 2, 3, 4))
 
 // 2
 ```
 
 [[play](https://go.dev/play/p/vis3TrnVJhI)]
 
-## Param3
+## Result3
 
-返回第3个参数。
+返回第3个结果。
 
 ```go
-fmt.Println(base.Param3(1, 2, 3, 4))
+fmt.Println(base.Result3(1, 2, 3, 4))
 
 // 3
 ```

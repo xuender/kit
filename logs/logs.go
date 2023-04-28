@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/xuender/kit/base"
+	"github.com/xuender/kit/los"
 	"github.com/xuender/kit/times"
 )
 
@@ -195,6 +196,9 @@ func SetLevel(level Level) {
 
 // Log 输出日志.
 func Log(values ...any) {
+	if los.EveryNil(values...) {
+		return
+	}
 	// 包含error 则使用Error输出
 	for _, value := range values {
 		if _, ok := value.(error); ok {

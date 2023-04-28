@@ -30,7 +30,6 @@ func ExampleLog() {
 	logs.Log(2, os.ErrClosed)
 
 	// Output:
-	// [I] <nil>
 	// [I] 1
 	// [E] 2 file already closed
 }
