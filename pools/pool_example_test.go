@@ -1,4 +1,4 @@
-package syncs_test
+package pools_test
 
 import (
 	"context"
@@ -7,11 +7,11 @@ import (
 	"time"
 
 	"github.com/samber/lo"
-	"github.com/xuender/kit/syncs"
+	"github.com/xuender/kit/pools"
 )
 
-func ExamplePool() {
-	pool := syncs.NewPool(10, func(value, num int) string {
+func Example() {
+	pool := pools.New(10, func(value, num int) string {
 		time.Sleep(time.Millisecond)
 
 		return fmt.Sprintf("%d: %d*2=%d", num, value, value*2)
@@ -26,7 +26,7 @@ func ExamplePool() {
 }
 
 func ExamplePool_context() {
-	pool := syncs.NewPool(10, func(input lo.Tuple2[context.Context, int], num int) int {
+	pool := pools.New(10, func(input lo.Tuple2[context.Context, int], num int) int {
 		time.Sleep(time.Millisecond)
 
 		return input.B * input.B
@@ -44,7 +44,7 @@ func ExamplePool_context() {
 }
 
 func ExamplePool_error() {
-	pool := syncs.NewPool(10, func(value, num int) lo.Tuple2[int, error] {
+	pool := pools.New(10, func(value, num int) lo.Tuple2[int, error] {
 		time.Sleep(time.Millisecond)
 
 		if value == 0 {
