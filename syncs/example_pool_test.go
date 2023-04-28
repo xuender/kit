@@ -20,7 +20,6 @@ func ExamplePool() {
 	outputs := pool.Post(lo.Range(100))
 
 	fmt.Println(len(outputs))
-	pool.Close()
 
 	// Output:
 	// 100
