@@ -1,4 +1,23 @@
 
+1.0.11 / 2023-04-28
+==================
+
+* feat: pool rename pools
+* feat: 自动释放pool
+* feat: 协程池
+* refactor: EveryNil & SomeNil move to los
+* feat: remove EventNil SomeNil
+* refactor: rename
+* refactor: Iterate rename
+* refactor: sets rename
+* doc: 缓存文档
+* feat: cache
+* test
+* cache
+* feat: sets
+* feat: add IDWorker_IDs
+* feat: IDWorker
+
 1.0.10 / 2023-04-21
 ==================
 
