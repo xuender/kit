@@ -2,6 +2,7 @@ package times
 
 import (
 	"hash/fnv"
+	"strconv"
 	"sync"
 	"time"
 
@@ -72,6 +73,11 @@ func (p *IDWorker) ID() int64 {
 	}
 
 	return uid
+}
+
+// String 字符串ID.
+func (p *IDWorker) String() string {
+	return strconv.Itoa(int(p.ID()))
 }
 
 // IDAndError 生成ID和错误信息.
