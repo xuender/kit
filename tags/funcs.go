@@ -20,17 +20,6 @@ func Del[E constraints.Integer](tag E, elems ...E) E {
 	return tag
 }
 
-// Hit 命中所有标签.
-func Hit[E constraints.Integer](tag E, elems ...E) bool {
-	for _, elem := range elems {
-		if ^tag&elem > 0 {
-			return false
-		}
-	}
-
-	return true
-}
-
 // Has 包含任何一个标签.
 func Has[E constraints.Integer](tag E, elems ...E) bool {
 	for _, elem := range elems {
@@ -40,4 +29,9 @@ func Has[E constraints.Integer](tag E, elems ...E) bool {
 	}
 
 	return false
+}
+
+// Hit 命中所有标签.
+func Hit[E constraints.Integer](tag E, elems ...E) bool {
+	return !Has(^tag, elems...)
 }
