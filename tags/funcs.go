@@ -3,9 +3,7 @@ package tags
 import "golang.org/x/exp/constraints"
 
 // Add 增加.
-func Add[E constraints.Integer](elems ...E) E {
-	var tag E
-
+func Add[E constraints.Integer](tag E, elems ...E) E {
 	for _, elem := range elems {
 		tag |= elem
 	}
