@@ -5,6 +5,7 @@ import "golang.org/x/exp/constraints"
 // Add 增加.
 func Add[E constraints.Integer](tag E, elems ...E) E {
 	for _, elem := range elems {
+		// OR
 		tag |= elem
 	}
 
@@ -14,7 +15,8 @@ func Add[E constraints.Integer](tag E, elems ...E) E {
 // Del 删除.
 func Del[E constraints.Integer](tag E, elems ...E) E {
 	for _, elem := range elems {
-		tag ^= (tag & elem)
+		// AND NOT
+		tag &^= elem
 	}
 
 	return tag
@@ -23,6 +25,7 @@ func Del[E constraints.Integer](tag E, elems ...E) E {
 // Has 包含任何一个标签.
 func Has[E constraints.Integer](tag E, elems ...E) bool {
 	for _, elem := range elems {
+		// AND
 		if tag&elem > 0 {
 			return true
 		}
