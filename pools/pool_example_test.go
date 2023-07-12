@@ -43,6 +43,19 @@ func ExamplePool_context() {
 	// 100
 }
 
+func ExamplePool_Run() {
+	pool := pools.New(10, func(value, _ int) string {
+		time.Sleep(time.Millisecond)
+
+		return fmt.Sprintf("%d*2=%d", value, value*2)
+	})
+
+	fmt.Println(pool.Run(3))
+
+	// Output:
+	// 3*2=6
+}
+
 func ExamplePool_error() {
 	pool := pools.New(10, func(value, num int) lo.Tuple2[int, error] {
 		time.Sleep(time.Millisecond)

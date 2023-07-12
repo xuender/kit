@@ -12,7 +12,7 @@ type Pool[I, O any] struct{ *data[I, O] }
 // New 新建 Goroutine 池.
 func New[I, O any](size int, yield func(I, int) O) *Pool[I, O] {
 	poolData := &data[I, O]{
-		input: make(chan *job[I, O], size),
+		chans: make(chan *job[I, O], size),
 		yield: yield,
 	}
 	pool := &Pool[I, O]{poolData}
@@ -27,6 +27,6 @@ func New[I, O any](size int, yield func(I, int) O) *Pool[I, O] {
 }
 
 func stop[I, O any](pool *Pool[I, O]) {
-	close(pool.input)
+	close(pool.chans)
 	logs.D.Println("pool finaliz:", &pool)
 }
