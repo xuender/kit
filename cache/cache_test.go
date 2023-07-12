@@ -13,12 +13,41 @@ func TestCache_Get(t *testing.T) {
 	t.Parallel()
 
 	ass := assert.New(t)
+	cac := cache.New[int, int](time.Millisecond*2, cache.NoExpiration)
+
+	cac.Set(1, 1)
+
+	time.Sleep(time.Millisecond)
+
+	_, found := cac.Get(1)
+	ass.True(found)
+
+	time.Sleep(time.Millisecond)
+
+	_, found = cac.Get(1)
+	ass.True(found)
+
+	time.Sleep(time.Millisecond)
+
+	_, found = cac.Get(1)
+	ass.True(found)
+
+	time.Sleep(time.Millisecond * 2)
+
+	_, found = cac.Get(1)
+	ass.False(found)
+}
+
+func TestCache_GetNoExtension(t *testing.T) {
+	t.Parallel()
+
+	ass := assert.New(t)
 	cac := cache.New[int, int](time.Millisecond, cache.NoExpiration)
 
 	cac.Set(1, 1)
 	time.Sleep(time.Millisecond)
 
-	_, has := cac.Get(1)
+	_, has := cac.GetNoExtension(1)
 	ass.False(has)
 }
 

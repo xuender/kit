@@ -13,7 +13,8 @@ func ExampleNew() {
 	cac.SetDuration(1, 1, time.Millisecond*3)
 	cac.Set(2, 1)
 
-	fmt.Println(cac.Get(1))
+	fmt.Println(cac.GetNoExtension(1))
+	fmt.Println(cac.GetNoExtension(3))
 	fmt.Println(cac.Get(3))
 	fmt.Println(cac.Len())
 
@@ -24,6 +25,7 @@ func ExampleNew() {
 
 	// Output:
 	// 1 true
+	// 0 false
 	// 0 false
 	// 2
 	// 1
@@ -36,7 +38,7 @@ func ExampleNewStringKey() {
 	cac.SetDuration("key1", 1, time.Millisecond*3)
 	cac.Set("key2", 1)
 
-	fmt.Println(cac.Get("key1"))
+	fmt.Println(cac.Get("key2"))
 	fmt.Println(cac.Len())
 
 	time.Sleep(time.Millisecond * 2)

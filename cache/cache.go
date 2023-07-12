@@ -69,7 +69,26 @@ func (p *Cache[K, V]) SetDuration(key K, value V, expiration time.Duration) {
 	p.mutex.Unlock()
 }
 
-// Get 获取元素.
+// GetNoExtension 读元素不延期.
+func (p *Cache[K, V]) GetNoExtension(key K) (V, bool) {
+	var zero V
+
+	p.mutex.RLock()
+	item, found := p.items[key]
+	p.mutex.RUnlock()
+
+	if !found {
+		return zero, false
+	}
+
+	if item.Expired() {
+		return zero, false
+	}
+
+	return item.value, true
+}
+
+// Get 获取元素并刷新.
 func (p *Cache[K, V]) Get(key K) (V, bool) {
 	var zero V
 
@@ -84,6 +103,11 @@ func (p *Cache[K, V]) Get(key K) (V, bool) {
 	if item.Expired() {
 		return zero, false
 	}
+
+	p.mutex.Lock()
+	item.expiration = time.Now().Add(p.defaultExpiration).UnixNano()
+	p.items[key] = item
+	p.mutex.Unlock()
 
 	return item.value, true
 }
