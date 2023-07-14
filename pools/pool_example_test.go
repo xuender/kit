@@ -16,6 +16,7 @@ func Example() {
 
 		return fmt.Sprintf("%d: %d*2=%d", num, value, value*2)
 	})
+	defer pool.Close()
 
 	outputs := pool.Post(lo.Range(100))
 
@@ -31,6 +32,7 @@ func ExamplePool_context() {
 
 		return input.B * input.B
 	})
+	defer pool.Close()
 
 	inputs := lo.Map(lo.Range(100), func(num, _ int) lo.Tuple2[context.Context, int] {
 		return lo.T2(context.Background(), num)
@@ -49,6 +51,7 @@ func ExamplePool_Run() {
 
 		return fmt.Sprintf("%d*2=%d", value, value*2)
 	})
+	defer pool.Close()
 
 	fmt.Println(pool.Run(3))
 
@@ -67,6 +70,7 @@ func ExamplePool_error() {
 
 		return lo.T2[int, error](100/value, nil)
 	})
+	defer pool.Close()
 
 	outputs := pool.Post(lo.Range(100))
 
