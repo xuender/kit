@@ -1,6 +1,10 @@
 package sets
 
-import "sync"
+import (
+	"sync"
+
+	"github.com/xuender/kit/base"
+)
 
 // Sync 线程安全Set.
 type Sync[V comparable] struct {
@@ -10,7 +14,7 @@ type Sync[V comparable] struct {
 
 // NewSync 新建线程安全Set.
 func NewSync[V comparable](elems ...V) *Sync[V] {
-	set := &Sync[V]{mutex: sync.RWMutex{}, data: map[V]struct{}{}}
+	set := &Sync[V]{sync.RWMutex{}, map[V]struct{}{}}
 
 	return set.Add(elems...)
 }
@@ -25,7 +29,7 @@ func (p *Sync[V]) Add(elems ...V) *Sync[V] {
 	p.mutex.Lock()
 
 	for _, elem := range elems {
-		p.data[elem] = struct{}{}
+		p.data[elem] = base.None
 	}
 
 	p.mutex.Unlock()

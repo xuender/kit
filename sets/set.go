@@ -1,5 +1,7 @@
 package sets
 
+import "github.com/xuender/kit/base"
+
 // Set 基于map的Set.
 type Set[V comparable] map[V]struct{}
 
@@ -13,7 +15,7 @@ func NewSet[V comparable](elems ...V) Set[V] {
 // Add 增加元素.
 func (p Set[V]) Add(elems ...V) Set[V] {
 	for _, elem := range elems {
-		p[elem] = struct{}{}
+		p[elem] = base.None
 	}
 
 	return p
@@ -23,7 +25,7 @@ func (p Set[V]) Add(elems ...V) Set[V] {
 func (p Set[V]) AddSet(sets ...Set[V]) Set[V] {
 	for _, set := range sets {
 		for elem := range set {
-			p[elem] = struct{}{}
+			p[elem] = base.None
 		}
 	}
 

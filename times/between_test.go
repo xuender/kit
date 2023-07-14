@@ -8,6 +8,7 @@ import (
 
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
+	"github.com/xuender/kit/base"
 	"github.com/xuender/kit/times"
 )
 
@@ -63,7 +64,7 @@ func (p *value) Inc() {
 }
 
 func add(ctx context.Context) {
-	valu, _ := ctx.Value(struct{}{}).(*value)
+	valu, _ := ctx.Value(base.None).(*value)
 	valu.Inc()
 }
 
@@ -78,7 +79,7 @@ func TestBetween(t *testing.T) {
 	val := &value{}
 	ctx1, canel1 := context.WithCancel(context.Background())
 
-	go times.Between(context.WithValue(ctx1, struct{}{}, val), 1001, 1114, add)
+	go times.Between(context.WithValue(ctx1, base.None, val), 1001, 1114, add)
 
 	time.Sleep(time.Second)
 
@@ -86,7 +87,7 @@ func TestBetween(t *testing.T) {
 
 	ctx2, canel2 := context.WithCancel(context.Background())
 
-	go times.Between(context.WithValue(ctx2, struct{}{}, val), 1001, 1214, add)
+	go times.Between(context.WithValue(ctx2, base.None, val), 1001, 1214, add)
 
 	time.Sleep(time.Second)
 

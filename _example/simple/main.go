@@ -10,13 +10,11 @@ import (
 )
 
 func test() {
-	pool := pools.New(3, func(elem, num int) int {
+	pool := pools.NewSimple(3, func(elem, num int) {
 		logs.D.Println(num, elem)
-
-		return elem
 	})
 
-	pool.Post([]int{1, 2, 3})
+	pool.Post(1, 2, 3)
 }
 
 func main() {

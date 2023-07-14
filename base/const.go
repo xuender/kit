@@ -30,3 +30,6 @@ const (
 	FiveHundredTwelve
 	Kilo
 )
+
+// nolint: gochecknoglobals
+var None = struct{}{}

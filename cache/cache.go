@@ -4,6 +4,8 @@ import (
 	"runtime"
 	"sync"
 	"time"
+
+	"github.com/xuender/kit/base"
 )
 
 const (
@@ -36,7 +38,7 @@ func New[K comparable, V any](defaultExpiration, interval time.Duration) *Cache[
 }
 
 func stop[K comparable, V any](cache *Cache[K, V]) {
-	cache.done <- struct{}{}
+	cache.done <- base.None
 }
 
 // NewStringKey 新建字符串键值的缓存.
