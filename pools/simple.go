@@ -1,11 +1,5 @@
 package pools
 
-import (
-	"runtime"
-
-	"github.com/xuender/kit/logs"
-)
-
 type Simple[T any] struct{ *simpleData[T] }
 
 func NewSimple[T any](size int, yield func(T, int)) *Simple[T] {
@@ -16,8 +10,6 @@ func NewSimple[T any](size int, yield func(T, int)) *Simple[T] {
 		go data.run(i)
 	}
 
-	runtime.SetFinalizer(pool, simpleStop[T])
-
 	return pool
 }
 
@@ -26,10 +18,8 @@ type simpleData[T any] struct {
 	chans chan T
 }
 
-func simpleStop[T any](simple *Simple[T]) {
-	close(simple.chans)
-
-	logs.D.Println("simple stop")
+func (p *Simple[T]) Close() {
+	close(p.chans)
 }
 
 func (p *simpleData[T]) Post(elems ...T) {
