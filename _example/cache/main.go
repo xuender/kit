@@ -11,6 +11,7 @@ import (
 
 func test() {
 	cac := cache.New[int, int](time.Second, time.Second)
+	defer cac.Close()
 
 	for i := 0; i < 1000; i++ {
 		cac.Set(i, i)

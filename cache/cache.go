@@ -1,11 +1,10 @@
 package cache
 
 import (
-	"runtime"
 	"sync"
 	"time"
 
-	"github.com/xuender/kit/base"
+	"github.com/xuender/kit/logs"
 )
 
 const (
@@ -16,29 +15,31 @@ const (
 )
 
 // Cache 缓存.
-type Cache[K comparable, V any] struct{ *data[K, V] }
+type Cache[K comparable, V any] struct {
+	defaultExpiration time.Duration
+	items             map[K]item[V]
+	mutex             sync.RWMutex
+	done              chan struct{}
+}
 
 // New 新建缓存, 设置默认过期时间和过期检查周期.
 func New[K comparable, V any](defaultExpiration, interval time.Duration) *Cache[K, V] {
-	cacheData := &data[K, V]{
-		defaultExpiration: defaultExpiration,
-		items:             make(map[K]item[V]),
-		mutex:             sync.RWMutex{},
-		done:              make(chan struct{}),
+	ret := &Cache[K, V]{
+		defaultExpiration,
+		make(map[K]item[V]),
+		sync.RWMutex{},
+		make(chan struct{}),
 	}
-	newCache := &Cache[K, V]{cacheData}
 
 	if interval > 0 {
-		go cacheData.run(interval)
-
-		runtime.SetFinalizer(newCache, stop[K, V])
+		go ret.run(interval)
 	}
 
-	return newCache
+	return ret
 }
 
-func stop[K comparable, V any](cache *Cache[K, V]) {
-	cache.done <- base.None
+func (p *Cache[K, V]) Close() {
+	close(p.done)
 }
 
 // NewStringKey 新建字符串键值的缓存.
@@ -148,4 +149,33 @@ func (p *Cache[K, V]) Len() int {
 	p.mutex.RUnlock()
 
 	return count
+}
+
+func (p *Cache[K, V]) run(interval time.Duration) {
+	ticker := time.NewTicker(interval)
+
+	for {
+		select {
+		case <-ticker.C:
+			p.DeleteExpired()
+		case <-p.done:
+			logs.D.Println("cache finaliz:", &p)
+
+			return
+		}
+	}
+}
+
+func (p *Cache[K, V]) DeleteExpired() {
+	now := time.Now().UnixNano()
+
+	p.mutex.Lock()
+
+	for key, item := range p.items {
+		if item.ExpiredByTime(now) {
+			delete(p.items, key)
+		}
+	}
+
+	p.mutex.Unlock()
 }

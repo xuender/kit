@@ -1,7 +1,6 @@
 package cache_test
 
 import (
-	"runtime"
 	"testing"
 	"time"
 
@@ -14,6 +13,8 @@ func TestCache_Get(t *testing.T) {
 
 	ass := assert.New(t)
 	cac := cache.New[int, int](time.Millisecond*2, cache.NoExpiration)
+
+	defer cac.Close()
 
 	cac.Set(1, 1)
 
@@ -44,6 +45,8 @@ func TestCache_GetNoExtension(t *testing.T) {
 	ass := assert.New(t)
 	cac := cache.New[int, int](time.Millisecond, cache.NoExpiration)
 
+	defer cac.Close()
+
 	cac.Set(1, 1)
 	time.Sleep(time.Millisecond)
 
@@ -51,23 +54,13 @@ func TestCache_GetNoExtension(t *testing.T) {
 	ass.False(has)
 }
 
-func TestCache_close(t *testing.T) {
-	t.Parallel()
-
-	func() {
-		cac := cache.New[int, int](time.Microsecond, time.Microsecond)
-		cac.Set(1, 1)
-	}()
-	runtime.GC()
-	time.Sleep(time.Millisecond)
-	runtime.GC()
-}
-
 func TestCache_Iterate(t *testing.T) {
 	t.Parallel()
 
 	ass := assert.New(t)
 	cac := cache.New[int, int](cache.DefaultExpiration, cache.NoExpiration)
+
+	defer cac.Close()
 
 	for i := 0; i < 10; i++ {
 		cac.Set(i, i)
