@@ -1,10 +1,12 @@
 package pools
 
+// Simle 简单协程池.
 type Simple[T any] struct {
 	yield func(T, int)
-	chans chan T
+	queue chan T
 }
 
+// NewSimle 新建简单协程池.
 func NewSimple[T any](size int, yield func(T, int)) *Simple[T] {
 	pool := &Simple[T]{yield, make(chan T, size)}
 
@@ -15,18 +17,20 @@ func NewSimple[T any](size int, yield func(T, int)) *Simple[T] {
 	return pool
 }
 
-func (p *Simple[T]) Close() {
-	close(p.chans)
-}
-
+// Post 发送数据.
 func (p *Simple[T]) Post(elems ...T) {
 	for _, elem := range elems {
-		p.chans <- elem
+		p.queue <- elem
 	}
 }
 
+// Close 关闭协程池.
+func (p *Simple[T]) Close() {
+	close(p.queue)
+}
+
 func (p *Simple[T]) run(num int) {
-	for elem := range p.chans {
+	for elem := range p.queue {
 		p.yield(elem, num)
 	}
 }
