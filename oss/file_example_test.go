@@ -12,13 +12,13 @@ import (
 func ExampleAppendFile() {
 	file, err := oss.AppendFile(filepath.Join(os.TempDir(), "go-cli", "create.txt"))
 	fmt.Println(err)
-	fmt.Println(file.Write([]byte("123")))
+	fmt.Println(file.WriteString("123"))
 	file.Close()
 
 	file, err = oss.AppendFile(filepath.Join(os.TempDir(), "go-cli", "create.txt"))
 	fmt.Println(err)
 
-	_, _ = file.Write([]byte("aaaa"))
+	_, _ = file.WriteString("aaaa")
 	file.Close()
 
 	data, _ := os.ReadFile(file.Name())

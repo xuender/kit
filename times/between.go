@@ -34,7 +34,7 @@ func Sleep(stop int) time.Duration {
 	stopTime := time.Date(
 		now.Year(), now.Month(), now.Day(),
 		stop/base.Hundred, stop%base.Hundred, 0, 0,
-		time.Local,
+		now.Location(),
 	)
 
 	if stopTime.Before(now) {

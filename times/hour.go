@@ -13,7 +13,7 @@ func Hour(yield func()) func() bool {
 		now.Day(),
 		now.Hour(),
 		0, 0, 0,
-		time.Local,
+		now.Location(),
 	)
 
 	for next.Before(time.Now()) || next.Equal(time.Now()) {

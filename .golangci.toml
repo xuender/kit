@@ -1,5 +1,6 @@
 [linters]
 disable = [
+  "depguard",
   "dupword",
   "ireturn",
   "wastedassign",

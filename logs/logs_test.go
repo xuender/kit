@@ -29,7 +29,7 @@ func TestSetLevel(t *testing.T) {
 }
 
 // nolint: paralleltest
-func TestSetLogFile(t *testing.T) {
+func TestSetLogFile(_ *testing.T) {
 	_ = logs.SetLogFile(os.TempDir(), "test")
 	defer logs.Close()
 
@@ -45,7 +45,7 @@ func TestSetLogFileError(t *testing.T) {
 }
 
 // nolint: paralleltest
-func TestSetTrace(t *testing.T) {
+func TestSetTrace(_ *testing.T) {
 	_ = logs.SetTraceFile(os.TempDir(), "test")
 	defer logs.Close()
 
@@ -61,7 +61,7 @@ func TestSetTraceFile(t *testing.T) {
 }
 
 // nolint: paralleltest
-func TestSetDebug(t *testing.T) {
+func TestSetDebug(_ *testing.T) {
 	_ = logs.SetDebugFile(os.TempDir(), "test")
 	defer logs.Close()
 
@@ -77,7 +77,7 @@ func TestSetDebugFile(t *testing.T) {
 }
 
 // nolint: paralleltest
-func TestSetInfo(t *testing.T) {
+func TestSetInfo(_ *testing.T) {
 	_ = logs.SetInfoFile(os.TempDir(), "test")
 	defer logs.Close()
 
@@ -93,7 +93,7 @@ func TestSetInfoFile(t *testing.T) {
 }
 
 // nolint: paralleltest
-func TestSetWarn(t *testing.T) {
+func TestSetWarn(_ *testing.T) {
 	_ = logs.SetWarnFile(os.TempDir(), "test")
 	defer logs.Close()
 
@@ -109,7 +109,7 @@ func TestSetWarnFile(t *testing.T) {
 }
 
 // nolint: paralleltest
-func TestSetError(t *testing.T) {
+func TestSetError(_ *testing.T) {
 	_ = logs.SetErrorFile(os.TempDir(), "test")
 	defer logs.Close()
 
@@ -126,7 +126,7 @@ func TestSetErrorFile(t *testing.T) {
 }
 
 // nolint: paralleltest
-func TestRotating(t *testing.T) {
+func TestRotating(_ *testing.T) {
 	logs.Rotating(os.TempDir(), "test.log", func(_, _ string) error {
 		return os.ErrClosed
 	})()

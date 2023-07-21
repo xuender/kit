@@ -39,5 +39,5 @@ func CancelFunc(cancel context.CancelFunc) func() error {
 }
 
 func CancelContext(ctx context.Context) (context.Context, context.CancelFunc) {
-	return signal.NotifyContext(context.Background(), _cancelSignals...)
+	return signal.NotifyContext(ctx, _cancelSignals...)
 }
