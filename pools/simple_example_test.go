@@ -23,3 +23,20 @@ func ExampleSimple() {
 	// a
 	// a
 }
+
+func ExampleSimple_Wait() {
+	pool := pools.NewSimple(2, func(_, _ int) {
+		fmt.Println("a")
+	})
+	defer pool.Close()
+
+	pool.Post(1)
+	pool.Post(2, 3)
+	pool.Wait()
+	time.Sleep(time.Millisecond)
+
+	// Output:
+	// a
+	// a
+	// a
+}
