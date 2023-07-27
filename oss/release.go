@@ -7,7 +7,7 @@ import (
 
 // IsRelease 是否是发布模式.
 func IsRelease() bool {
-	if os.Getenv("GIN_MODE") == "release" {
+	if Version != "" {
 		return true
 	}
 
