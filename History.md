@@ -1,4 +1,12 @@
 
+1.0.25 / 2023-08-01
+==================
+
+* feat: use sync.Pool
+* fix: Version
+* feat: GetBuildTime
+* feat: Versin, BuildTime
+
 1.0.24 / 2023-07-27
 ==================
 
