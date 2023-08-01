@@ -6,6 +6,7 @@ import "sync"
 type Pool[I, O any] struct {
 	queue chan *job[I, O]
 	yield func(I, int) O
+	jobs  *SyncPool[*job[I, O]]
 }
 
 // New 新建 Goroutine 池.
@@ -13,6 +14,14 @@ func New[I, O any](size int, yield func(I, int) O) *Pool[I, O] {
 	pool := &Pool[I, O]{
 		make(chan *job[I, O], size),
 		yield,
+		NewSyncPool(
+			func() *job[I, O] { return &job[I, O]{} },
+			func(j *job[I, O]) {
+				j.callback = nil
+				j.wgp = nil
+				j.index = 0
+			},
+		),
 	}
 
 	for num := 0; num < size; num++ {
@@ -24,11 +33,15 @@ func New[I, O any](size int, yield func(I, int) O) *Pool[I, O] {
 
 // Run 执行单个任务.
 func (p *Pool[I, O]) Run(input I) O {
-	jobs := &job[I, O]{input: input, callback: make(chan O)}
+	job := p.jobs.Get()
+	defer p.jobs.Put(job)
 
-	p.queue <- jobs
+	job.callback = make(chan O)
+	job.input = input
 
-	return <-jobs.callback
+	p.queue <- job
+
+	return <-job.callback
 }
 
 // Post 批量任务处理.
@@ -39,21 +52,24 @@ func (p *Pool[I, O]) Post(inputs []I) []O {
 	wgp.Add(len(inputs))
 
 	for index, input := range inputs {
-		jobs[index] = &job[I, O]{
-			wgp:   &wgp,
-			input: input,
-			index: index,
-		}
+		job := p.jobs.Get()
 
-		p.queue <- jobs[index]
+		job.wgp = &wgp
+		job.index = index
+		job.input = input
+		jobs[index] = job
+
+		p.queue <- job
 	}
 
 	wgp.Wait()
 
 	res := make([]O, len(inputs))
 
-	for _, elem := range jobs {
-		res[elem.index] = elem.output
+	for _, job := range jobs {
+		res[job.index] = job.output
+
+		p.jobs.Put(job)
 	}
 
 	return res

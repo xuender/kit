@@ -32,7 +32,7 @@ func TestRemove2(t *testing.T) {
 	t.Parallel()
 
 	ass := assert.New(t)
-	worker := times.NewIDWorkerByKey("b")
+	worker := times.NewIDWorkerByKey("bb")
 	dir := filepath.Join(os.TempDir(), worker.String())
 	path := filepath.Join(dir, worker.String(), worker.String(), worker.String())
 
