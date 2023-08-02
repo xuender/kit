@@ -1,14 +1,14 @@
-package pools_test
+package los_test
 
 import (
 	"fmt"
 
-	"github.com/xuender/kit/pools"
+	"github.com/xuender/kit/los"
 )
 
 // ExampleArrange is an example function.
 func ExampleArrange() {
-	fmt.Println(pools.Arrange(
+	fmt.Println(los.Arrange(
 		[]int{1, 1, 2, 2, 2, 3},
 		func(num int) int { return num }),
 	)

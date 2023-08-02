@@ -1,9 +1,8 @@
-package pools
+package los
 
 import (
 	"sort"
 
-	"github.com/xuender/kit/los"
 	"golang.org/x/exp/constraints"
 )
 
@@ -31,7 +30,7 @@ func Arrange[T any, O constraints.Ordered](elems []T, getKey func(T) O) []T {
 		lenj := len(groups[keys[j]])
 
 		if leni == lenj {
-			return los.SampleBool()
+			return SampleBool()
 		}
 
 		return lenj < leni
