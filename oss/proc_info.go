@@ -27,7 +27,7 @@ type ProcInfo struct {
 	RunTime   time.Duration `json:"runTime"`
 }
 
-func NewBuildInfo() *ProcInfo {
+func NewProcInfo() *ProcInfo {
 	path := os.Args[0]
 	name := filepath.Base(path)
 	dir := filepath.Dir(path)
