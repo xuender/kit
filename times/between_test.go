@@ -70,6 +70,7 @@ func add(ctx context.Context) {
 
 // nolint: paralleltest
 func TestBetween(t *testing.T) {
+	// defer goleak.VerifyNone(t)
 	ass := assert.New(t)
 	now, _ := time.ParseInLocation("2006-01-02 15:04:05", "2023-01-01 11:15:01", time.Local)
 	patches1 := gomonkey.ApplyFuncReturn(time.Now, now)

@@ -1,12 +1,12 @@
 package times
 
 import (
-	"hash/fnv"
 	"strconv"
 	"sync"
 	"time"
 
 	"github.com/xuender/kit/base"
+	"github.com/xuender/kit/hashs"
 )
 
 const (
@@ -54,10 +54,7 @@ func NewIDWorkerByMachine(machine, machineLength int64) *IDWorker {
 
 // NewIDWorkerByKey 根据字符串创建 IDWorker.
 func NewIDWorkerByKey(key string) *IDWorker {
-	hash := fnv.New64()
-	hash.Write([]byte(key))
-
-	return NewIDWorkerByMachine(int64(hash.Sum64()), _seqDefault)
+	return NewIDWorkerByMachine(int64(hashs.SipHash64([]byte(key))), _seqDefault)
 }
 
 // NewIDWorker 创建非分布式的 IDWorker.

@@ -5,7 +5,12 @@ import (
 	"time"
 
 	"github.com/xuender/kit/pools"
+	"go.uber.org/goleak"
 )
+
+func TestMain(m *testing.M) {
+	goleak.VerifyTestMain(m)
+}
 
 func TestNew(t *testing.T) {
 	t.Parallel()

@@ -6,7 +6,6 @@ import (
 	"github.com/xuender/kit/times"
 )
 
-// ExampleNewIDWorkerByMachine is an example function.
 func ExampleNewIDWorkerByMachine() {
 	worker := times.NewIDWorkerByMachine(1, 19)
 	size := 10000
@@ -22,7 +21,6 @@ func ExampleNewIDWorkerByMachine() {
 	// 10000
 }
 
-// ExampleNewIDWorker is an example function.
 func ExampleNewIDWorker() {
 	worker := times.NewIDWorker()
 	size := 10000
@@ -38,7 +36,6 @@ func ExampleNewIDWorker() {
 	// 10000
 }
 
-// ExampleNewIDWorkerByKey is an example function.
 func ExampleNewIDWorkerByKey() {
 	worker1 := times.NewIDWorkerByKey("a")
 	worker2 := times.NewIDWorkerByKey("b")
@@ -49,7 +46,6 @@ func ExampleNewIDWorkerByKey() {
 	// true
 }
 
-// ExampleIDWorker_IDs is an example function.
 func ExampleIDWorker_IDs() {
 	worker := times.NewIDWorker()
 	size := 10000
