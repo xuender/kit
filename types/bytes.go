@@ -23,7 +23,7 @@ func Number2Bytes[T constraints.Integer | constraints.Float](num T) []byte {
 		}
 	}
 
-	return []byte{}
+	return nil
 }
 
 func Bytes2Number[T constraints.Integer | constraints.Float](data []byte) T {

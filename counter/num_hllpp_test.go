@@ -51,6 +51,6 @@ func TestNumber2Bytes(t *testing.T) {
 	assert.EqualValues(t, []byte{0x1}, counter.Number2Bytes(1))
 	assert.EqualValues(t, []byte{0x40, 0x42, 0xf}, counter.Number2Bytes(1000000))
 	assert.EqualValues(t, []byte{0x41, 0x42, 0xf}, counter.Number2Bytes(1000001))
-	assert.EqualValues(t, []byte{}, counter.Number2Bytes(0))
+	assert.EqualValues(t, []byte(nil), counter.Number2Bytes(0))
 	assert.EqualValues(t, []byte{0x1f, 0x85, 0xeb, 0x51, 0xb8, 0x1e, 0x9, 0x40}, counter.Number2Bytes(3.14))
 }

@@ -13,7 +13,7 @@ func TestNumber2Bytes(t *testing.T) {
 	assert.Equal(t, []byte{0x1}, types.Number2Bytes(1))
 	assert.Equal(t, []byte{0x40, 0x42, 0xf}, types.Number2Bytes(1000000))
 	assert.Equal(t, []byte{0x41, 0x42, 0xf}, types.Number2Bytes(1000001))
-	assert.Equal(t, []byte{}, types.Number2Bytes(0))
+	assert.Equal(t, []byte(nil), types.Number2Bytes(0))
 	assert.Equal(t, []byte{0x1f, 0x85, 0xeb, 0x51, 0xb8, 0x1e, 0x9, 0x40}, types.Number2Bytes(3.14))
 }
 

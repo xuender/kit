@@ -56,5 +56,5 @@ func Number2Bytes[T constraints.Integer | constraints.Float](num T) []byte {
 		}
 	}
 
-	return []byte{}
+	return nil
 }
