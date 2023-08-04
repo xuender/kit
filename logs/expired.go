@@ -20,9 +20,11 @@ func Expired(path, name string, reserved int) error {
 		return err
 	}
 	// 历史日志
-	ext := filepath.Ext(name)
-	olds := []string{}
-	reg := regexp.MustCompile(name[:len(name)-len(ext)] + `-\d{8}` + ext)
+	var (
+		ext  = filepath.Ext(name)
+		olds = []string{}
+		reg  = regexp.MustCompile(name[:len(name)-len(ext)] + `-\d{8}` + ext)
+	)
 
 	for _, entry := range entries {
 		if reg.MatchString(entry.Name()) {

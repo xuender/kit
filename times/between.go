@@ -47,13 +47,15 @@ func Sleep(stop int) time.Duration {
 // InScope 返回是否在时间范围内.
 // nolint: cyclop
 func InScope(start, stop int) bool {
-	now := time.Now()
-	hour := now.Hour()
-	minute := now.Minute()
-	startH := start / base.Hundred
-	stopH := stop / base.Hundred
-	startM := start % base.Hundred
-	stopM := stop % base.Hundred
+	var (
+		now    = time.Now()
+		hour   = now.Hour()
+		minute = now.Minute()
+		startH = start / base.Hundred
+		stopH  = stop / base.Hundred
+		startM = start % base.Hundred
+		stopM  = stop % base.Hundred
+	)
 
 	if startH > stopH {
 		if hour < startH && hour > stopH {

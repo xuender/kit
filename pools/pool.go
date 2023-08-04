@@ -46,8 +46,10 @@ func (p *Pool[I, O]) Run(input I) O {
 
 // Post 批量任务处理.
 func (p *Pool[I, O]) Post(inputs []I) []O {
-	jobs := make([]*job[I, O], len(inputs))
-	wgp := sync.WaitGroup{}
+	var (
+		jobs = make([]*job[I, O], len(inputs))
+		wgp  = sync.WaitGroup{}
+	)
 
 	wgp.Add(len(inputs))
 

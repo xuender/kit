@@ -28,9 +28,11 @@ type ProcInfo struct {
 }
 
 func NewProcInfo() *ProcInfo {
-	path := os.Args[0]
-	name := filepath.Base(path)
-	dir := filepath.Dir(path)
+	var (
+		path = os.Args[0]
+		name = filepath.Base(path)
+		dir  = filepath.Dir(path)
+	)
 
 	return &ProcInfo{
 		name,

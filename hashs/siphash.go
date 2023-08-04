@@ -38,8 +38,10 @@ func SipHashNumber(data []byte) uint64 {
 
 // SipHashHex 字符串.
 func SipHashHex(data []byte) string {
-	sum := siphash.Hash(key0, key1, data)
-	b8 := make([]byte, base.Eight)
+	var (
+		sum = siphash.Hash(key0, key1, data)
+		b8  = make([]byte, base.Eight)
+	)
 
 	binary.BigEndian.PutUint64(b8, sum)
 

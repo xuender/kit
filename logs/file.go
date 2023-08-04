@@ -51,11 +51,12 @@ func File(path, name string) (io.Writer, error) {
 
 	_ = os.MkdirAll(path, oss.DefaultDirFileMod)
 
-	ext := filepath.Ext(name)
-	suffix := time.Now().Format("06010215")
-	log := fmt.Sprintf("%s-%s%s", name[:len(name)-len(ext)], suffix, ext)
-
-	file, _ := oss.Abs(filepath.Join(path, log))
+	var (
+		ext     = filepath.Ext(name)
+		suffix  = time.Now().Format("06010215")
+		log     = fmt.Sprintf("%s-%s%s", name[:len(name)-len(ext)], suffix, ext)
+		file, _ = oss.Abs(filepath.Join(path, log))
+	)
 
 	fil, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, oss.DefaultFileMode)
 	if err != nil {
