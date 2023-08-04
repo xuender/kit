@@ -1,6 +1,7 @@
 package oss
 
 import (
+	"io"
 	"os"
 	"path/filepath"
 
@@ -25,5 +26,5 @@ func AppendFile(filename string) (*os.File, error) {
 		return nil, err
 	}
 
-	return file, base.Result2(file.Seek(0, os.SEEK_END))
+	return file, base.Result2(file.Seek(0, io.SeekEnd))
 }
