@@ -1,4 +1,13 @@
 
+1.0.32 / 2023-08-07
+===================
+
+* refactor: rename hash to hash, sets to set, sorts to ordered, tags to tag
+* chore: lint add staticcheck
+* refactor: empty slices
+* refactor: 变量声明分组
+* test: add goleak
+
 1.0.31 / 2023-08-04
 ===================
 
