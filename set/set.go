@@ -1,4 +1,4 @@
-package sets
+package set
 
 import "github.com/xuender/kit/base"
 
@@ -22,8 +22,8 @@ func (p Set[V]) Add(elems ...V) Set[V] {
 }
 
 // AddSet 增加集合.
-func (p Set[V]) AddSet(sets ...Set[V]) Set[V] {
-	for _, set := range sets {
+func (p Set[V]) AddSet(set ...Set[V]) Set[V] {
+	for _, set := range set {
 		for elem := range set {
 			p[elem] = base.None
 		}

@@ -1,17 +1,17 @@
-package sets_test
+package set_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/xuender/kit/sets"
+	"github.com/xuender/kit/set"
 )
 
 func TestSync_Iterate(t *testing.T) {
 	t.Parallel()
 
 	ass := assert.New(t)
-	set := sets.NewSync(1, 2, 3, 4, 5)
+	set := set.NewSync(1, 2, 3, 4, 5)
 
 	ass.Error(set.Iterate(func(i int) error {
 		if i > 4 {

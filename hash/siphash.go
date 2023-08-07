@@ -1,4 +1,4 @@
-package hashs
+package hash
 
 import (
 	"encoding/binary"

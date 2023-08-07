@@ -1,23 +1,22 @@
-package sorts_test
+package ordered_test
 
 import (
 	"fmt"
 
-	"github.com/xuender/kit/sorts"
+	"github.com/xuender/kit/ordered"
 )
 
-// ExampleOrdered is an example function.
-func ExampleOrdered() {
+func ExampleSort() {
 	ints := []int{2, 1, 5, 4, 3}
-	sorts.Ordered(ints)
+	ordered.Sort(ints)
 	fmt.Println(ints)
 
 	uint32s := []uint32{2, 1, 5, 4, 3}
-	sorts.Ordered(uint32s)
+	ordered.Sort(uint32s)
 	fmt.Println(uint32s)
 
 	floats := []float32{2.2, 1.1, 5.5, 4.4, 3.3}
-	sorts.Ordered(floats)
+	ordered.Sort(floats)
 	fmt.Println(floats)
 	// Output:
 	// [1 2 3 4 5]

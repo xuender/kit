@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/xuender/kit/base"
-	"github.com/xuender/kit/hashs"
+	"github.com/xuender/kit/hash"
 )
 
 const (
@@ -54,7 +54,7 @@ func NewIDWorkerByMachine(machine, machineLength int64) *IDWorker {
 
 // NewIDWorkerByKey 根据字符串创建 IDWorker.
 func NewIDWorkerByKey(key string) *IDWorker {
-	return NewIDWorkerByMachine(int64(hashs.SipHash64([]byte(key))), _seqDefault)
+	return NewIDWorkerByMachine(int64(hash.SipHash64([]byte(key))), _seqDefault)
 }
 
 // NewIDWorker 创建非分布式的 IDWorker.

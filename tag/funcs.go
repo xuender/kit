@@ -1,4 +1,4 @@
-package tags
+package tag
 
 import "golang.org/x/exp/constraints"
 
