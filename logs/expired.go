@@ -39,9 +39,7 @@ func Expired(path, name string, reserved int) error {
 	}
 
 	for _, delName := range olds[:num] {
-		if err := os.Remove(filepath.Join(path, delName)); err != nil {
-			return err
-		}
+		_ = os.Remove(filepath.Join(path, delName))
 	}
 
 	return nil

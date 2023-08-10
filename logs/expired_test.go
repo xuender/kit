@@ -35,7 +35,7 @@ func TestExpired(t *testing.T) {
 	patches := gomonkey.ApplyFuncReturn(os.ReadDir, entries, nil)
 	defer patches.Reset()
 
-	ass.NotNil(logs.Expired(os.TempDir(), "test.log", 3))
+	ass.Nil(logs.Expired(os.TempDir(), "test.log", 3))
 
 	patches2 := gomonkey.ApplyFuncReturn(os.Remove, nil)
 	defer patches2.Reset()
