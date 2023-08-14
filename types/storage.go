@@ -11,7 +11,7 @@ const _units = "BKMGTP"
 func Storage(size uint64) string {
 	var (
 		tmp  uint64
-		unit = 0
+		unit int
 	)
 
 	for {
