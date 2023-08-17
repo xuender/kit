@@ -20,3 +20,4 @@ go.work
 /.vscode
 cover.out
 cover.html
+cfg/test.toml
