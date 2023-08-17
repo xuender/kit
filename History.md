@@ -1,4 +1,12 @@
 
+1.0.33 / 2023-08-17
+===================
+
+* feat: add cfg package
+* feat: add cfg package
+* doc: badge
+* feat: 存储显示
+
 1.0.32 / 2023-08-07
 ===================
 
