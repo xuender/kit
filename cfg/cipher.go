@@ -55,9 +55,13 @@ func IsEncrypt(str string) bool {
 
 // Parse 解析密文, 返回数据和加密算法.
 func Parse(str string) ([]byte, Cipher, error) {
-	var cipher Cipher
+	var (
+		cipher      Cipher
+		isSecret    = _regSecret.MatchString(str)
+		isPlaintext = _regPlaintext.MatchString(str)
+	)
 
-	if !_regKey.MatchString(str) {
+	if !isSecret && !isPlaintext {
 		return nil, cipher, ErrNoCipher
 	}
 
@@ -68,8 +72,7 @@ func Parse(str string) ([]byte, Cipher, error) {
 	}
 
 	text := str[4 : len(str)-1]
-
-	if _regSecret.MatchString(str) {
+	if isSecret {
 		src, err := base64.StdEncoding.DecodeString(text)
 
 		return src, cipher, err

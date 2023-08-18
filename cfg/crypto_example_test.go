@@ -34,10 +34,12 @@ func ExampleDecrypt() {
 
 	str := cfg.EncryptByCipher([]byte("123"), "", cfg.DES)
 	fmt.Println(cfg.Decrypt(str, ""))
-	fmt.Println(cfg.Decrypt(str, "err"))
+
+	_, err := cfg.Decrypt(str, "err")
+	fmt.Println(err)
 
 	// Output:
 	// aaa <nil>
 	// 123 <nil>
-	//  key error
+	// password error
 }

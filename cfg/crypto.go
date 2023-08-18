@@ -49,7 +49,16 @@ func Decrypt(src, key string) (string, error) {
 		ret = append(ret, tmp...)
 	}
 
-	return UnPadding(ret)
+	text, err := UnPadding(ret)
+	if err != nil {
+		return "", err
+	}
+
+	if _regCheck.MatchString(text) {
+		return text, err
+	}
+
+	return "", ErrKey
 }
 
 func Padding(cipherText []byte, blockSize int) []byte {

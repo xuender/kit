@@ -14,6 +14,19 @@ func TestDecrypt(t *testing.T) {
 	}
 }
 
+func TestDecryptWith(t *testing.T) {
+	t.Parallel()
+
+	for i := 0; i < 10000; i++ {
+		str := cfg.EncryptByCipher([]byte("阿弥陀佛"), "", cfg.DES)
+
+		txt, err := cfg.Decrypt(str, "err")
+		if err == nil {
+			t.Error("error is nil", txt)
+		}
+	}
+}
+
 func TestPadding(t *testing.T) {
 	t.Parallel()
 
