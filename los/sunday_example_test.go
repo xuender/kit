@@ -7,10 +7,9 @@ import (
 )
 
 func ExampleSunday_IndexOf() {
-	slice1 := []rune("abcaabcab")
-	slice2 := []rune("abcab")
-	sunday := los.NewSunday(slice2)
-	fmt.Println(sunday.IndexOf(slice1))
+	sub := []rune("abcab")
+	sunday := los.NewSunday(sub)
+	fmt.Println(sunday.IndexOf([]rune("abcaabcab")))
 
 	// Output:
 	// 4

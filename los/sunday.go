@@ -29,6 +29,13 @@ func NewSunday[C comparable](sub []C) *Sunday[C] {
 func (p Sunday[C]) IndexOf(slice []C) int {
 	length := len(slice)
 
+	switch {
+	case p.subLen == 0:
+		return 0
+	case p.subLen > length:
+		return -1
+	}
+
 	for index := 0; index <= length-p.subLen; {
 		for subIndex := 0; p.sub[subIndex] == slice[index+subIndex]; {
 			subIndex++
@@ -36,6 +43,10 @@ func (p Sunday[C]) IndexOf(slice []C) int {
 			if subIndex >= p.subLen {
 				return index
 			}
+		}
+
+		if index == length-p.subLen {
+			return -1
 		}
 
 		if shift, has := p.shift[slice[index+p.subLen]]; has {
