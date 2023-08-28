@@ -61,7 +61,7 @@ RunTime: %s
 		p.Dir,
 		p.Version,
 		p.BuildTime,
-		p.StartTime,
-		times.Duration(p.RunTime),
+		p.StartTime.Format("2006-01-02 15:04:05"),
+		times.Duration(p.RunTime).Short(),
 	)
 }
