@@ -54,7 +54,7 @@ func Decrypt(src, key string) (string, error) {
 		return "", err
 	}
 
-	if _regCheck.MatchString(text) {
+	if _checkRegex.MatchString(text) {
 		return text, err
 	}
 

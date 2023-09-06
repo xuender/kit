@@ -55,7 +55,7 @@ func (p *Cfg) String(path string) (string, error) {
 
 // Read 秘文读取成明文.
 func (p *Cfg) Read(data []byte) ([]byte, error) {
-	for _, src := range _regSecret.FindAll(data, -1) {
+	for _, src := range _secretRegex.FindAll(data, -1) {
 		value, err := Decrypt(string(src), p.key)
 		if err != nil {
 			return nil, err
@@ -64,7 +64,7 @@ func (p *Cfg) Read(data []byte) ([]byte, error) {
 		data = bytes.ReplaceAll(data, src, []byte(value))
 	}
 
-	for _, src := range _regPlaintext.FindAll(data, -1) {
+	for _, src := range _plaintextRegex.FindAll(data, -1) {
 		value := src[4 : len(src)-1]
 		data = bytes.ReplaceAll(data, src, value)
 	}
@@ -74,7 +74,7 @@ func (p *Cfg) Read(data []byte) ([]byte, error) {
 
 // Write 明文写入成秘文.
 func (p *Cfg) Write(data []byte) []byte {
-	platintexts := _regPlaintext.FindAll(data, -1)
+	platintexts := _plaintextRegex.FindAll(data, -1)
 	if len(platintexts) == 0 {
 		return nil
 	}

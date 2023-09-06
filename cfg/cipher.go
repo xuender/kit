@@ -57,8 +57,8 @@ func IsEncrypt(str string) bool {
 func Parse(str string) ([]byte, Cipher, error) {
 	var (
 		cipher      Cipher
-		isSecret    = _regSecret.MatchString(str)
-		isPlaintext = _regPlaintext.MatchString(str)
+		isSecret    = _secretRegex.MatchString(str)
+		isPlaintext = _plaintextRegex.MatchString(str)
 	)
 
 	if !isSecret && !isPlaintext {
