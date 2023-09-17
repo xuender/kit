@@ -19,3 +19,11 @@ func FormatDate(input time.Time) string {
 func FormatTime(input time.Time) string {
 	return input.Format(_time)
 }
+
+func Format2Int(input time.Time) int {
+	return input.Year()*10000 + int(input.Month())*100 + input.Day()
+}
+
+func Now2Int() int {
+	return Format2Int(time.Now())
+}
