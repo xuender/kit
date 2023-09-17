@@ -1,4 +1,13 @@
 
+1.0.36 / 2023-09-17
+===================
+
+* feat: add times.Format2Int, times.Now2Int
+* refactor: rename regex
+* fix: make watch-test
+* feat: oss.ProcInfo
+* test: map vs ordered
+
 1.0.35 / 2023-08-22
 ===================
 
