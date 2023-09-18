@@ -1,6 +1,7 @@
 package times
 
 import (
+	"encoding/binary"
 	"strconv"
 	"time"
 )
@@ -44,4 +45,13 @@ func (p IntDay) Month() int {
 
 func (p IntDay) Year() int {
 	return int(p) / _year
+}
+
+func (p IntDay) Bytes() []byte {
+	const length = 4
+
+	data := make([]byte, length)
+	binary.BigEndian.PutUint32(data, uint32(p))
+
+	return data
 }
