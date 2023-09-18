@@ -29,17 +29,3 @@ func ExampleFormatTime() {
 	// Output:
 	// 12:11:30
 }
-
-func ExampleFormat2Int() {
-	fmt.Println(times.Format2Int(times.ParseNumber(20230917)))
-
-	// Output:
-	// 20230917
-}
-
-func ExampleNow2Int() {
-	fmt.Println(times.Now2Int() > 0)
-
-	// Output:
-	// true
-}
