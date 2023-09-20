@@ -2,17 +2,18 @@ package times
 
 import (
 	"encoding/binary"
+	"encoding/json"
 	"strconv"
 	"time"
 )
 
 const (
 	_intDayFormat = "20060102"
-	_year         = 10000
+	_year         = 10_000
 	_month        = 100
 )
 
-type IntDay int
+type IntDay int32
 
 func Time2IntDay(input time.Time) IntDay {
 	return IntDay(input.Year()*_year + int(input.Month())*_month + input.Day())
@@ -47,11 +48,34 @@ func (p IntDay) Year() int {
 	return int(p) / _year
 }
 
-func (p IntDay) Bytes() []byte {
+func (p IntDay) Marshal() []byte {
 	const length = 4
 
 	data := make([]byte, length)
 	binary.BigEndian.PutUint32(data, uint32(p))
 
 	return data
+}
+
+func (p IntDay) MarshalJSON() ([]byte, error) {
+	return json.Marshal(int32(p))
+}
+
+func (p *IntDay) UnmarshalJSON(data []byte) error {
+	var day int32
+
+	err := json.Unmarshal(data, &day)
+	*p = IntDay(day)
+
+	return err
+}
+
+func (p *IntDay) Unmarshal(data []byte) error {
+	if length := 4; len(data) < length {
+		return ErrParseError
+	}
+
+	*p = IntDay(binary.BigEndian.Uint32(data))
+
+	return nil
 }
