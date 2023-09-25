@@ -11,7 +11,6 @@ var (
 )
 
 const (
-	_t32 = 4294967296
 	_max = 123
 )
 
@@ -30,30 +29,20 @@ func NumToB64[N constraints.Integer | constraints.Float](num N) string {
 	}
 
 	var (
-		n64   = int64(num)
-		low   = n64 >> 0
-		hig   = (n64 / _t32) >> 0
-		right = []byte{}
-		left  = []byte{}
+		n64 = int64(num)
+		ret = []byte{}
 	)
 
-	for hig > 0 {
-		right = append([]byte{_alphabet[0x3f&low]}, right...)
-		low >>= 6
-		low |= ((0x3f & hig) << 26)
-		hig >>= 6
-	}
-
 	for {
-		left = append([]byte{_alphabet[0x3f&low]}, left...)
+		ret = append([]byte{_alphabet[0x3f&n64]}, ret...)
 
-		low >>= 6
-		if low <= 0 {
+		n64 >>= 6
+		if n64 <= 0 {
 			break
 		}
 	}
 
-	return string(left) + string(right)
+	return string(ret)
 }
 
 // B64ToNum Base64 转换成数值.
