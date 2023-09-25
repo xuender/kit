@@ -77,10 +77,10 @@ func (p *Cache[K, V]) GetNoExtension(key K) (V, bool) {
 	var zero V
 
 	p.mutex.RLock()
-	item, found := p.items[key]
+	item, has := p.items[key]
 	p.mutex.RUnlock()
 
-	if !found {
+	if !has {
 		return zero, false
 	}
 
@@ -91,15 +91,27 @@ func (p *Cache[K, V]) GetNoExtension(key K) (V, bool) {
 	return item.value, true
 }
 
+func (p *Cache[K, V]) Has(key K) bool {
+	if len(p.items) == 0 {
+		return false
+	}
+
+	p.mutex.RLock()
+	item, has := p.items[key]
+	p.mutex.RUnlock()
+
+	return has && item.Expired()
+}
+
 // Get 获取元素并刷新.
 func (p *Cache[K, V]) Get(key K) (V, bool) {
 	var zero V
 
 	p.mutex.RLock()
-	item, found := p.items[key]
+	item, has := p.items[key]
 	p.mutex.RUnlock()
 
-	if !found {
+	if !has {
 		return zero, false
 	}
 
