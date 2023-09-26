@@ -100,7 +100,7 @@ func (p *Cache[K, V]) Has(key K) bool {
 	item, has := p.items[key]
 	p.mutex.RUnlock()
 
-	return has && item.Expired()
+	return has && !item.Expired()
 }
 
 // Get 获取元素并刷新.
