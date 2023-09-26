@@ -1,4 +1,13 @@
 
+1.0.39 / 2023-09-26
+===================
+
+* feat: add log.Must
+* feat: add cache.Has
+* refactor: NumToB64
+* feat: base64
+* feat: IntDay to json
+
 1.0.38 / 2023-09-18
 ===================
 
