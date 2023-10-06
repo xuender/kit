@@ -25,12 +25,8 @@ func TestMust0(t *testing.T) {
 	ass := assert.New(t)
 
 	los.Must0(nil)
-	los.Must0(true)
 	ass.Panics(func() {
 		los.Must0(os.ErrClosed)
-	})
-	ass.Panics(func() {
-		los.Must0(false)
 	})
 }
 
@@ -85,7 +81,7 @@ func TestMust5(t *testing.T) {
 
 	los.Must5(true, 1, "a", 1, 3.3, nil)
 	ass.Panics(func() {
-		los.Must5(true, 1, "a", 1, 4, 5, os.ErrClosed)
+		los.Must5(true, 1, "a", 1, 4, os.ErrClosed)
 	})
 }
 
@@ -96,6 +92,6 @@ func TestMust6(t *testing.T) {
 
 	los.Must6('a', true, 1, "a", 1, 3.3, nil)
 	ass.Panics(func() {
-		los.Must6('a', true, 1, "a", 1, 4, 5, os.ErrClosed)
+		los.Must6('a', true, 1, "a", 1, 4, os.ErrClosed)
 	})
 }
