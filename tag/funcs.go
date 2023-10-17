@@ -2,11 +2,32 @@ package tag
 
 import "golang.org/x/exp/constraints"
 
+// Get 获取标签.
+func Get[E constraints.Integer](tag E) []E {
+	ret := []E{}
+
+	for num := E(0); ; num++ {
+		val := E(1 << num)
+		if val > tag {
+			return ret
+		}
+
+		if tag&val > 0 {
+			ret = append(ret, num)
+		}
+	}
+}
+
+// Tag 合并成标签.
+func Tag[E constraints.Integer](elems ...E) E {
+	return Add(0, elems...)
+}
+
 // Add 增加.
 func Add[E constraints.Integer](tag E, elems ...E) E {
 	for _, elem := range elems {
 		// OR
-		tag |= elem
+		tag |= (1 << elem)
 	}
 
 	return tag
@@ -16,7 +37,7 @@ func Add[E constraints.Integer](tag E, elems ...E) E {
 func Del[E constraints.Integer](tag E, elems ...E) E {
 	for _, elem := range elems {
 		// AND NOT
-		tag &^= elem
+		tag &^= (1 << elem)
 	}
 
 	return tag
@@ -26,7 +47,7 @@ func Del[E constraints.Integer](tag E, elems ...E) E {
 func Has[E constraints.Integer](tag E, elems ...E) bool {
 	for _, elem := range elems {
 		// AND
-		if tag&elem > 0 {
+		if tag&(1<<elem) > 0 {
 			return true
 		}
 	}

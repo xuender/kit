@@ -7,9 +7,20 @@ import (
 	"github.com/xuender/kit/tag"
 )
 
+// ExampleGet 获取例子.
+func ExampleGet() {
+	num := tag.Tag(1, 2)
+	nums := tag.Get(num)
+
+	fmt.Println(nums)
+
+	// Output:
+	// [1 2]
+}
+
 // ExampleAdd 增加例子.
 func ExampleAdd() {
-	num := tag.Add(1<<3, 1<<4)
+	num := tag.Add(0, 3, 4)
 
 	fmt.Println(num)
 
@@ -19,8 +30,7 @@ func ExampleAdd() {
 
 // ExampleDel 删除例子.
 func ExampleDel() {
-	num := tag.Add(1<<3, 1<<4)
-	num = tag.Del(num, 1<<3, 1<<5)
+	num := tag.Del(tag.Tag(3, 4), 3, 5)
 
 	fmt.Println(num)
 
@@ -30,15 +40,12 @@ func ExampleDel() {
 
 // ExampleHas 包含例子.
 func ExampleHas() {
-	num := tag.Add(1<<3, 1<<4)
-	query1 := tag.Add(1 << 3)
-	query2 := tag.Add(1<<3, 1<<4)
-	query3 := tag.Add(1 << 2)
+	num := tag.Tag(3, 4)
 
-	fmt.Println(tag.Has(num, query1))
-	fmt.Println(tag.Has(num, query1, query2))
-	fmt.Println(tag.Has(num, query3))
-	fmt.Println(tag.Has(num, query3, query2))
+	fmt.Println(tag.Has(num, 3))
+	fmt.Println(tag.Has(num, 3, 4))
+	fmt.Println(tag.Has(num, 2))
+	fmt.Println(tag.Has(num, 3, 2))
 
 	// Output:
 	// true
@@ -49,15 +56,12 @@ func ExampleHas() {
 
 // ExampleHit 命中例子.
 func ExampleHit() {
-	num := tag.Add(1<<3, 1<<4)
-	query1 := tag.Add(1 << 3)
-	query2 := tag.Add(1<<3, 1<<4)
-	query3 := tag.Add(1 << 2)
+	num := tag.Tag(3, 4)
 
-	fmt.Println(tag.Hit(num, query1))
-	fmt.Println(tag.Hit(num, query1, query2))
-	fmt.Println(tag.Hit(num, query3))
-	fmt.Println(tag.Hit(num, query3, query2))
+	fmt.Println(tag.Hit(num, 3))
+	fmt.Println(tag.Hit(num, 3, 4))
+	fmt.Println(tag.Hit(num, 2))
+	fmt.Println(tag.Hit(num, 2, 3, 4))
 
 	// Output:
 	// true

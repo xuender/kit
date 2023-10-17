@@ -22,8 +22,8 @@ func (p *Map[K, V]) CompareAndDelete(key K, old V) bool {
 	return p.Map.CompareAndDelete(key, old)
 }
 
-func (p *Map[K, V]) CompareAndSwap(key K, old, new V) bool {
-	return p.Map.CompareAndSwap(key, old, new)
+func (p *Map[K, V]) CompareAndSwap(key K, oldVal, newVal V) bool {
+	return p.Map.CompareAndSwap(key, oldVal, newVal)
 }
 
 func (p *Map[K, V]) Delete(key K) { p.Map.Delete(key) }
@@ -36,13 +36,16 @@ func (p *Map[K, V]) Load(key K) (V, bool) {
 		return zero, false
 	}
 
-	return value.(V), true
+	ret, _ := value.(V)
+
+	return ret, has
 }
 
 func (p *Map[K, V]) LoadAndDelete(key K) (V, bool) {
 	val, has := p.Map.LoadAndDelete(key)
+	ret, _ := val.(V)
 
-	return val.(V), has
+	return ret, has
 }
 
 func (p *Map[K, V]) LoadOrCreate(key K, create func() V) (V, bool) {
@@ -55,13 +58,17 @@ func (p *Map[K, V]) LoadOrCreate(key K, create func() V) (V, bool) {
 
 func (p *Map[K, V]) LoadOrStore(key K, value V) (V, bool) {
 	val, has := p.Map.LoadOrStore(key, value)
+	ret, _ := val.(V)
 
-	return val.(V), has
+	return ret, has
 }
 
 func (p *Map[K, V]) Range(call func(key K, value V) bool) {
 	p.Map.Range(func(key, value any) bool {
-		return call(key.(K), value.(V))
+		rkey, _ := key.(K)
+		rvalue, _ := value.(V)
+
+		return call(rkey, rvalue)
 	})
 }
 
@@ -69,6 +76,7 @@ func (p *Map[K, V]) Store(key K, value V) { p.Map.Store(key, value) }
 
 func (p *Map[K, V]) Swap(key K, value V) (V, bool) {
 	val, has := p.Map.Swap(key, value)
+	ret, _ := val.(V)
 
-	return val.(V), has
+	return ret, has
 }

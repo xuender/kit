@@ -59,6 +59,7 @@ func TestMap_map(t *testing.T) {
 	val.Store(9, 9)
 
 	val2, _ := val.Load(9)
+
 	ass.True(has)
 	ass.Equal(9, val2)
 }
