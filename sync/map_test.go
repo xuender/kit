@@ -143,18 +143,18 @@ func TestMap_Range(t *testing.T) {
 	})
 }
 
-func TestMap_Swap(t *testing.T) {
-	t.Parallel()
+// func TestMap_Swap(t *testing.T) {
+// 	t.Parallel()
 
-	ass := assert.New(t)
-	cmap := sync.NewMap(lo.T2(1, "1"), lo.T2(2, "2"))
+// 	ass := assert.New(t)
+// 	cmap := sync.NewMap(lo.T2(1, "1"), lo.T2(2, "2"))
 
-	cmap.Swap(1, "3")
-	cmap.CompareAndSwap(1, "3", "9")
+// 	cmap.Swap(1, "3")
+// 	cmap.CompareAndSwap(1, "3", "9")
 
-	val, _ := cmap.Load(1)
-	ass.Equal("9", val)
+// 	val, _ := cmap.Load(1)
+// 	ass.Equal("9", val)
 
-	ass.False(cmap.CompareAndDelete(1, "3"))
-	ass.True(cmap.CompareAndDelete(1, "9"))
-}
+// 	ass.False(cmap.CompareAndDelete(1, "3"))
+// 	ass.True(cmap.CompareAndDelete(1, "9"))
+// }

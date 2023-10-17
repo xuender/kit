@@ -18,13 +18,13 @@ func NewMap[K comparable, V any](items ...lo.Tuple2[K, V]) *Map[K, V] {
 	return ret
 }
 
-func (p *Map[K, V]) CompareAndDelete(key K, old V) bool {
-	return p.Map.CompareAndDelete(key, old)
-}
+// func (p *Map[K, V]) CompareAndDelete(key K, old V) bool {
+// 	return p.Map.CompareAndDelete(key, old)
+// }
 
-func (p *Map[K, V]) CompareAndSwap(key K, oldVal, newVal V) bool {
-	return p.Map.CompareAndSwap(key, oldVal, newVal)
-}
+// func (p *Map[K, V]) CompareAndSwap(key K, oldVal, newVal V) bool {
+// 	return p.Map.CompareAndSwap(key, oldVal, newVal)
+// }
 
 func (p *Map[K, V]) Delete(key K) { p.Map.Delete(key) }
 
@@ -74,9 +74,9 @@ func (p *Map[K, V]) Range(call func(key K, value V) bool) {
 
 func (p *Map[K, V]) Store(key K, value V) { p.Map.Store(key, value) }
 
-func (p *Map[K, V]) Swap(key K, value V) (V, bool) {
-	val, has := p.Map.Swap(key, value)
-	ret, _ := val.(V)
+// func (p *Map[K, V]) Swap(key K, value V) (V, bool) {
+// 	val, has := p.Map.Swap(key, value)
+// 	ret, _ := val.(V)
 
-	return ret, has
-}
+// 	return ret, has
+// }
