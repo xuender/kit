@@ -1,4 +1,18 @@
 
+1.0.40 / 2023-11-06
+===================
+
+* chore: trunk
+* refactor: lint
+* feat: 兼容1.18
+* chore: golangci-lint
+* feat: tag
+* Merge remote-tracking branch 'refs/remotes/origin/main'
+* test: los.Must
+* refactor: 算法排序
+* feat: sync.Map
+* feat: sync.Map
+
 1.0.39 / 2023-09-26
 ===================
 
