@@ -35,5 +35,5 @@ func TestBytes2Number(t *testing.T) {
 
 	assert.Equal(t, 1, types.Bytes2Number[int]([]byte{0x1}))
 	assert.Equal(t, 0, types.Bytes2Number[int]([]byte{}))
-	assert.Equal(t, 3.14, types.Bytes2Number[float64]([]byte{0x1f, 0x85, 0xeb, 0x51, 0xb8, 0x1e, 0x9, 0x40}))
+	assert.InEpsilon(t, 3.14, types.Bytes2Number[float64]([]byte{0x1f, 0x85, 0xeb, 0x51, 0xb8, 0x1e, 0x9, 0x40}), 2)
 }

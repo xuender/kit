@@ -52,7 +52,7 @@ func TestIDWorker_IDAndError(t *testing.T) {
 		ids[worker.ID()] = i
 	}
 
-	ass.Equal(size, len(ids))
+	ass.Len(ids, size)
 }
 
 func TestIDWorker_IDsAndError(t *testing.T) {
@@ -69,5 +69,5 @@ func TestIDWorker_IDsAndError(t *testing.T) {
 		ids[uid] = i
 	}
 
-	ass.Equal(size, len(ids))
+	ass.Len(ids, size)
 }

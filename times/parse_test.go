@@ -4,14 +4,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"github.com/xuender/kit/los"
 	"github.com/xuender/kit/times"
 )
 
 func TestParse(t *testing.T) {
 	t.Parallel()
 
+	req := require.New(t)
+	ass := assert.New(t)
 	tests := [][]string{
 		{"19780321", "20060102"},
 		{"780321", "060102"},
@@ -20,20 +23,23 @@ func TestParse(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		day := lo.Must1(times.Parse(tt[0]))
-		want := lo.Must1(time.Parse(tt[1], tt[0]))
-		assert.Equal(t, day, want)
+		day := los.Must(times.Parse(tt[0]))
+		want := los.Must(time.Parse(tt[1], tt[0]))
+
+		ass.Equal(want, day)
 	}
 
 	_, err := times.Parse("11")
-	assert.NotNil(t, err)
+	req.Error(err)
 }
 
 func TestParse_Error(t *testing.T) {
 	t.Parallel()
 
+	req := require.New(t)
+
 	_, err := times.Parse("23424fasdkfjk")
-	assert.NotNil(t, err)
+	req.Error(err)
 }
 
 func TestParseNumber(t *testing.T) {

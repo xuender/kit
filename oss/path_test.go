@@ -9,6 +9,7 @@ import (
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/xuender/kit/oss"
 )
 
@@ -49,12 +50,13 @@ func TestAbs2(t *testing.T) {
 
 // nolint
 func TestAbs3(t *testing.T) {
-	ass := assert.New(t)
+	req := require.New(t)
 
 	patches := gomonkey.ApplyFuncReturn(os.UserHomeDir, nil, os.ErrClosed)
 	defer patches.Reset()
 
-	ass.NotNil(oss.Abs("~"))
+	_, err := oss.Abs("~")
+	req.Error(err)
 }
 
 // nolint

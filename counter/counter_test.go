@@ -53,7 +53,7 @@ func TestCounter_Keys(t *testing.T) {
 		count.Inc(i)
 	}
 
-	ass.Equal(100, len(count.Keys()))
+	ass.Len(count.Keys(), 100)
 }
 
 func TestCounter_Dec(t *testing.T) {

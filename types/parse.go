@@ -21,9 +21,9 @@ func ParseInteger[T constraints.Integer](str string) (T, error) {
 		return Round[T](float), nil
 	}
 
-	u64, err := strconv.ParseUint(str, base.Ten, base.SixtyFour)
+	i64, err := strconv.ParseInt(str, base.Ten, base.SixtyFour)
 	// nolint
-	return T(u64), err
+	return T(i64), err
 }
 
 // ParseIntegerAny 任意类型转换成数值.

@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/xuender/kit/counter"
 )
 
@@ -28,21 +29,25 @@ func FuzzNumHLLPP(f *testing.F) {
 func TestNumHLLPP_Marshal(t *testing.T) {
 	t.Parallel()
 
+	req := require.New(t)
+
 	hll := counter.NewNumHLLPP[int]()
 	hll.Add(3)
 	hll.Add(1)
 	assert.Equal(t, uint64(2), hll.Count())
 
 	newHll, err := counter.Unmarshal[int](hll.Marshal())
-	assert.Nil(t, err)
+	req.NoError(err)
 	assert.Equal(t, uint64(2), newHll.Count())
 }
 
 func TestUnMarshal(t *testing.T) {
 	t.Parallel()
 
+	req := require.New(t)
 	_, err := counter.Unmarshal[int]([]byte{})
-	assert.NotNil(t, err)
+
+	req.Error(err)
 }
 
 func TestNumber2Bytes(t *testing.T) {

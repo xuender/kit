@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/xuender/kit/cache"
 	"go.uber.org/goleak"
 )
@@ -63,6 +64,7 @@ func TestCache_Iterate(t *testing.T) {
 	t.Parallel()
 
 	ass := assert.New(t)
+	res := require.New(t)
 	cac := cache.New[int, int](cache.DefaultExpiration, cache.NoExpiration)
 
 	defer cac.Close()
@@ -74,13 +76,13 @@ func TestCache_Iterate(t *testing.T) {
 	cac.SetDuration(100, 100, time.Millisecond)
 	time.Sleep(time.Millisecond)
 
-	ass.Nil(cac.Iterate(func(key, value int) error {
+	res.NoError(cac.Iterate(func(key, value int) error {
 		ass.Equal(key, value)
 
 		return nil
 	}))
 
-	ass.Error(cac.Iterate(func(key, value int) error {
+	res.Error(cac.Iterate(func(key, value int) error {
 		ass.Equal(key, value)
 
 		if key > 3 {

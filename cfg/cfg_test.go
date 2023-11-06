@@ -15,6 +15,7 @@ const (
 	_data = `k1 = "AES(A/43wTj2AVQboZZ0lNMqbw==)"
 k2 = "DES(LABOK5l6Q64=)"
 k3 = "DES[中文]"`
+	_keyErr = "key err"
 )
 
 func TestCfg_Bytes(t *testing.T) {
@@ -37,7 +38,7 @@ func TestCfg_Bytes(t *testing.T) {
 	}
 
 	if _, err := cfg.New("err").Bytes(_file); err == nil {
-		t.Error("key err")
+		t.Error(_keyErr)
 	}
 }
 
@@ -65,7 +66,7 @@ func TestCfg_Reader(t *testing.T) {
 	}
 
 	if _, err := cfg.New("err").Reader(_file); err == nil {
-		t.Error("key err")
+		t.Error(_keyErr)
 	}
 }
 
@@ -81,6 +82,6 @@ func TestPathToString(t *testing.T) {
 	}
 
 	if _, err := cfg.New("err").String(_file); err == nil {
-		t.Error("key err")
+		t.Error(_keyErr)
 	}
 }

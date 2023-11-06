@@ -14,5 +14,5 @@ func TestSet_AddAll(t *testing.T) {
 	nums := set.NewSet(1, 2, 3)
 
 	nums.AddSet(set.NewSet(3, 4, 5))
-	ass.Equal(5, len(nums))
+	ass.Len(nums, 5)
 }

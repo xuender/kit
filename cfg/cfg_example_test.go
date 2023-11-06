@@ -15,7 +15,7 @@ func ExampleCfg_Bytes() {
 	patchWrite := gomonkey.ApplyFuncReturn(os.WriteFile, nil)
 	defer patchWrite.Reset()
 
-	_, err := cfg.New("key").Bytes("test.toml")
+	_, err := cfg.New("key").Bytes(_file)
 	fmt.Println(err)
 
 	// Output:
@@ -29,7 +29,7 @@ func ExampleCfg_Reader() {
 	patchWrite := gomonkey.ApplyFuncReturn(os.WriteFile, nil)
 	defer patchWrite.Reset()
 
-	_, err := cfg.New("key").Reader("test.toml")
+	_, err := cfg.New("key").Reader(_file)
 	fmt.Println(err)
 
 	// Output:
@@ -43,7 +43,7 @@ func ExampleCfg_String() {
 	patchWrite := gomonkey.ApplyFuncReturn(os.WriteFile, nil)
 	defer patchWrite.Reset()
 
-	_, err := cfg.New("key").String("test.toml")
+	_, err := cfg.New("key").String(_file)
 	fmt.Println(err)
 
 	// Output:

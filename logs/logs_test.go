@@ -6,6 +6,7 @@ import (
 
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/xuender/kit/logs"
 	"github.com/xuender/kit/oss"
 )
@@ -41,7 +42,9 @@ func TestSetLogFileError(t *testing.T) {
 	patches := gomonkey.ApplyFuncReturn(oss.Abs, nil, os.ErrClosed)
 	defer patches.Reset()
 
-	assert.NotNil(t, logs.SetLogFile(os.TempDir(), "test"))
+	req := require.New(t)
+
+	req.Error(logs.SetLogFile(os.TempDir(), "test"))
 }
 
 // nolint: paralleltest
@@ -57,7 +60,8 @@ func TestSetTraceFile(t *testing.T) {
 	patches := gomonkey.ApplyFuncReturn(oss.Abs, nil, os.ErrClosed)
 	defer patches.Reset()
 
-	assert.NotNil(t, logs.SetTraceFile(os.TempDir(), "test"))
+	req := require.New(t)
+	req.Error(logs.SetTraceFile(os.TempDir(), "test"))
 }
 
 // nolint: paralleltest
@@ -73,7 +77,8 @@ func TestSetDebugFile(t *testing.T) {
 	patches := gomonkey.ApplyFuncReturn(oss.Abs, nil, os.ErrClosed)
 	defer patches.Reset()
 
-	assert.NotNil(t, logs.SetDebugFile(os.TempDir(), "test"))
+	req := require.New(t)
+	req.Error(logs.SetDebugFile(os.TempDir(), "test"))
 }
 
 // nolint: paralleltest
@@ -89,7 +94,8 @@ func TestSetInfoFile(t *testing.T) {
 	patches := gomonkey.ApplyFuncReturn(oss.Abs, nil, os.ErrClosed)
 	defer patches.Reset()
 
-	assert.NotNil(t, logs.SetInfoFile(os.TempDir(), "test"))
+	req := require.New(t)
+	req.Error(logs.SetInfoFile(os.TempDir(), "test"))
 }
 
 // nolint: paralleltest
@@ -105,7 +111,8 @@ func TestSetWarnFile(t *testing.T) {
 	patches := gomonkey.ApplyFuncReturn(oss.Abs, nil, os.ErrClosed)
 	defer patches.Reset()
 
-	assert.NotNil(t, logs.SetWarnFile(os.TempDir(), "test"))
+	req := require.New(t)
+	req.Error(logs.SetWarnFile(os.TempDir(), "test"))
 }
 
 // nolint: paralleltest
@@ -122,7 +129,8 @@ func TestSetErrorFile(t *testing.T) {
 	patches := gomonkey.ApplyFuncReturn(oss.Abs, nil, os.ErrClosed)
 	defer patches.Reset()
 
-	assert.NotNil(t, logs.SetErrorFile(os.TempDir(), "test"))
+	req := require.New(t)
+	req.Error(logs.SetErrorFile(os.TempDir(), "test"))
 }
 
 // nolint: paralleltest

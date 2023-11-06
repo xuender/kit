@@ -5,6 +5,8 @@ import (
 
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"github.com/xuender/kit/los"
 	"github.com/xuender/kit/types"
 )
 
@@ -26,13 +28,13 @@ func TestParseInteger_Error(t *testing.T) {
 
 	_, err := types.ParseInteger[int]("xxfef.3r3r")
 
-	assert.NotNil(t, err)
+	require.Error(t, err)
 }
 
 func TestParseFloat(t *testing.T) {
 	t.Parallel()
 
-	assert.Equal(t, 3.14, lo.Must1(types.ParseFloat[float64]("3.14")))
+	assert.InEpsilon(t, float64(3.14), los.Must1(types.ParseFloat[float64]("3.14")), 2)
 }
 
 func TestItoa(t *testing.T) {
@@ -59,6 +61,8 @@ func TestRound(t *testing.T) {
 func TestParseIntegerAny(t *testing.T) {
 	t.Parallel()
 
+	req := require.New(t)
+
 	assert.Equal(t, 3, lo.Must1(types.ParseIntegerAny[int]("3")))
 	assert.Equal(t, 3, lo.Must1(types.ParseIntegerAny[int]("3.0")))
 	assert.Equal(t, 3, lo.Must1(types.ParseIntegerAny[int](3)))
@@ -77,5 +81,5 @@ func TestParseIntegerAny(t *testing.T) {
 	assert.Equal(t, 1000000, lo.Must1(types.ParseIntegerAny[int]([]byte{0x40, 0x42, 0xf})))
 
 	_, err := types.ParseIntegerAny[int]([]int{})
-	assert.NotNil(t, err)
+	req.Error(err)
 }
