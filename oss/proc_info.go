@@ -5,8 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"time"
-
-	"github.com/xuender/kit/times"
 )
 
 // nolint: gochecknoglobals
@@ -62,6 +60,6 @@ RunTime: %s
 		p.Version,
 		p.BuildTime,
 		p.StartTime.Format("2006-01-02 15:04:05"),
-		times.Duration(p.RunTime).Short(),
+		p.RunTime.String(),
 	)
 }
