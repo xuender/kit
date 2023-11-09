@@ -12,8 +12,8 @@ import (
 
 const (
 	_file = "test.toml"
-	_data = `k1 = "AES(A/43wTj2AVQboZZ0lNMqbw==)"
-k2 = "DES(LABOK5l6Q64=)"
+	_data = `k1 = "AES(oY8aex0d4WjWokMZSUDyDQ==)"
+k2 = "DES(Jiga4xHtvWM=)"
 k3 = "DES[中文]"`
 	_keyErr = "key err"
 )

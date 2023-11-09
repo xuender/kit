@@ -51,8 +51,8 @@ func ExampleCfg_String() {
 }
 
 func ExampleCfg_Read() {
-	data, err := cfg.New("key").Read([]byte(`a=AES(A/43wTj2AVQboZZ0lNMqbw==)
-b=DES(LABOK5l6Q64=)
+	data, err := cfg.New("key").Read([]byte(`a=AES(oY8aex0d4WjWokMZSUDyDQ==)
+b=DES(azzeIdDM09M=)
 c=DES[abc]`))
 
 	fmt.Println(string(data))

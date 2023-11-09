@@ -27,14 +27,6 @@ func TestDecryptWith(t *testing.T) {
 	}
 }
 
-func TestPadding(t *testing.T) {
-	t.Parallel()
-
-	if data := cfg.Padding([]byte("1234"), 4); data[0] != '1' {
-		t.Error("padding error")
-	}
-}
-
 func TestEncrypt(t *testing.T) {
 	t.Parallel()
 
