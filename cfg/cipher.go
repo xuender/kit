@@ -32,15 +32,35 @@ func (p Cipher) Encrypt(src, key string) string {
 	return base64.StdEncoding.EncodeToString(p.EncryptBytes([]byte(src), key))
 }
 
+func (p Cipher) EncodeToString(src, key string) string {
+	return fmt.Sprintf("%s(%s)", p.String(), p.Encrypt(src, key))
+}
+
 func (p Cipher) EncryptBytes(src []byte, key string) []byte {
-	blockMode, blockSize := p.Block(key, true)
+	if p == AESMD5 || p == DESMD5 {
+		blockMode, blockSize := p.BlockMode(key, true)
 
-	src = pkcs5Padding(src, blockSize)
+		src = pkcs5Padding(src, blockSize)
 
-	cryted := make([]byte, len(src))
-	blockMode.CryptBlocks(cryted, src)
+		cryted := make([]byte, len(src))
+		blockMode.CryptBlocks(cryted, src)
 
-	return cryted
+		return cryted
+	}
+
+	var (
+		ret      []byte
+		block    = p.Block(key)
+		srcBytes = Padding(src, block.BlockSize())
+		tmp      = make([]byte, block.BlockSize())
+	)
+
+	for index := 0; index < len(srcBytes); index += block.BlockSize() {
+		block.Encrypt(tmp, srcBytes[index:index+block.BlockSize()])
+		ret = append(ret, tmp...)
+	}
+
+	return ret
 }
 
 func (p Cipher) Decrypt(src, key string) (string, error) {
@@ -53,21 +73,59 @@ func (p Cipher) Decrypt(src, key string) (string, error) {
 }
 
 func (p Cipher) DecryptBytes(src []byte, key string) ([]byte, error) {
+	if p == AESMD5 || p == DESMD5 {
+		var (
+			blockMode, _ = p.BlockMode(key, false)
+			orig         = make([]byte, len(src))
+		)
+
+		blockMode.CryptBlocks(orig, src)
+
+		return pkcs5Trimming(orig)
+	}
+
 	var (
-		blockMode, _ = p.Block(key, false)
-		orig         = make([]byte, len(src))
+		ret   []byte
+		block = p.Block(key)
+		tmp   = make([]byte, block.BlockSize())
 	)
 
-	blockMode.CryptBlocks(orig, src)
+	for index := 0; index < len(src); index += block.BlockSize() {
+		block.Decrypt(tmp, src[index:index+block.BlockSize()])
+		ret = append(ret, tmp...)
+	}
 
-	return pkcs5Trimming(orig)
+	ret, err := UnPadding(ret)
+	if err != nil {
+		return nil, err
+	}
+
+	if _checkRegex.Match(ret) {
+		return ret, nil
+	}
+
+	return nil, ErrKey
 }
 
 func (p Cipher) String() string {
 	return _names[p]
 }
 
-func (p Cipher) Block(key string, isEnc bool) (cipher.BlockMode, int) {
+func (p Cipher) Block(key string) cipher.Block {
+	keyBytes := sha256.Sum256([]byte(key))
+	if p == DES {
+		// nolint
+		block, _ := des.NewCipher(keyBytes[:8])
+
+		return block
+	}
+
+	block, _ := aes.NewCipher(keyBytes[:])
+
+	return block
+}
+
+func (p Cipher) BlockMode(key string, isEnc bool) (cipher.BlockMode, int) {
 	var (
 		keyBytes  []byte
 		block     cipher.Block
