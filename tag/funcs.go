@@ -3,17 +3,32 @@ package tag
 import "golang.org/x/exp/constraints"
 
 // Get 获取标签.
-func Get[E constraints.Integer](tag E) []E {
-	ret := []E{}
+func Get[E constraints.Integer](tag E) []int {
+	ret := []int{}
 
-	for num := E(0); ; num++ {
-		val := E(1 << num)
+	for idx := 0; ; idx++ {
+		val := E(1 << idx)
 		if val > tag {
 			return ret
 		}
 
 		if tag&val > 0 {
-			ret = append(ret, num)
+			ret = append(ret, idx)
+		}
+	}
+}
+
+func GetBit[E constraints.Integer](tag E) []E {
+	ret := []E{}
+
+	for idx := E(0); ; idx++ {
+		val := E(1 << idx)
+		if val > tag {
+			return ret
+		}
+
+		if tag&val > 0 {
+			ret = append(ret, val)
 		}
 	}
 }
