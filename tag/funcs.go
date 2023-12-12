@@ -19,12 +19,12 @@ func Get[E constraints.Integer](tag E) []E {
 }
 
 // Tag 合并成标签.
-func Tag[E constraints.Integer](elems ...E) E {
-	return Add(0, elems...)
+func Tag[E constraints.Integer](elems ...int) E {
+	return Add(E(0), elems...)
 }
 
 // Add 增加.
-func Add[E constraints.Integer](tag E, elems ...E) E {
+func Add[E constraints.Integer](tag E, elems ...int) E {
 	for _, elem := range elems {
 		// OR
 		tag |= (1 << elem)
@@ -34,7 +34,7 @@ func Add[E constraints.Integer](tag E, elems ...E) E {
 }
 
 // Del 删除.
-func Del[E constraints.Integer](tag E, elems ...E) E {
+func Del[E constraints.Integer](tag E, elems ...int) E {
 	for _, elem := range elems {
 		// AND NOT
 		tag &^= (1 << elem)
@@ -44,7 +44,7 @@ func Del[E constraints.Integer](tag E, elems ...E) E {
 }
 
 // Has 包含任何一个标签.
-func Has[E constraints.Integer](tag E, elems ...E) bool {
+func Has[E constraints.Integer](tag E, elems ...int) bool {
 	for _, elem := range elems {
 		// AND
 		if tag&(1<<elem) > 0 {
@@ -56,6 +56,6 @@ func Has[E constraints.Integer](tag E, elems ...E) bool {
 }
 
 // Hit 命中所有标签.
-func Hit[E constraints.Integer](tag E, elems ...E) bool {
+func Hit[E constraints.Integer](tag E, elems ...int) bool {
 	return !Has(^tag, elems...)
 }

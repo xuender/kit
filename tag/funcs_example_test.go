@@ -9,7 +9,7 @@ import (
 
 // ExampleGet 获取例子.
 func ExampleGet() {
-	num := tag.Tag(1, 2)
+	num := tag.Tag[int](1, 2)
 	nums := tag.Get(num)
 
 	fmt.Println(nums)
@@ -30,7 +30,7 @@ func ExampleAdd() {
 
 // ExampleDel 删除例子.
 func ExampleDel() {
-	num := tag.Del(tag.Tag(3, 4), 3, 5)
+	num := tag.Del(tag.Tag[int](3, 4), 3, 5)
 
 	fmt.Println(num)
 
@@ -40,7 +40,7 @@ func ExampleDel() {
 
 // ExampleHas 包含例子.
 func ExampleHas() {
-	num := tag.Tag(3, 4)
+	num := tag.Tag[int](3, 4)
 
 	fmt.Println(tag.Has(num, 3))
 	fmt.Println(tag.Has(num, 3, 4))
@@ -56,7 +56,7 @@ func ExampleHas() {
 
 // ExampleHit 命中例子.
 func ExampleHit() {
-	num := tag.Tag(3, 4)
+	num := tag.Tag[int](3, 4)
 
 	fmt.Println(tag.Hit(num, 3))
 	fmt.Println(tag.Hit(num, 3, 4))

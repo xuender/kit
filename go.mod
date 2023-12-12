@@ -3,13 +3,13 @@ module github.com/xuender/kit
 go 1.18
 
 require (
-	github.com/agiledragon/gomonkey/v2 v2.9.0
+	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/dchest/siphash v1.2.3
 	github.com/retailnext/hllpp v1.0.0
-	github.com/samber/lo v1.37.0
-	github.com/stretchr/testify v1.8.1
-	go.uber.org/goleak v1.2.1
-	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17
+	github.com/samber/lo v1.39.0
+	github.com/stretchr/testify v1.8.4
+	go.uber.org/goleak v1.3.0
+	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb
 )
 
 require (
