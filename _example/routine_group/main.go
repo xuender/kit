@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
-	var size int32 = 7
+	var size int32 = 3
 
 	group := sync.NewRoutineGroup(size)
 
-	for idx := 0; idx < 100; idx++ {
+	for idx := 0; idx < 10; idx++ {
 		group.Incr()
 
 		go func(gro *sync.RoutineGroup, num int) {

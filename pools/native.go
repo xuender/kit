@@ -27,11 +27,10 @@ func (p *Native[I, O]) Post(elems ...I) []O {
 		return nil
 	}
 
+	ret := make([]O, length)
 	wait := &sync.WaitGroup{}
 
 	wait.Add(length)
-
-	ret := make([]O, length)
 
 	for idx, elem := range elems {
 		p.group.Incr()
