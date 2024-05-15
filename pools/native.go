@@ -27,7 +27,7 @@ func (p *Native[I, O]) Post(elems ...I) []O {
 		return nil
 	}
 
-	var wait sync.WaitGroup
+	wait := &sync.WaitGroup{}
 
 	wait.Add(length)
 
@@ -36,14 +36,18 @@ func (p *Native[I, O]) Post(elems ...I) []O {
 	for idx, elem := range elems {
 		p.group.Incr()
 
-		go func(num int, item I, list []O) {
-			list[num] = p.yield(item, num)
-		}(idx, elem, ret)
+		go p.run(idx, elem, ret, wait)
 	}
 
 	wait.Wait()
 
 	return ret
+}
+
+func (p *Native[I, O]) run(idx int, elem I, list []O, wait *sync.WaitGroup) {
+	list[idx] = p.yield(elem, idx)
+
+	wait.Done()
 }
 
 // Close 关闭协程池.
