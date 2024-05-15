@@ -9,7 +9,7 @@ import (
 func ExampleNewRoutineGroup() {
 	group := sync.NewRoutineGroup(3)
 	for i := 0; i < 5; i++ {
-		group.Add(1)
+		group.Incr()
 
 		go func() {
 			defer group.Done()
@@ -28,10 +28,10 @@ func ExampleNewRoutineGroup() {
 	// x
 }
 
-func ExampleRoutineGroup_Inc() {
+func ExampleRoutineGroup_Incr() {
 	group := sync.NewRoutineGroup(3)
 	for i := 0; i < 5; i++ {
-		group.Inc()
+		group.Incr()
 
 		go func() {
 			defer group.Done()
