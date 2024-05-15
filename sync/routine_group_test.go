@@ -12,7 +12,7 @@ import (
 func TestNewRoutineGroup_panic(t *testing.T) {
 	t.Parallel()
 
-	assert.PanicsWithError(t, ksync.ErrGroupLessZero.Error(), func() {
+	assert.PanicsWithError(t, ksync.ErrSizeLessZero.Error(), func() {
 		ksync.NewRoutineGroup(0)
 	})
 }

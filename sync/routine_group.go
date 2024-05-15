@@ -2,49 +2,42 @@ package sync
 
 import (
 	"sync"
-	"sync/atomic"
 )
+
+// nolint
+var _none = struct{}{}
 
 // RoutineGroup 协程组，是sync.WaitGroup的增强版本.
 type RoutineGroup struct {
-	size    int32
-	count   atomic.Int32
-	lock    sync.Mutex
-	wait    sync.WaitGroup
-	lockNum atomic.Int32
+	ch chan struct{}
+	wg sync.WaitGroup
 }
 
 // NewRoutineGroup 协程组，控制协程总数量.
 func NewRoutineGroup(size int32) *RoutineGroup {
 	if size < 1 {
-		panic(ErrGroupLessZero)
+		panic(ErrSizeLessZero)
 	}
 
-	return &RoutineGroup{size: size}
+	return &RoutineGroup{
+		ch: make(chan struct{}, size),
+		wg: sync.WaitGroup{},
+	}
 }
 
 // Incr 加1.
 func (p *RoutineGroup) Incr() {
-	p.wait.Add(1)
-
-	if p.count.Add(1) >= p.size {
-		p.lockNum.Add(1)
-		p.lock.Lock()
-	}
+	p.wg.Add(1)
+	p.ch <- _none
 }
 
 // Done 协程完成.
 func (p *RoutineGroup) Done() {
-	if p.count.Add(-1) < p.size && p.lockNum.Load() >= 0 {
-		p.lockNum.Add(-1)
-		p.lock.TryLock()
-		p.lock.Unlock()
-	}
-
-	p.wait.Done()
+	<-p.ch
+	p.wg.Done()
 }
 
 // Wait 等待全部完成.
 func (p *RoutineGroup) Wait() {
-	p.wait.Wait()
+	p.wg.Wait()
 }

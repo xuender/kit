@@ -2,4 +2,4 @@ package sync
 
 import "errors"
 
-var ErrGroupLessZero = errors.New("group less than 0")
+var ErrSizeLessZero = errors.New("size less than 0")
