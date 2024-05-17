@@ -46,6 +46,7 @@ func (p *Native[I, O]) Post(elems ...I) []O {
 func (p *Native[I, O]) run(idx int, elem I, list []O, wait *sync.WaitGroup) {
 	list[idx] = p.yield(elem, idx)
 
+	p.group.Done()
 	wait.Done()
 }
 
