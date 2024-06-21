@@ -2,6 +2,8 @@ package oss
 
 import (
 	"context"
+	"io"
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -40,4 +42,18 @@ func CancelFunc(cancel context.CancelFunc) func() error {
 
 func CancelContext(ctx context.Context) (context.Context, context.CancelFunc) {
 	return signal.NotifyContext(ctx, _cancelSignals...)
+}
+
+func CancelClose(closers ...io.Closer) {
+	osc := make(chan os.Signal, 1)
+
+	signal.Notify(osc, _cancelSignals...)
+
+	<-osc
+
+	for _, closer := range closers {
+		if err := closer.Close(); err != nil {
+			slog.Error("close", slog.Any("err", err))
+		}
+	}
 }
