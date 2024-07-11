@@ -15,7 +15,7 @@ func TestMain(m *testing.M) {
 func TestNew(t *testing.T) {
 	t.Parallel()
 
-	poo := pools.New(10, func(data, num int) int {
+	poo := pools.New(10, func(data, _ int) int {
 		return data
 	})
 	defer poo.Close()

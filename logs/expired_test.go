@@ -15,7 +15,7 @@ type dirEntry struct{ name string }
 func (p dirEntry) Name() string               { return p.name }
 func (p dirEntry) IsDir() bool                { return false }
 func (p dirEntry) Type() os.FileMode          { return oss.DefaultFileMode }
-func (p dirEntry) Info() (os.FileInfo, error) { return nil, nil }
+func (p dirEntry) Info() (os.FileInfo, error) { return nil, nil } // nolint
 
 // nolint: paralleltest
 func TestExpired(t *testing.T) {

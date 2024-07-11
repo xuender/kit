@@ -27,7 +27,7 @@ func Example() {
 }
 
 func ExamplePool_context() {
-	pool := pools.New(10, func(input lo.Tuple2[context.Context, int], num int) int {
+	pool := pools.New(10, func(input lo.Tuple2[context.Context, int], _ int) int {
 		time.Sleep(time.Millisecond)
 
 		return input.B * input.B
@@ -60,7 +60,7 @@ func ExamplePool_Run() {
 }
 
 func ExamplePool_error() {
-	pool := pools.New(10, func(value, num int) lo.Tuple2[int, error] {
+	pool := pools.New(10, func(value, _ int) lo.Tuple2[int, error] {
 		time.Sleep(time.Millisecond)
 
 		if value == 0 {

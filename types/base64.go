@@ -58,7 +58,7 @@ func B64ToNum[N constraints.Integer | constraints.Float](str string) N {
 	}
 
 	for i := sign; i < len(byt); i++ {
-		// nolint: gomnd
+		// nolint: mnd
 		num = num*64 + _alphabetMap[str[i]]
 	}
 

@@ -29,7 +29,7 @@ func CloseFile(file *os.File) error {
 
 // Close 关闭日志文件.
 func Close() error {
-	_files.Range(func(key, value any) bool {
+	_files.Range(func(_, value any) bool {
 		if file, ok := value.(*os.File); ok {
 			if err := CloseFile(file); err != nil {
 				return false

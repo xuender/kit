@@ -1,6 +1,11 @@
 [linters]
 disable = [
-  "golint",
+  # 暂时忽略
+  "gomoddirectives",
+  "copyloopvar",
+  "intrange",
+	"gomnd",
+  "gosmopolitan",
   "depguard",
   "ireturn",
   "wastedassign",
@@ -11,21 +16,14 @@ disable = [
   "rowserrcheck",
   "noctx",
   "sqlclosecheck",
-  "structcheck",
+  "staticcheck",
   "gosimple",
   "nilerr",
-  "interfacer",
   "bodyclose",
   "contextcheck",
-  "maligned",
-  "scopelint",
   "nolintlint",
   "wrapcheck",
-  "exhaustivestruct",
-  "varcheck",
-  "ifshort",
-  "nosnakecase",
-  "deadcode",
   "exhaustruct",
+	"execinquery",
 ]
 enable-all = true

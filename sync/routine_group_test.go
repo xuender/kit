@@ -42,7 +42,9 @@ func Benchmark_tryLock(b *testing.B) {
 
 	for n := 0; n < b.N; n++ {
 		lock.TryLock()
+
 		count++
+
 		lock.Unlock()
 	}
 }
