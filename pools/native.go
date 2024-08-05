@@ -1,6 +1,7 @@
 package pools
 
 import (
+	"context"
 	"sync"
 
 	ksync "github.com/xuender/kit/sync"
@@ -8,12 +9,12 @@ import (
 
 // Native 原生的协程控制.
 type Native[I, O any] struct {
-	yield func(I, int) O
+	yield func(context.Context, I) O
 	group *ksync.RoutineGroup
 }
 
 // NewNative 新建原生的协程控制.
-func NewNative[I any, O any](size uint, yield func(I, int) O) *Native[I, O] {
+func NewNative[I any, O any](size uint, yield func(context.Context, I) O) *Native[I, O] {
 	return &Native[I, O]{
 		yield,
 		ksync.NewRoutineGroup(int32(size)),
@@ -21,7 +22,7 @@ func NewNative[I any, O any](size uint, yield func(I, int) O) *Native[I, O] {
 }
 
 // Post 发送数据.
-func (p *Native[I, O]) Post(elems ...I) []O {
+func (p *Native[I, O]) Post(ctx context.Context, elems ...I) []O {
 	length := len(elems)
 	if length == 0 {
 		return nil
@@ -35,7 +36,7 @@ func (p *Native[I, O]) Post(elems ...I) []O {
 	for idx, elem := range elems {
 		p.group.Incr()
 
-		go p.run(idx, elem, ret, wait)
+		go p.run(ctx, idx, elem, ret, wait)
 	}
 
 	wait.Wait()
@@ -43,8 +44,8 @@ func (p *Native[I, O]) Post(elems ...I) []O {
 	return ret
 }
 
-func (p *Native[I, O]) run(idx int, elem I, list []O, wait *sync.WaitGroup) {
-	list[idx] = p.yield(elem, idx)
+func (p *Native[I, O]) run(ctx context.Context, idx int, elem I, list []O, wait *sync.WaitGroup) {
+	list[idx] = p.yield(ctx, elem)
 
 	p.group.Done()
 	wait.Done()
