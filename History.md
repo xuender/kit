@@ -1,4 +1,11 @@
 
+1.0.51 / 2024-08-05
+===================
+
+* feat: Native add context
+* feat: add los.Map
+* feat: add CancelClose
+
 1.0.50 / 2024-05-17
 ===================
 
