@@ -3,6 +3,7 @@ package hash
 import (
 	"encoding/binary"
 	"encoding/hex"
+	"hash"
 
 	"github.com/dchest/siphash"
 	"github.com/xuender/kit/base"
@@ -43,7 +44,15 @@ func SipHashHex(data []byte) string {
 		b8  = make([]byte, base.Eight)
 	)
 
-	binary.BigEndian.PutUint64(b8, sum)
+	binary.LittleEndian.PutUint64(b8, sum)
 
 	return hex.EncodeToString(b8)
+}
+
+func NewSipHash64() hash.Hash64 {
+	key := make([]byte, base.Sixteen)
+	binary.LittleEndian.PutUint64(key, key0)
+	binary.LittleEndian.PutUint64(key[base.Eight:], key1)
+
+	return siphash.New(key)
 }
