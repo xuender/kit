@@ -16,11 +16,11 @@ func IndexAll[S ~[]E, E comparable](slice S, elem E) []int {
 	}
 }
 
-func IndexAllFunc[S ~[]E, E any](slice S, check func(E) bool) []int {
+func IndexAllFunc[S ~[]E, E any](slice S, predicate func(E) bool) []int {
 	result := []int{}
 
 	for start := 0; ; start++ {
-		idx := slices.IndexFunc(slice[start:], check)
+		idx := slices.IndexFunc(slice[start:], predicate)
 		if idx < 0 {
 			return result
 		}
