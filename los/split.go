@@ -1,12 +1,10 @@
 package los
 
-import (
-	"github.com/samber/lo"
-)
+import "slices"
 
 // SplitStr 字符串根据分隔符分解.
 func SplitStr(str string, separators ...rune) []string {
-	splits := Split([]rune(str), func(elem rune, _ int) bool { return lo.Contains(separators, elem) })
+	splits := Split([]rune(str), func(elem rune, _ int) bool { return slices.Contains(separators, elem) })
 	ret := make([]string, len(splits))
 
 	for index, spl := range splits {

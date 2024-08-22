@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/samber/lo"
+	"github.com/xuender/kit/los"
 	"github.com/xuender/kit/pools"
 )
 
@@ -18,7 +19,7 @@ func Example() {
 	})
 	defer pool.Close()
 
-	outputs := pool.Post(lo.Range(100))
+	outputs := pool.Post(los.Range[int](100))
 
 	fmt.Println(len(outputs))
 
@@ -34,7 +35,7 @@ func ExamplePool_context() {
 	})
 	defer pool.Close()
 
-	inputs := lo.Map(lo.Range(100), func(num, _ int) lo.Tuple2[context.Context, int] {
+	inputs := los.Map(los.Range[int](100), func(num int) lo.Tuple2[context.Context, int] {
 		return lo.T2(context.Background(), num)
 	})
 	outputs := pool.Post(inputs)
@@ -72,7 +73,7 @@ func ExamplePool_error() {
 	})
 	defer pool.Close()
 
-	outputs := pool.Post(lo.Range(100))
+	outputs := pool.Post(los.Range[int](100))
 
 	fmt.Println(len(outputs))
 

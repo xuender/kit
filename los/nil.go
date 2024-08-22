@@ -1,11 +1,13 @@
 package los
 
-import "github.com/samber/lo"
+import (
+	"slices"
+)
 
 func EveryNil(elems ...any) bool {
-	return lo.EveryBy(elems, func(elem any) bool { return elem == nil })
+	return slices.IndexFunc(elems, func(elem any) bool { return elem != nil }) < 0
 }
 
 func SomeNil(elems ...any) bool {
-	return lo.SomeBy(elems, func(elem any) bool { return elem == nil })
+	return slices.Index(elems, nil) >= 0
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/samber/lo"
+	"github.com/xuender/kit/los"
 	"github.com/xuender/kit/pools"
 )
 
@@ -15,7 +15,7 @@ func ExampleSimple() {
 	})
 	defer pool.Close()
 
-	pool.Post(lo.Range(3)...)
+	pool.Post(los.Range[int](3)...)
 	time.Sleep(time.Millisecond)
 
 	// Output:
