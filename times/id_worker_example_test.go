@@ -11,7 +11,7 @@ func ExampleNewIDWorkerByMachine() {
 	size := 10000
 	ids := make(map[int64]int, size)
 
-	for i := 0; i < size; i++ {
+	for i := range size {
 		ids[worker.ID()] = i
 	}
 
@@ -26,7 +26,7 @@ func ExampleNewIDWorker() {
 	size := 10000
 	ids := make(map[int64]int, size)
 
-	for i := 0; i < size; i++ {
+	for i := range size {
 		ids[worker.ID()] = i
 	}
 

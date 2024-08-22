@@ -69,7 +69,7 @@ func TestCache_Iterate(t *testing.T) {
 
 	defer cac.Close()
 
-	for i := 0; i < 10; i++ {
+	for i := range 10 {
 		cac.Set(i, i)
 	}
 

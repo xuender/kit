@@ -17,7 +17,7 @@ type Native[I, O any] struct {
 func NewNative[I any, O any](size uint, yield func(context.Context, I) O) *Native[I, O] {
 	return &Native[I, O]{
 		yield,
-		ksync.NewRoutineGroup(int32(size)),
+		ksync.NewRoutineGroup(int32(size)), // nolint: gosec
 	}
 }
 

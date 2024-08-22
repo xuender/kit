@@ -16,7 +16,7 @@ func Pull[V comparable](collection []V, elements ...V) []V {
 }
 
 // PullAt 删除切片指定位置.
-func PullAt[V any](collection []V, indices ...int) []V {
+func PullAt[S ~[]V, V any](collection S, indices ...int) S {
 	indices = lo.Union(lo.Filter(indices, func(item, _ int) bool { return item >= 0 && item < len(collection) }))
 
 	if len(indices) > 1 && !lo.IsSorted(indices) {

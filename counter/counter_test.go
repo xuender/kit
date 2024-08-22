@@ -11,11 +11,11 @@ func TestNewCounter(t *testing.T) {
 	t.Parallel()
 
 	count := counter.NewCounter[int]()
-	for i := 0; i < 1000; i++ {
+	for range 1000 {
 		count.Inc(1)
 	}
 
-	for i := 0; i < 2000; i++ {
+	for range 2000 {
 		count.Inc(2)
 	}
 
@@ -49,7 +49,7 @@ func TestCounter_Keys(t *testing.T) {
 	ass := assert.New(t)
 	count := counter.NewCounter[int]()
 
-	for i := 0; i < 100; i++ {
+	for i := range 100 {
 		count.Inc(i)
 	}
 
@@ -65,7 +65,7 @@ func TestCounter_Dec(t *testing.T) {
 	count.Dec(1)
 	ass.Equal(int64(-1), count.Get(1))
 
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		count.Inc(1)
 	}
 
@@ -80,7 +80,7 @@ func TestCounter_Size(t *testing.T) {
 	ass := assert.New(t)
 	count := counter.NewCounter[int]()
 
-	for i := 0; i < 100; i++ {
+	for i := range 100 {
 		count.Inc(i)
 	}
 
@@ -93,7 +93,7 @@ func TestCounter_Sum(t *testing.T) {
 	ass := assert.New(t)
 	count := counter.NewCounter[int]()
 
-	for i := 0; i < 100; i++ {
+	for i := range 100 {
 		count.Inc(i)
 	}
 

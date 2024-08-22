@@ -3,9 +3,9 @@ package times_test
 import (
 	"testing"
 
-	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/xuender/kit/los"
 	"github.com/xuender/kit/times"
 )
 
@@ -37,11 +37,11 @@ func TestIntDay_MarshalJSON(t *testing.T) {
 	ass := assert.New(t)
 	day := times.IntDay(20230918)
 
-	ass.Equal([]byte{0x32, 0x30, 0x32, 0x33, 0x30, 0x39, 0x31, 0x38}, lo.Must1(day.MarshalJSON()))
+	ass.Equal([]byte{0x32, 0x30, 0x32, 0x33, 0x30, 0x39, 0x31, 0x38}, los.Must(day.MarshalJSON()))
 
 	day = times.IntDay(10230918)
 
-	ass.Equal([]byte{0x31, 0x30, 0x32, 0x33, 0x30, 0x39, 0x31, 0x38}, lo.Must1(day.MarshalJSON()))
+	ass.Equal([]byte{0x31, 0x30, 0x32, 0x33, 0x30, 0x39, 0x31, 0x38}, los.Must(day.MarshalJSON()))
 }
 
 func TestUnmarshalJSON(t *testing.T) {

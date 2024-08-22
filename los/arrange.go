@@ -39,7 +39,7 @@ func Arrange[T any, O constraints.Ordered](elems []T, getKey func(T) O) []T {
 	ret := make([]T, len(elems))
 	index := 0
 
-	for i := 0; i < len(elems); i++ {
+	for i := range len(elems) {
 		for _, key := range keys {
 			if len(groups[key]) > i {
 				ret[index] = groups[key][i]

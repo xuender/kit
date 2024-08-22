@@ -15,7 +15,7 @@ func Remove(path string, depth int) error {
 		return err
 	}
 
-	for i := 0; i < depth; i++ {
+	for range depth {
 		path = filepath.Dir(path)
 		if dirs, err := os.ReadDir(path); err != nil || len(dirs) > 0 {
 			return err

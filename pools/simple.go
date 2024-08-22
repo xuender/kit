@@ -13,7 +13,7 @@ type Simple[T any] struct {
 func NewSimple[T any](size int, yield func(T, int)) *Simple[T] {
 	pool := &Simple[T]{yield, make(chan T, size), sync.WaitGroup{}}
 
-	for i := 0; i < size; i++ {
+	for i := range size {
 		go pool.run(i)
 	}
 

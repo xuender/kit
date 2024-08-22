@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/agiledragon/gomonkey/v2"
-	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
+	"github.com/xuender/kit/los"
 	"github.com/xuender/kit/times"
 )
 
@@ -14,7 +14,7 @@ import (
 func TestIDWorker_ID(t *testing.T) {
 	worker := times.NewIDWorker()
 
-	patches := gomonkey.ApplyFuncReturn(time.Now, lo.Must1(time.Parse("2006-01-01", "2023-01-01")))
+	patches := gomonkey.ApplyFuncReturn(time.Now, los.Must(time.Parse("2006-01-01", "2023-01-01")))
 	defer patches.Reset()
 
 	ass := assert.New(t)
@@ -28,7 +28,7 @@ func TestIDWorker_ID(t *testing.T) {
 func TestIDWorker_IDs(t *testing.T) {
 	worker := times.NewIDWorker()
 
-	patches := gomonkey.ApplyFuncReturn(time.Now, lo.Must1(time.Parse("2006-01-01", "2023-01-01")))
+	patches := gomonkey.ApplyFuncReturn(time.Now, los.Must(time.Parse("2006-01-01", "2023-01-01")))
 	defer patches.Reset()
 
 	ass := assert.New(t)
@@ -48,7 +48,7 @@ func TestIDWorker_IDAndError(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	for i := 0; i < size; i++ {
+	for i := range size {
 		ids[worker.ID()] = i
 	}
 

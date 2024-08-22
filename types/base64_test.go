@@ -12,8 +12,8 @@ func TestNumToB64(t *testing.T) {
 
 	ass := assert.New(t)
 
-	for i := 0; i < 51; i++ {
-		for f := 0; f < 10; f++ {
+	for i := range 51 {
+		for f := range 10 {
 			num := 1 << i & f
 			ass.Equal(num, types.B64ToNum[int](types.NumToB64(num)))
 		}

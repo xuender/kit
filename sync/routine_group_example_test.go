@@ -8,7 +8,7 @@ import (
 
 func ExampleNewRoutineGroup() {
 	group := sync.NewRoutineGroup(3)
-	for i := 0; i < 5; i++ {
+	for range 5 {
 		group.Incr()
 
 		go func() {
@@ -30,7 +30,7 @@ func ExampleNewRoutineGroup() {
 
 func ExampleRoutineGroup_Incr() {
 	group := sync.NewRoutineGroup(3)
-	for i := 0; i < 5; i++ {
+	for range 5 {
 		group.Incr()
 
 		go func() {

@@ -16,6 +16,7 @@ const (
 type IntDay int32
 
 func Time2IntDay(input time.Time) IntDay {
+	// nolint: gosec
 	return IntDay(input.Year()*_year + int(input.Month())*_month + input.Day())
 }
 
@@ -74,7 +75,7 @@ func (p *IntDay) Unmarshal(data []byte) error {
 	if length := 4; len(data) < length {
 		return ErrParseError
 	}
-
+	// nolint: gosec
 	*p = IntDay(binary.BigEndian.Uint32(data))
 
 	return nil

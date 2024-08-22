@@ -54,6 +54,7 @@ func NewIDWorkerByMachine(machine, machineLength int64) *IDWorker {
 
 // NewIDWorkerByKey 根据字符串创建 IDWorker.
 func NewIDWorkerByKey(key string) *IDWorker {
+	// nolint: gosec
 	return NewIDWorkerByMachine(int64(hash.SipHash64([]byte(key))), _seqDefault)
 }
 
@@ -124,7 +125,7 @@ func (p *IDWorker) IDsAndError(num int) ([]int64, error) {
 
 	ret := make([]int64, num)
 
-	for i := 0; i < num; i++ {
+	for i := range num {
 		ret[i] = ((p.last.Unix() - _start) << p.seqLen) | p.machine | p.seq
 		p.add()
 	}

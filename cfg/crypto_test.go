@@ -17,7 +17,7 @@ func TestDecrypt(t *testing.T) {
 func TestDecryptWith(t *testing.T) {
 	t.Parallel()
 
-	for i := 0; i < 10000; i++ {
+	for range 10000 {
 		str := cfg.EncryptByCipher([]byte("阿弥陀佛"), "", cfg.DES)
 
 		txt, err := cfg.Decrypt(str, "err")

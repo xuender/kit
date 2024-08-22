@@ -1,6 +1,6 @@
 module github.com/xuender/kit
 
-go 1.18
+go 1.23
 
 require (
 	github.com/agiledragon/gomonkey/v2 v2.11.0

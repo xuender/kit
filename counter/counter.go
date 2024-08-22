@@ -93,7 +93,7 @@ func (p *Counter[T]) Size() int {
 func (p *Counter[T]) Sum() int64 {
 	var ret int64
 
-	for index := 0; index < p.size; index++ {
+	for index := range p.size {
 		ret += atomic.LoadInt64(&p.values[index])
 	}
 
@@ -107,7 +107,7 @@ func (p *Counter[T]) Get(key T) int64 {
 
 // Clean 清空.
 func (p *Counter[T]) Clean() {
-	for i := 0; i < p.size; i++ {
+	for i := range p.size {
 		atomic.StoreInt64(&p.values[i], 0)
 	}
 

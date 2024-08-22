@@ -24,7 +24,7 @@ func New[I, O any](size int, yield func(I, int) O) *Pool[I, O] {
 		),
 	}
 
-	for num := 0; num < size; num++ {
+	for num := range size {
 		go pool.run(num)
 	}
 

@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/agiledragon/gomonkey/v2"
-	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
 	"github.com/xuender/kit/logs"
+	"github.com/xuender/kit/los"
 	"github.com/xuender/kit/oss"
 )
 
@@ -39,7 +39,7 @@ func TestCloseFile(t *testing.T) {
 	defer patches.Reset()
 
 	req := require.New(t)
-	file := lo.Must1(os.CreateTemp(os.TempDir(), "test"))
+	file := los.Must(os.CreateTemp(os.TempDir(), "test"))
 
 	req.Error(logs.CloseFile(file))
 }

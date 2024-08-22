@@ -2,8 +2,7 @@
 disable = [
   # 暂时忽略
   "gomoddirectives",
-  "copyloopvar",
-  "intrange",
+	"exportloopref",
 	"gomnd",
   "gosmopolitan",
   "depguard",

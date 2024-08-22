@@ -3,12 +3,12 @@ package main
 import (
 	"time"
 
-	"github.com/samber/lo"
 	"github.com/xuender/kit/logs"
+	"github.com/xuender/kit/los"
 )
 
 func main1() {
-	lo.Must0(logs.SetLogFile("/tmp/log", "log.log"))
+	los.Must0(logs.SetLogFile("/tmp/log", "log.log"))
 	defer logs.Close()
 
 	logs.I.Println("start")
@@ -34,8 +34,8 @@ func main() {
 	logs.SetLevel(logs.Trace)
 	printLog("trace")
 
-	lo.Must0(logs.SetLogFile("/tmp/log", "test.log"))
-	lo.Must0(logs.SetErrorFile("/tmp/log", "test_error.log"))
+	los.Must0(logs.SetLogFile("/tmp/log", "test.log"))
+	los.Must0(logs.SetErrorFile("/tmp/log", "test_error.log"))
 
 	defer logs.Close()
 
