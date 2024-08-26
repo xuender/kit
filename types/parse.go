@@ -75,6 +75,10 @@ func Itoa[T constraints.Integer | constraints.Float](num T) string {
 	return strconv.Itoa(int(num))
 }
 
+func FormatUint[T constraints.Unsigned](num T) string {
+	return strconv.FormatUint(uint64(num), base.Ten)
+}
+
 // FormatFloat 浮点数格式化成字符串.
 func FormatFloat[T constraints.Float | constraints.Integer](num T, prec int) string {
 	return strconv.FormatFloat(float64(num), 'g', prec, base.SixtyFour)
