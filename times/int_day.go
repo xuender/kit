@@ -53,6 +53,7 @@ func (p IntDay) Marshal() []byte {
 	const length = 4
 
 	data := make([]byte, length)
+	// nolint: gosec
 	binary.BigEndian.PutUint32(data, uint32(p))
 
 	return data

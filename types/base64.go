@@ -16,8 +16,8 @@ const (
 
 // nolint: gochecknoinits
 func init() {
-	for i := range len(_alphabet) {
-		_alphabetMap[_alphabet[i]] = i
+	for idx, alp := range _alphabet {
+		_alphabetMap[alp] = idx
 	}
 }
 
