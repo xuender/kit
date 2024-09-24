@@ -10,9 +10,9 @@ import (
 
 // nolint: gochecknoglobals
 var _layouts = [...]string{
-	"2006-01-02 15:04:05",
+	time.DateTime,
 	"20060102",
-	"2006-01-02",
+	time.DateOnly,
 	"0102",
 	"2006",
 	"060102",
