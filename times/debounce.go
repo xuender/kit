@@ -15,25 +15,36 @@ import (
 //   - 第二个返回的函数用于阻塞调用，直到防抖动函数执行完毕。
 func Debounce(yield func(), wait time.Duration) (func(), func()) {
 	var (
-		timer  *time.Timer
-		worker sync.WaitGroup
+		timer *time.Timer
+		mutex sync.Mutex
 	)
 
+	cond := sync.NewCond(&mutex)
 	call := func() {
+		mutex.Lock()
+		defer mutex.Unlock()
+
 		yield()
-		worker.Done()
+		cond.Broadcast()
+	}
+	trigger := func() {
+		mutex.Lock()
+		defer mutex.Unlock()
+
+		if timer != nil {
+			timer.Stop()
+		}
+
+		timer = time.AfterFunc(wait, call)
+	}
+	waitFunc := func() {
+		mutex.Lock()
+		defer mutex.Unlock()
+
+		if timer != nil {
+			cond.Wait()
+		}
 	}
 
-	return func() {
-			worker.Add(1)
-
-			if timer != nil {
-				timer.Stop()
-				worker.Done()
-			}
-
-			timer = time.AfterFunc(wait, call)
-		}, func() {
-			worker.Wait()
-		}
+	return trigger, waitFunc
 }
