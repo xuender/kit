@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"iter"
 	"sync"
 	"time"
 
@@ -151,6 +152,67 @@ func (p *Cache[K, V]) Iterate(yield func(K, V) error) error {
 	}
 
 	return nil
+}
+
+// All 返回一个迭代器，用于遍历缓存中所有未过期的键值对。
+// 该方法线程安全，但在遍历过程中，其他协程的写操作可能会导致迭代过程中数据发生变化。
+func (p *Cache[K, V]) All() iter.Seq2[K, V] {
+	return func(yield func(K, V) bool) {
+		now := time.Now().UnixNano()
+
+		p.mutex.RLock()
+		defer p.mutex.RUnlock()
+
+		for key, item := range p.items {
+			if item.ExpiredByTime(now) {
+				continue
+			}
+
+			if !yield(key, item.value) {
+				return
+			}
+		}
+	}
+}
+
+// Keys 返回缓存中的所有键.
+func (p *Cache[K, V]) Keys() iter.Seq[K] {
+	return func(yield func(K) bool) {
+		now := time.Now().UnixNano()
+
+		p.mutex.RLock()
+		defer p.mutex.RUnlock()
+
+		for key, item := range p.items {
+			if item.ExpiredByTime(now) {
+				continue
+			}
+
+			if !yield(key) {
+				return
+			}
+		}
+	}
+}
+
+// Values 返回缓存中的所有值.
+func (p *Cache[K, V]) Values() iter.Seq[V] {
+	return func(yield func(V) bool) {
+		now := time.Now().UnixNano()
+
+		p.mutex.RLock()
+		defer p.mutex.RUnlock()
+
+		for _, item := range p.items {
+			if item.ExpiredByTime(now) {
+				continue
+			}
+
+			if !yield(item.value) {
+				return
+			}
+		}
+	}
 }
 
 // Len 元素数量.
