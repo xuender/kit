@@ -10,16 +10,16 @@ import (
 func Delay(interval time.Duration) func() {
 	var mutex sync.Mutex
 
-	before := time.Now()
+	last := time.Now()
 
 	return func() {
 		mutex.Lock()
 		defer mutex.Unlock()
 
-		if elapsed := time.Since(before); elapsed < interval {
+		if elapsed := time.Since(last); elapsed < interval {
 			time.Sleep(interval - elapsed)
 		}
 
-		before = time.Now()
+		last = time.Now()
 	}
 }
