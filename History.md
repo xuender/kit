@@ -1,4 +1,25 @@
 
+1.0.54 / 2024-12-06
+===================
+
+* release: v1.0.54
+* feat: add cache.All, cache.Keys, cache.Values
+* feat: add times.DelayContext
+* feat: add times.Delay
+* refactor: times.Debounce
+* doc: times
+* doc: times.Throttle, times.Interval
+* feat: add times.Throttle
+* feat: add times.Interval
+* test: times.Debounce
+* feat: times.Debounce 防抖
+* feat: FormatUint
+* test: map
+* test: filter
+* feat: add los.Filter
+* feat: IndexAll, Delete...
+* chore: go1.23
+
 1.0.53 / 2024-12-06
 ===================
 
