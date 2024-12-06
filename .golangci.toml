@@ -1,9 +1,7 @@
 [linters]
 disable = [
-  # 暂时忽略
   "gomoddirectives",
 	"exportloopref",
-	"gomnd",
   "gosmopolitan",
   "depguard",
   "ireturn",
@@ -23,6 +21,5 @@ disable = [
   "nolintlint",
   "wrapcheck",
   "exhaustruct",
-	"execinquery",
 ]
 enable-all = true

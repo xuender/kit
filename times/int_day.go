@@ -13,6 +13,7 @@ const (
 	_month        = 100
 )
 
+// nolint: recvcheck
 type IntDay int32
 
 func Time2IntDay(input time.Time) IntDay {
