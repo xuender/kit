@@ -2,7 +2,10 @@ module github.com/xuender/kit/v2
 
 go 1.23
 
-require github.com/stretchr/testify v1.8.4
+require (
+	github.com/agiledragon/gomonkey/v2 v2.12.0
+	github.com/stretchr/testify v1.8.4
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
