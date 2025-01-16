@@ -1,88 +1,72 @@
 package times
 
 import (
-	"strconv"
+	"errors"
 	"time"
-
-	"github.com/xuender/kit/base"
-	"golang.org/x/exp/constraints"
 )
 
-// nolint: gochecknoglobals
-var _layouts = [...]string{
-	time.DateTime,
-	"20060102",
-	time.DateOnly,
-	"0102",
-	"2006",
-	"060102",
-	"06-01-02",
-	"06/01/02",
-	"2006/01/02",
-	"060102150405",
-	"060102 150405",
-	"20060102150405",
-	"20060102 150405",
-	"06-01-02 15:04:05",
-	"06/01/02 15:04:05",
-	"2006/01/02 15:04:05",
-}
+var ErrFormat = errors.New("time format error")
 
-func Parse(str string) (time.Time, error) {
-	length := len(str)
-	for _, layout := range _layouts {
-		if length == len(layout) {
-			return time.Parse(layout, str)
+// NewParse returns a function that attempts to parse a string into a time.Time.
+func NewParse() func(string) (time.Time, error) {
+	layouts := map[int][]string{}
+	defaultLayout := time.DateTime
+
+	for _, layout := range []string{
+		time.DateTime,
+		time.DateOnly,
+		time.TimeOnly,
+		"0102",
+		"2006",
+		"20060102",
+		"060102",
+		"6-01-02",
+		"06-01-02",
+		"060102150405",
+		"060102 150405",
+		"20060102150405",
+		"20060102 150405",
+		"06-01-02 15:04:05",
+		"2006-01-02T15:04:05",
+		time.Layout,
+		time.ANSIC,
+		time.UnixDate,
+		time.RubyDate,
+		time.RFC822,
+		time.RFC822Z,
+		time.RFC850,
+		time.RFC1123,
+		time.RFC1123Z,
+		time.RFC3339,
+		time.RFC3339Nano,
+		time.Kitchen,
+		time.Stamp,
+		time.StampMilli,
+		time.StampMicro,
+		time.StampNano,
+	} {
+		length := len(layout)
+		layouts[length] = append(layouts[length], layout)
+	}
+
+	return func(str string) (time.Time, error) {
+		length := len(str)
+		if length == len(defaultLayout) {
+			if val, err := time.Parse(defaultLayout, str); err == nil {
+				return val, nil
+			}
 		}
-	}
 
-	return time.Now(), ErrParseError
-}
+		if items, has := layouts[length]; has {
+			for _, layout := range items {
+				if val, err := time.Parse(layout, str); err == nil {
+					defaultLayout = layout
 
-func ParseNumber[T constraints.Integer | constraints.Float](num T) time.Time {
-	const (
-		len8      int64 = 100000000
-		minSecond int64 = 31536000
-		minMilli  int64 = 31536000000
-		minMicro  int64 = 31536000000000
-	)
-
-	micro := int64(num)
-
-	if micro < len8 {
-		if newTime, err := str2time(strconv.Itoa(int(micro))); err == nil {
-			return newTime
+					return val, nil
+				}
+			}
 		}
+
+		return time.Now(), ErrFormat
 	}
-
-	if micro < minSecond {
-		micro *= 1000
-	}
-
-	if micro < minMilli {
-		micro *= 1000
-	}
-
-	if micro < minMicro {
-		micro *= 1000
-	}
-
-	return time.UnixMicro(micro)
-}
-
-func str2time(str string) (time.Time, error) {
-	switch len(str) {
-	case base.Three:
-		return time.Parse("0102", "0"+str)
-	case base.Four:
-		return time.Parse("0102", str)
-	case base.Five:
-		return time.Parse("060102", "0"+str)
-	case base.Six:
-		return time.Parse("060102", str)
-	case base.Eight:
-		return time.Parse("20060102", str)
-	}
-
-	return time.Time{}, ErrParseError
 }

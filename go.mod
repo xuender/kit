@@ -1,4 +1,4 @@
-module github.com/xuender/kit
+module github.com/xuender/kit/v2
 
 go 1.23
 
