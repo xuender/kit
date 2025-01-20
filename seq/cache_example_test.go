@@ -20,7 +20,7 @@ func ExampleCache() {
 		}
 	}
 
-	for num := range seq.Cache(input, 3) {
+	for num := range seq.Cache(input, 10) {
 		time.Sleep(time.Millisecond * 70)
 		fmt.Println("output", num)
 		time.Sleep(time.Millisecond * 70)
