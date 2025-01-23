@@ -30,7 +30,7 @@ func SplitGroup[S ~[]V, K comparable, V any](slice S, getKey func(V) K) (iter.Se
 					return
 				}
 
-				slice = append(slice[:idx], slice[idx+1:]...)
+				slice = slices.Delete(slice, idx, idx+1)
 
 				continue
 			}
