@@ -25,9 +25,11 @@ func Benchmark_lock(b *testing.B) {
 
 	b.ResetTimer()
 
-	for n := 0; n < b.N; n++ {
+	for range b.N {
 		lock.Lock()
+
 		count++
+
 		lock.Unlock()
 	}
 }
@@ -40,7 +42,7 @@ func Benchmark_tryLock(b *testing.B) {
 
 	b.ResetTimer()
 
-	for n := 0; n < b.N; n++ {
+	for range b.N {
 		lock.TryLock()
 
 		count++
@@ -54,7 +56,7 @@ func Benchmark_pass(b *testing.B) {
 
 	b.ResetTimer()
 
-	for n := 0; n < b.N; n++ {
+	for range b.N {
 		count.Add(1)
 	}
 }
@@ -64,8 +66,9 @@ func Benchmark_ch(b *testing.B) {
 
 	b.ResetTimer()
 
-	for n := 0; n < b.N; n++ {
+	for n := range b.N {
 		cha <- n
+
 		<-cha
 	}
 }

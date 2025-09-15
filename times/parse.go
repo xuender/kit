@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/xuender/kit/base"
-	"golang.org/x/exp/constraints"
+	"golang.org/x/exp/constraints" // nolint
 )
 
 // nolint: gochecknoglobals
@@ -50,7 +50,8 @@ func ParseNumber[T constraints.Integer | constraints.Float](num T) time.Time {
 	micro := int64(num)
 
 	if micro < len8 {
-		if newTime, err := str2time(strconv.Itoa(int(micro))); err == nil {
+		newTime, err := str2time(strconv.Itoa(int(micro)))
+		if err == nil {
 			return newTime
 		}
 	}

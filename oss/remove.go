@@ -11,17 +11,21 @@ func Remove(path string, depth int) error {
 		return nil
 	}
 
-	if err := os.RemoveAll(path); err != nil {
+	err := os.RemoveAll(path)
+	if err != nil {
 		return err
 	}
 
 	for range depth {
 		path = filepath.Dir(path)
-		if dirs, err := os.ReadDir(path); err != nil || len(dirs) > 0 {
+
+		dirs, err := os.ReadDir(path)
+		if err != nil || len(dirs) > 0 {
 			return err
 		}
 
-		if err := os.Remove(path); err != nil {
+		err = os.Remove(path)
+		if err != nil {
 			return err
 		}
 	}

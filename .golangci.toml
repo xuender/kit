@@ -1,25 +1,55 @@
+version = '2'
+
 [linters]
+default = 'all'
 disable = [
-  "gomoddirectives",
-	"exportloopref",
-  "gosmopolitan",
-  "depguard",
-  "ireturn",
-  "wastedassign",
-  "unused",
-  "stylecheck",
-  "tparallel",
-  "unparam",
-  "rowserrcheck",
-  "noctx",
-  "sqlclosecheck",
-  "staticcheck",
-  "gosimple",
-  "nilerr",
-  "bodyclose",
-  "contextcheck",
-  "nolintlint",
-  "wrapcheck",
-  "exhaustruct",
+  'wsl',
+  'bodyclose',
+  'contextcheck',
+  'depguard',
+  'exhaustruct',
+  'gomoddirectives',
+  'gosmopolitan',
+  'ireturn',
+  'nilerr',
+  'noctx',
+  'nolintlint',
+  'rowserrcheck',
+  'sqlclosecheck',
+  'staticcheck',
+  'tparallel',
+  'unparam',
+  'unused',
+  'wastedassign',
+  'wrapcheck'
 ]
-enable-all = true
+
+[linters.exclusions]
+generated = 'lax'
+presets = [
+  'comments',
+  'common-false-positives',
+  'legacy',
+  'std-error-handling'
+]
+paths = [
+  'third_party$',
+  'builtin$',
+  'examples$'
+]
+
+[formatters]
+enable = [
+  'gci',
+  'gofmt',
+  'gofumpt',
+  'goimports'
+]
+
+[formatters.exclusions]
+generated = 'lax'
+paths = [
+  'third_party$',
+  'builtin$',
+  'examples$'
+]

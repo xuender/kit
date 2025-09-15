@@ -18,8 +18,10 @@ var _files = sync.Map{}
 func CloseFile(file *os.File) error {
 	_ = file.Sync()
 
-	if info, err := file.Stat(); err == nil && info.Size() == 0 {
-		if err := os.Remove(file.Name()); err != nil {
+	info, err := file.Stat()
+	if err == nil && info.Size() == 0 {
+		err := os.Remove(file.Name())
+		if err != nil {
 			return err
 		}
 	}
@@ -31,7 +33,8 @@ func CloseFile(file *os.File) error {
 func Close() error {
 	_files.Range(func(_, value any) bool {
 		if file, ok := value.(*os.File); ok {
-			if err := CloseFile(file); err != nil {
+			err := CloseFile(file)
+			if err != nil {
 				return false
 			}
 		}

@@ -146,7 +146,8 @@ func (p *Cache[K, V]) Iterate(yield func(K, V) error) error {
 			continue
 		}
 
-		if err := yield(key, item.value); err != nil {
+		err := yield(key, item.value)
+		if err != nil {
 			return err
 		}
 	}

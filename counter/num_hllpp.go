@@ -6,7 +6,7 @@ import (
 
 	"github.com/retailnext/hllpp"
 	"github.com/xuender/kit/base"
-	"golang.org/x/exp/constraints"
+	"golang.org/x/exp/constraints" // nolint
 )
 
 type NumHLLPP[T constraints.Integer | constraints.Float] struct {

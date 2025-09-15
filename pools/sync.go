@@ -4,6 +4,7 @@ import "sync"
 
 type SyncPool[T any] struct {
 	sync.Pool
+
 	init func(T)
 }
 

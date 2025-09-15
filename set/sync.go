@@ -81,7 +81,8 @@ func (p *Sync[V]) Iterate(yield func(V) error) error {
 	defer p.mutex.RUnlock()
 
 	for elem := range p.data {
-		if err := yield(elem); err != nil {
+		err := yield(elem)
+		if err != nil {
 			return err
 		}
 	}

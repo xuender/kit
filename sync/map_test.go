@@ -18,7 +18,7 @@ func TestMap_Load(t *testing.T) {
 
 	val, has := cmap.Load(1)
 	ass.False(has)
-	ass.Equal("", val)
+	ass.Empty(val)
 
 	val, has = cmap.Load(2)
 	ass.True(has)

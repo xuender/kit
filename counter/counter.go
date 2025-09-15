@@ -1,10 +1,9 @@
 package counter
 
 import (
+	"slices"
 	"sync"
 	"sync/atomic"
-
-	"golang.org/x/exp/slices"
 )
 
 // Counter 计数器.

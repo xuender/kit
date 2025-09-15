@@ -12,7 +12,7 @@ func BenchmarkNew(b *testing.B) {
 
 	b.ReportAllocs()
 
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		for j := range 1000 {
 			elem = &data{}
 			elem.data = j
@@ -28,7 +28,7 @@ func BenchmarkSync(b *testing.B) {
 
 	b.ReportAllocs()
 
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		for j := range 1000 {
 			elem = pool.Get().(*data)
 			elem.data = j
@@ -44,7 +44,7 @@ func BenchmarkSyncPool(b *testing.B) {
 
 	b.ReportAllocs()
 
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		for j := range 1000 {
 			elem = pool.Get()
 			elem.data = j

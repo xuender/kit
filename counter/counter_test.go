@@ -28,7 +28,7 @@ func BenchmarkCounter(b *testing.B) {
 
 	b.ResetTimer()
 
-	for n := 0; n < b.N; n++ {
+	for range b.N {
 		count.Inc(1)
 	}
 }

@@ -1,10 +1,10 @@
 package ordered
 
-import "golang.org/x/exp/constraints"
+import "cmp"
 
 const _two = 2
 
-func IndexAes[T constraints.Ordered](slice []T, elem T) int {
+func IndexAes[T cmp.Ordered](slice []T, elem T) int {
 	length := len(slice)
 
 	switch {
@@ -24,7 +24,7 @@ func IndexAes[T constraints.Ordered](slice []T, elem T) int {
 	return IndexAes(slice[:half], elem)
 }
 
-func IndexSet[T constraints.Ordered](slice []T, elem T) int {
+func IndexSet[T cmp.Ordered](slice []T, elem T) int {
 	length := len(slice)
 
 	switch {
@@ -51,7 +51,7 @@ func IndexSet[T constraints.Ordered](slice []T, elem T) int {
 	}
 }
 
-func IndexDesc[T constraints.Ordered](slice []T, elem T) int {
+func IndexDesc[T cmp.Ordered](slice []T, elem T) int {
 	length := len(slice)
 
 	switch {

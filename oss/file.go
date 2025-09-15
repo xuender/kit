@@ -16,7 +16,8 @@ func AppendFile(filename string) (*os.File, error) {
 	}
 
 	if dir := filepath.Dir(path); dir != "" && !Exist(dir) {
-		if err := os.MkdirAll(dir, DefaultDirFileMod); err != nil {
+		err := os.MkdirAll(dir, DefaultDirFileMod)
+		if err != nil {
 			return nil, err
 		}
 	}

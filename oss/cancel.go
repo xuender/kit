@@ -52,7 +52,8 @@ func CancelClose(closers ...io.Closer) {
 	<-osc
 
 	for _, closer := range closers {
-		if err := closer.Close(); err != nil {
+		err := closer.Close()
+		if err != nil {
 			slog.Error("close", slog.Any("err", err))
 		}
 	}

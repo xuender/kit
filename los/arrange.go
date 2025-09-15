@@ -1,13 +1,12 @@
 package los
 
 import (
+	"cmp"
 	"sort"
-
-	"golang.org/x/exp/constraints"
 )
 
 // Arrange 整理成员执行顺序，key相等的避免同时执行.
-func Arrange[T any, O constraints.Ordered](elems []T, getKey func(T) O) []T {
+func Arrange[T any, O cmp.Ordered](elems []T, getKey func(T) O) []T {
 	groups := map[O][]T{}
 
 	for _, elem := range elems {

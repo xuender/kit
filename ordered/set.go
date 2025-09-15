@@ -1,12 +1,12 @@
 package ordered
 
 import (
-	"golang.org/x/exp/constraints"
+	"cmp"
 )
 
-type Set[T constraints.Ordered] []T
+type Set[T cmp.Ordered] []T
 
-func NewSet[T constraints.Ordered](slice ...T) Set[T] {
+func NewSet[T cmp.Ordered](slice ...T) Set[T] {
 	if len(slice) <= 1 {
 		return Set[T](slice)
 	}

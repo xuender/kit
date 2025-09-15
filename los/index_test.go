@@ -14,7 +14,7 @@ func BenchmarkIndexOf(b *testing.B) {
 
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		los.IndexOf(slice, sub)
 	}
 }
@@ -27,7 +27,7 @@ func BenchmarkSunday_IndexOf(b *testing.B) {
 
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		sunday.IndexOf(slice)
 	}
 }

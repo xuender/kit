@@ -67,7 +67,8 @@ func rotate(path, file string, yield func(string, string) error) {
 // Rotating 返回旧日志删除方法.
 func Rotating(path, file string, yield func(string, string) error) func() {
 	return func() {
-		if err := yield(path, file); err != nil {
+		err := yield(path, file)
+		if err != nil {
 			E.Println(err)
 
 			return

@@ -28,6 +28,7 @@ func NewRoutineGroup(size int32) *RoutineGroup {
 // Incr 加1.
 func (p *RoutineGroup) Incr() {
 	p.wg.Add(1)
+
 	p.ch <- _none
 }
 

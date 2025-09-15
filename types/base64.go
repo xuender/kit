@@ -22,7 +22,6 @@ func init() {
 }
 
 // NumToB64 数值转换 Base64.
-// nolint: gomnd
 func NumToB64[N constraints.Integer | constraints.Float](num N) string {
 	if num < 0 {
 		return "-" + NumToB64(int(num)*-1)

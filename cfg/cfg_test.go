@@ -25,7 +25,8 @@ func TestCfg_Bytes(t *testing.T) {
 	patchWrite := gomonkey.ApplyFuncReturn(os.WriteFile, nil)
 	defer patchWrite.Reset()
 
-	if data, err := cfg.New("key").Bytes(_file); err == nil {
+	data, err := cfg.New("key").Bytes(_file)
+	if err == nil {
 		if !bytes.Contains(data, []byte("aaa")) {
 			t.Error("miss aaa")
 		}
@@ -37,7 +38,8 @@ func TestCfg_Bytes(t *testing.T) {
 		t.Error(err)
 	}
 
-	if _, err := cfg.New("err").Bytes(_file); err == nil {
+	_, err = cfg.New("err").Bytes(_file)
+	if err == nil {
 		t.Error(_keyErr)
 	}
 }
@@ -49,7 +51,8 @@ func TestCfg_BytesError(t *testing.T) {
 	patchWrite := gomonkey.ApplyFuncReturn(os.WriteFile, nil)
 	defer patchWrite.Reset()
 
-	if _, err := cfg.New("err").Bytes(_file); err == nil {
+	_, err := cfg.New("err").Bytes(_file)
+	if err == nil {
 		t.Error("file not found")
 	}
 }
@@ -61,11 +64,13 @@ func TestCfg_Reader(t *testing.T) {
 	patchWrite := gomonkey.ApplyFuncReturn(os.WriteFile, nil)
 	defer patchWrite.Reset()
 
-	if _, err := cfg.New("key").Reader(_file); err != nil {
+	_, err := cfg.New("key").Reader(_file)
+	if err != nil {
 		t.Error(err)
 	}
 
-	if _, err := cfg.New("err").Reader(_file); err == nil {
+	_, err = cfg.New("err").Reader(_file)
+	if err == nil {
 		t.Error(_keyErr)
 	}
 }
@@ -77,11 +82,13 @@ func TestPathToString(t *testing.T) {
 	patchWrite := gomonkey.ApplyFuncReturn(os.WriteFile, nil)
 	defer patchWrite.Reset()
 
-	if _, err := cfg.New("key").String(_file); err != nil {
+	_, err := cfg.New("key").String(_file)
+	if err != nil {
 		t.Error(err)
 	}
 
-	if _, err := cfg.New("err").String(_file); err == nil {
+	_, err = cfg.New("err").String(_file)
+	if err == nil {
 		t.Error(_keyErr)
 	}
 }

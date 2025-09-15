@@ -9,7 +9,8 @@ import (
 func TestDecrypt(t *testing.T) {
 	t.Parallel()
 
-	if _, err := cfg.Decrypt("aaa(bb)", "key"); err == nil {
+	_, err := cfg.Decrypt("aaa(bb)", "key")
+	if err == nil {
 		t.Error("cipher error")
 	}
 }
@@ -30,7 +31,8 @@ func TestDecryptWith(t *testing.T) {
 func TestEncrypt(t *testing.T) {
 	t.Parallel()
 
-	if _, err := cfg.Encrypt("aa[aa]", "key"); err == nil {
+	_, err := cfg.Encrypt("aa[aa]", "key")
+	if err == nil {
 		t.Error("str err")
 	}
 }

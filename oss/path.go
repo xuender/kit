@@ -39,7 +39,8 @@ func IsDir(path string) bool {
 		return false
 	}
 
-	if info, err := os.Stat(path); err == nil {
+	info, err := os.Stat(path)
+	if err == nil {
 		return info.IsDir()
 	}
 
